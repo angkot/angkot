@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html><head>
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'/>
+<link href='bootstrap/css/bootstrap.min.css' rel='stylesheet' type='text/css'/>
 <style type="text/css">
+* {
+  margin: 0px; padding: 0px;
+  font-family: Roboto, Tahoma, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
 body, html {
   margin: 0px; padding: 0px; height: 100%; width: 100%;
 }
@@ -16,7 +24,6 @@ body, html {
   overflow: auto;
 }
 #control .c {
-  width: 100%;
   padding: 10px 0;
 }
 
@@ -24,34 +31,101 @@ body, html {
   margin-bottom: 20px;
 }
 #control .w {
-  width: 100%;
-  border: 1px solid #ccc;
-  padding: 5px 0;
+  margin-bottom: 5px;
 }
 .direction label {
   display: block;
+  margin-bottom: 0px;
+}
+.direction .control-group {
+  margin-bottom: 0px;
+}
+.direction .control-group.error {
+  margin-bottom: 10px;
+}
+
+#confirmation .modal-footer .info {
+  margin-right: 20px;
+}
+
+#map img {
+  max-width: none;
 }
 </style>
 </head><body>
 
 <div id="control"><div class="c">
 
-<div class="search sec">
-  <label for="search">Cari lokasi</label>
-  <input class="w" type="text" id="search" onchange="search()"/>
+<div class="search sec input-append">
+  <input class="w input-medium" type="text" id="search" placeholder="Cari lokasi" />
+  <button class="btn" type="button">Cari</button>
 </div>
 
 <div class="direction sec">
-  <label for="from">Lokasi keberangkatan</label>
-  <input class="w" type="text" id="from"/>
-  <label for="to">Tujuan</label>
-  <input class="w" type="text" id="to"/>
+  <div class="control-group type">
+    <label for="type">Jenis angkutan</label>
+    <input class="w" type="text" id="type"/>
+  </div>
+  <div class="control-group name">
+    <label for="name">Nomor angkutan <i class="icon-hand-left"></i></label>
+    <input class="w" type="text" id="name"/>
+    <span class="help-block hide">Nomor angkutan perlu diisi.</span>
+  </div>
+  <div class="control-group from">
+    <label for="from">Lokasi keberangkatan</label>
+    <input class="w" type="text" id="from"/>
+  </div>
+  <div class="control-group direction">
+    <label for="direction">Tujuan</label>
+    <input class="w" type="text" id="direction"/>
+  </div>
+</div>
+
+<div class="info sec">
+  <p>Panjang jalur: <span id="path-length">0 m</span></p>
+</div>
+
+<div class="action sec">
+  <a href="#confirmation" class="btn btn-primary" id="btn-submit" title="Kontribusikan jalur yang Anda buat">Kirim</a>
 </div>
 
 </div></div>
+
 <div id="map"></div>
 
+<div class="modal hide fade" id="confirmation" tabindex="-1">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Pernyataan</h3>
+  </div>
+  <div class="modal-body">
+    <p>Dengan ini saya setuju untuk melisensikan data jalur yang saya kirim
+  dengan lisensi <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported</a>.</p>
+    <p class="info"><a href="#">Informasi lebih lanjut &rarr;</a></p>
+    <div id="license-info" class="hide">
+      <p>Siapapun bisa dengan bebas untuk:</p>
+      <ul>
+      <li>membagikan data Anda ke siapapun, dan</li>
+      <li>mengadaptasi data dengan keperluan lain.</li>
+      </ul>
+      <p>Asalkan:</p>
+      <ul>
+      <li>harus memberikan keterangan sumber data (Anda dan kontributor lain),</li>
+      <li>tidak untuk kepentingan komersial, dan</li>
+      <li>jika mengubah data, maka hasil ubahan harus dapat didistribusikan
+          dengan lisensi yang sama dengan data ini.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn cancel">batal</a>
+    <a href="#" class="btn btn-primary submit">setuju dan kirim</a>
+  </div>
+</div>
+
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="gmaps-key.js"></script>
 <script type="text/javascript">
 document.writeln('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key='+GMAPS_KEY+'&sensor=false&libraries=geometry"><'+'/script>');
@@ -69,6 +143,12 @@ var pathLayer = undefined,
     nextPathLayer = undefined,
     nextPath = undefined;
 
+if(!String.prototype.trim) {
+  String.prototype.trim = function () {
+    return this.replace(/^\s+|\s+$/g,'');
+  };
+}
+
 function search() {
   var q = $('#search').val();
   if (q.length === 0) return;
@@ -76,16 +156,43 @@ function search() {
   var address = q + ', Jakarta, Indonesia';
   geocoder.geocode({address: address}, function(results, status) {
     if (status == gm.GeocoderStatus.OK) {
-      map.setCenter(results[0].geometry.location);
+      var g = results[0].geometry;
+      if (g.viewport) {
+        map.fitBounds(g.viewport);
+      }
+      else if (g.bounds) {
+        map.fitBounds(g.bounds);
+      }
+      else {
+        map.setCenter(g.location);
+      }
     }
   });
+
+  $('#search').focus();
 }
 
 function getDistance(p1, p2) {
   return gm.geometry.spherical.computeDistanceBetween(p1, p2);
 }
 
+function updatePathInfo() {
+  var distance = gm.geometry.spherical.computeLength(path);
+  var format = function(val) {
+    return Math.round(val * 100) / 100;
+  }
+  if (distance < 5000) {
+    $('#path-length').text(format(distance) + ' m');
+  }
+  else {
+    distance = distance / 1000;
+    $('#path-length').text(format(distance) + ' km');
+  }
+}
+
 function initPathEditor() {
+  var cancelClick = false;
+
   // path
   var opts = {
     editable: true,
@@ -112,7 +219,7 @@ function initPathEditor() {
   nextPath.push(map.getCenter());
 
   // click on the map
-  gm.event.addListener(map, 'click', function(e) {
+  var startNewPoint = function(e) {
     if (path.getLength() >= 2) {
       var d1 = getDistance(e.latLng, path.getAt(0));
       var d2 = getDistance(e.latLng, path.getAt(path.getLength()-1));
@@ -133,6 +240,17 @@ function initPathEditor() {
     if (nextPathLayer.getMap() !== map) {
       nextPathLayer.setMap(map);
     }
+  }
+  gm.event.addListener(map, 'click', function(e) {
+    setTimeout(function() {
+      if (!cancelClick)
+        startNewPoint(e);
+      cancelClick = false;
+    }, 250);
+  });
+
+  gm.event.addListener(map, 'dblclick', function(e) {
+    cancelClick = true;
   });
 
   // click on the next path
@@ -143,7 +261,6 @@ function initPathEditor() {
 
   // double click to end path
   gm.event.addListener(pathLayer, 'dblclick', function(e) {
-    console.log(e);
     if (nextPathLayer.getMap() === map) {
       if (e.vertex === path.getLength()-1) {
         nextPathLayer.setMap(null);
@@ -178,9 +295,6 @@ function initPathEditor() {
       if (path.getLength() > 0) {
         path.removeAt(path.getLength() - 1);
       }
-      if (path.getLength() === 1) {
-        path.removeAt(0);
-      }
     }
   }
   $(document).keyup(function(e) {
@@ -188,6 +302,11 @@ function initPathEditor() {
       removeLast();
     }
   });
+
+  // path info
+  gm.event.addListener(path, 'insert_at', updatePathInfo);
+  gm.event.addListener(path, 'set_at', updatePathInfo);
+  gm.event.addListener(path, 'remove_at', updatePathInfo);
 }
 
 function initMap() {
@@ -197,7 +316,7 @@ function initMap() {
     minZoom: 12,
     mapTypeId: gm.MapTypeId.ROADMAP,
     streetViewControl: false,
-    panControl: false
+    draggableCursor: 'crosshair'
   }
   var target = document.getElementById('map');
   map = new gm.Map(target, opts);
@@ -205,9 +324,66 @@ function initMap() {
   geocoder = new gm.Geocoder();
 }
 
+function initSearch() {
+  $('.search input').keyup(function(e) {
+    if (e.keyCode === 13) {
+      search();
+    }
+  });
+  $('.search button').click(function() {
+    search();
+  });
+}
+
+function submit() {
+  console.log('submit');
+}
+
+function checkForm() {
+  $('.direction .control-group').removeClass('error');
+  $('.direction .control-group.name .help-block').hide();
+
+  var name = $('#name').val().trim();
+  console.log('['+name+']');
+  if (name !== '') {
+    return true;
+  }
+
+  $('.direction .control-group.name').addClass('error');
+  $('#name').focus();
+  $('.direction .control-group.name .help-block').show();
+  return false;
+}
+
+function initAction() {
+  $('#btn-submit').tooltip();
+  $('#btn-submit').click(function() {
+    if (checkForm()) {
+      $('#confirmation .info').show();
+      $('#license-info').hide();
+      $('#confirmation').modal();
+    }
+  });
+
+  $('#confirmation .modal-footer .cancel').click(function() {
+    $('#confirmation').modal('hide');
+  });
+  $('#confirmation .modal-footer .submit').click(function() {
+    submit();
+    $('#confirmation').modal('hide');
+  });
+
+  $('#confirmation .info').click(function() {
+    $(this).hide();
+    $('#license-info').show();
+  });
+}
+
 function init() {
   initMap();
   initPathEditor();
+  initSearch();
+  initAction();
 }
 
 $(window).ready(function() {
