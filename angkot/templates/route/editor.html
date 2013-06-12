@@ -1,7 +1,8 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html><head>
 <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'/>
-<link href='bootstrap/css/bootstrap.min.css' rel='stylesheet' type='text/css'/>
+<link href='{% static "bootstrap/css/bootstrap.min.css" %}' rel='stylesheet' type='text/css'/>
 <style type="text/css">
 * {
   margin: 0px; padding: 0px;
@@ -125,11 +126,8 @@ body, html {
 
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="gmaps-key.js"></script>
-<script type="text/javascript">
-document.writeln('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key='+GMAPS_KEY+'&sensor=false&libraries=geometry"><'+'/script>');
-</script>
+<script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_KEY }}&sensor=false&libraries=geometry"></script>
 <script type="text/javascript">
 
 var JAKARTA = [-6.1744444, 106.8294444];
