@@ -373,19 +373,20 @@ function initSearch() {
 }
 
 function submit() {
-  var pathData = [];
+  var pathData = {
+    type: "LineString",
+    coordinates: []
+  }
   for (var i=0; i<path.getLength(); i++) {
     var pos = path.getAt(i);
-    pathData.push(pos.lat())
-    pathData.push(pos.lng());
+    pathData.coordinates.push([pos.lng(), pos.lat()]);
   }
-  pathData = pathData.join('|')
 
   var data = {type: $('#type').val(),
               name: $('#name').val(),
               origin: $('#origin').val(),
               destination: $('#destination').val(),
-              path: pathData}
+              data: JSON.stringify(pathData)}
 
   console.log('submit', data);
   $.ajax({

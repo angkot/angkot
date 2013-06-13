@@ -3,7 +3,7 @@ from django.template import RequestContext
 from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie
 
 from angkot.decorators import api
-from .utils import parse_path, linestring
+from .utils import parse_linestring, get_coordinates
 from .decorators import requires_route_id
 from .models import Route
 
@@ -25,7 +25,7 @@ def editor(request, route):
 @api
 def submit(request, route):
     try:
-        coords = parse_path(request.POST['path'])
+        path = parse_linestring(request.POST.get('data', None))
     except ValueError:
         return False, 401, dict(code=401, msg="bad coordinates")
 
@@ -37,6 +37,6 @@ def submit(request, route):
     route.origin = request.POST.get('origin', None)
     route.destination = request.POST.get('destination', None)
     route.vehicle_type = request.POST.get('type', None)
-    route.path = linestring(coords)
+    route.path = path
     route.save()
 
