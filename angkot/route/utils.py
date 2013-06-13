@@ -24,3 +24,12 @@ def generate_route_id():
 
     return convert_base(t, CHARS)
 
+def parse_path(qs):
+    numbers = (float(value) for value in qs.split('|'))
+    return [(lat, lng) for lat, lng in zip(numbers, numbers)]
+
+def linestring(path):
+    from django.contrib.gis.geos import LineString
+
+    return LineString([(lng, lat) for lat, lng in path])
+
