@@ -72,13 +72,13 @@ body, html {
     <input class="w" type="text" id="name"/>
     <span class="help-block hide">Nomor angkutan perlu diisi.</span>
   </div>
-  <div class="control-group from">
-    <label for="from">Lokasi keberangkatan</label>
-    <input class="w" type="text" id="from"/>
+  <div class="control-group origin">
+    <label for="origin">Lokasi keberangkatan</label>
+    <input class="w" type="text" id="origin"/>
   </div>
-  <div class="control-group direction">
-    <label for="direction">Tujuan</label>
-    <input class="w" type="text" id="direction"/>
+  <div class="control-group destination">
+    <label for="destination">Tujuan</label>
+    <input class="w" type="text" id="destination"/>
   </div>
 </div>
 
@@ -376,8 +376,8 @@ function submit() {
 
   var data = {type: $('#type').val(),
               name: $('#name').val(),
-              from: $('#from').val(),
-              to: $('#direction').val(),
+              origin: $('#origin').val(),
+              destination: $('#destination').val(),
               path: pathData}
 
   console.log('submit', data);
