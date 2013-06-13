@@ -346,7 +346,14 @@ function initMap() {
     minZoom: 12,
     mapTypeId: gm.MapTypeId.ROADMAP,
     streetViewControl: false,
-    draggableCursor: 'crosshair'
+    draggableCursor: 'crosshair',
+    styles: [{
+      featureType: 'poi',
+      elementType: 'labels',
+      stylers: [{
+        visibility: 'off'
+      }]
+    }]
   }
   var target = document.getElementById('map');
   map = new gm.Map(target, opts);
