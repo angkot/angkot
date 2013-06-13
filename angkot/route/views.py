@@ -3,7 +3,7 @@ from django.template import RequestContext
 from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie
 
 from .utils import generate_route_id
-from .decorators import api
+from angkot.decorators import api
 
 def index(request):
     route_id = generate_route_id()
