@@ -368,9 +368,11 @@ function initSearch() {
 function submit() {
   var pathData = [];
   for (var i=0; i<path.getLength(); i++) {
-    var pos = path.getAt(0);
-    pathData.push([pos.lat(), pos.lng()]);
+    var pos = path.getAt(i);
+    pathData.push(pos.lat())
+    pathData.push(pos.lng());
   }
+  pathData = pathData.join('|')
 
   var data = {type: $('#type').val(),
               name: $('#name').val(),
