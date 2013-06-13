@@ -42,3 +42,16 @@ def submit(request, route):
     route.path = path
     route.save()
 
+@requires_route_id
+@api
+def route_data(request, route):
+    path_data = dict(type='LineString',
+                     coordinates=get_coordinates(route.path))
+    data = dict(name=route.transportation_name,
+                origin=route.origin,
+                destination=route.destination,
+                type=route.vehicle_type,
+                data=path_data)
+
+    return data
+

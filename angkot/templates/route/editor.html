@@ -440,11 +440,45 @@ function initAction() {
   });
 }
 
+function applyData(data) {
+  if (data.type) $('#type').val(data.type);
+  if (data.name) $('#name').val(data.name);
+  if (data.origin) $('#origin').val(data.origin);
+  if (data.destination) $('#destination').val(data.destination);
+  if (data.data) {
+    var m = data.data;
+    if (m.type && m.type === 'LineString' && m.coordinates) {
+      var coords = m.coordinates,
+          len = coords.length;
+
+      path.clear();
+      for (var i=0; i<len; i++) {
+        var x = coords[i][0],
+            y = coords[i][1];
+        path.push(new gm.LatLng(y, x));
+      }
+    }
+  }
+}
+
+function loadData() {
+  var url = 'data.json';
+  $.ajax({
+    url: url,
+    method: 'get',
+    dataType: 'json',
+    success: function(data) {
+      applyData(data);
+    }
+  });
+}
+
 function init() {
   initMap();
   initPathEditor();
   initSearch();
   initAction();
+  loadData();
 }
 
 $(window).ready(function() {
