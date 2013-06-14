@@ -86,9 +86,11 @@ body, html {
   <p>Panjang jalur: <span id="path-length">0 m</span></p>
 </div>
 
+{% if editable %}
 <div class="action sec">
   <a href="#confirmation" class="btn btn-primary" id="btn-submit" title="Kontribusikan jalur yang Anda buat">Kirim</a>
 </div>
+{% endif %}
 
 </div></div>
 
@@ -330,7 +332,9 @@ function loadData() {
     dataType: 'json',
     success: function(data) {
       applyData(data);
+{% if editable %}
       editor.setEditable(true);
+{% endif %}
     }
   });
 }

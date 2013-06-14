@@ -23,7 +23,8 @@ def index(request):
 @ensure_csrf_cookie
 @requires_route_id
 def editor(request, route):
-    return render_to_response('route/editor.html',
+    data = {'editable': route.visitor_id == request.visitor_id}
+    return render_to_response('route/editor.html', data,
                               context_instance=RequestContext(request))
 
 @requires_csrf_token
