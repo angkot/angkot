@@ -128,18 +128,12 @@ body, html {
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
 <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_KEY }}&sensor=false&libraries=geometry"></script>
+<script src="{% static "js/route-editor.js" %}"></script>
 <script type="text/javascript">
 
-var JAKARTA = [-6.1744444, 106.8294444];
-var gm = google.maps;
-var geocoder = undefined;
-
-var map = undefined;
-
-var pathLayer = undefined,
-    path = undefined,
-    nextPathLayer = undefined,
-    nextPath = undefined;
+var JAKARTA = [-6.1744444, 106.8294444],
+    editor = undefined,
+    gm = google.maps;
 
 // using jQuery
 function getCookie(name) {
@@ -184,30 +178,13 @@ function search() {
   if (q.length === 0) return;
 
   var address = q + ', Jakarta, Indonesia';
-  geocoder.geocode({address: address}, function(results, status) {
-    if (status == gm.GeocoderStatus.OK) {
-      var g = results[0].geometry;
-      if (g.viewport) {
-        map.fitBounds(g.viewport);
-      }
-      else if (g.bounds) {
-        map.fitBounds(g.bounds);
-      }
-      else {
-        map.setCenter(g.location);
-      }
-    }
-  });
+  editor.search(address);
 
   $('#search').focus();
 }
 
-function getDistance(p1, p2) {
-  return gm.geometry.spherical.computeDistanceBetween(p1, p2);
-}
-
 function updatePathInfo() {
-  var distance = gm.geometry.spherical.computeLength(path);
+  var distance = editor.getPathLength();
   var format = function(val) {
     return Math.round(val * 100) / 100;
   }
@@ -220,126 +197,7 @@ function updatePathInfo() {
   }
 }
 
-function initPathEditor() {
-  var cancelClick = false;
-
-  // path
-  var opts = {
-    editable: true,
-    draggable: false,
-    strokeColor: '#ff0000',
-    strokeOpacity: 0.9
-  };
-  pathLayer = new gm.Polyline(opts);
-  pathLayer.setMap(map);
-
-  path = pathLayer.getPath();
-
-  // next path: last point to the mouse position
-  opts = {
-    editable: false,
-    draggable: false,
-    strokeColor: '#0000ff',
-    strokeOpacity: 0.5
-  }
-  nextPathLayer = new gm.Polyline(opts);
-
-  nextPath = nextPathLayer.getPath();
-  nextPath.push(map.getCenter());
-  nextPath.push(map.getCenter());
-
-  // click on the map
-  var startNewPoint = function(e) {
-    if (path.getLength() >= 2) {
-      var d1 = getDistance(e.latLng, path.getAt(0));
-      var d2 = getDistance(e.latLng, path.getAt(path.getLength()-1));
-      if (d2 > d1) {
-        // reverse path
-        var p = path.getArray().slice();
-        for (var i=0, j=p.length-1; i<p.length; i++, j--) {
-          path.setAt(i, p[j]);
-        }
-      }
-    }
-
-    path.push(e.latLng);
-
-    nextPath.setAt(0, e.latLng);
-    nextPath.setAt(1, e.latLng);
-
-    if (nextPathLayer.getMap() !== map) {
-      nextPathLayer.setMap(map);
-    }
-  }
-  gm.event.addListener(map, 'click', function(e) {
-    setTimeout(function() {
-      if (!cancelClick)
-        startNewPoint(e);
-      cancelClick = false;
-    }, 250);
-  });
-
-  gm.event.addListener(map, 'dblclick', function(e) {
-    cancelClick = true;
-  });
-
-  // click on the next path
-  gm.event.addListener(nextPathLayer, 'click', function(e) {
-    nextPath.setAt(0, e.latLng);
-    path.push(e.latLng);
-  });
-
-  // double click to end path
-  gm.event.addListener(pathLayer, 'dblclick', function(e) {
-    if (nextPathLayer.getMap() === map) {
-      if (e.vertex === path.getLength()-1) {
-        nextPathLayer.setMap(null);
-      }
-    }
-    else {
-      path.removeAt(e.vertex);
-    }
-  });
-
-  // mouse hovering the map
-  gm.event.addListener(map, 'mousemove', function(e) {
-    if (nextPathLayer.getMap() === map) {
-      nextPath.setAt(1, e.latLng);
-    }
-  });
-
-  // if the latest point in the path is moved, update nextPath[0] as well
-  gm.event.addListener(path, 'set_at', function(pos) {
-    if (pos === path.getLength()-1) {
-      nextPath.setAt(0, path.getAt(pos));
-      nextPath.setAt(1, path.getAt(pos));
-    }
-  });
-
-  // escape button
-  var removeLast = function() {
-    if (nextPathLayer.getMap() === map) {
-      nextPathLayer.setMap(null);
-    }
-    else {
-      if (path.getLength() > 0) {
-        path.removeAt(path.getLength() - 1);
-      }
-    }
-  }
-  $(document).keyup(function(e) {
-    if (e.keyCode === 27) {
-      removeLast();
-    }
-  });
-
-  // path info
-  gm.event.addListener(path, 'insert_at', updatePathInfo);
-  gm.event.addListener(path, 'set_at', updatePathInfo);
-  gm.event.addListener(path, 'remove_at', updatePathInfo);
-}
-
-function initMap() {
+function initRouteEditor() {
   var opts = {
     center: new gm.LatLng(JAKARTA[0], JAKARTA[1]),
     zoom: 13,
@@ -356,9 +214,9 @@ function initMap() {
     }]
   }
   var target = document.getElementById('map');
-  map = new gm.Map(target, opts);
+  editor = new RouteEditor(target, opts);
 
-  geocoder = new gm.Geocoder();
+  editor.pathUpdated(updatePathInfo);
 }
 
 function initSearch() {
@@ -377,6 +235,7 @@ function submit() {
     type: "LineString",
     coordinates: []
   }
+  var path = editor.path.data;
   for (var i=0; i<path.getLength(); i++) {
     var pos = path.getAt(i);
     pathData.coordinates.push([pos.lng(), pos.lat()]);
@@ -424,6 +283,7 @@ function initAction() {
       $('#license-info').hide();
       $('#confirmation').modal();
     }
+    return false;
   });
 
   $('#confirmation .modal-footer .cancel').click(function() {
@@ -451,12 +311,13 @@ function applyData(data) {
       var coords = m.coordinates,
           len = coords.length;
 
-      path.clear();
+      var path = []
       for (var i=0; i<len; i++) {
         var x = coords[i][0],
             y = coords[i][1];
         path.push(new gm.LatLng(y, x));
       }
+      editor.setPath(path);
     }
   }
 }
@@ -469,13 +330,13 @@ function loadData() {
     dataType: 'json',
     success: function(data) {
       applyData(data);
+      editor.setEditable(true);
     }
   });
 }
 
 function init() {
-  initMap();
-  initPathEditor();
+  initRouteEditor();
   initSearch();
   initAction();
   loadData();
