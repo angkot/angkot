@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 from django.views.decorators.csrf import requires_csrf_token, ensure_csrf_cookie
 
-from angkot.decorators import api
+from angkot.decorators import api, Fail
 from .utils import parse_linestring, get_coordinates
 from .decorators import requires_route_id
 from .models import Route
@@ -27,11 +27,13 @@ def submit(request, route):
     try:
         path = parse_linestring(request.POST.get('data', None))
     except ValueError:
-        return False, 401, dict(code=401, msg="bad coordinates")
+        return Fail(http_code=401,
+                    error_code=401, error_msg="bad coordinates")
 
     name = request.POST.get('name', None)
     if name is None:
-        return False, 401, dict(code=401, msg="name is required")
+        return Fail(http_code=401,
+                    error_code=401, error_msg="name is required")
 
     route.transportation_name = name
     route.origin = request.POST.get('origin', None)
