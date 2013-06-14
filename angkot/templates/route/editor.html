@@ -65,20 +65,20 @@ body, html {
 <div class="direction sec">
   <div class="control-group type">
     <label for="type">Jenis angkutan</label>
-    <input class="w" type="text" id="type"/>
+    <input class="w" type="text" id="type" title="Kopaja, Metromini, Mikrolet, ..."/>
   </div>
   <div class="control-group name">
     <label for="name">Nomor angkutan <i class="icon-hand-left"></i></label>
-    <input class="w" type="text" id="name"/>
+    <input class="w" type="text" id="name" title="S616, 75, M17, ..."/>
     <span class="help-block hide">Nomor angkutan perlu diisi.</span>
   </div>
   <div class="control-group origin">
     <label for="origin">Lokasi keberangkatan</label>
-    <input class="w" type="text" id="origin"/>
+    <input class="w" type="text" id="origin" title="Cipedak, Pasar Minggu, Pasar Lenteng Agung, ..."/>
   </div>
   <div class="control-group destination">
     <label for="destination">Tujuan</label>
-    <input class="w" type="text" id="destination"/>
+    <input class="w" type="text" id="destination" title="Blok M, Pasar Minggu, ..."/>
   </div>
 </div>
 
@@ -278,6 +278,12 @@ function checkForm() {
 }
 
 function initAction() {
+  var opts = {placement: 'right', container: 'body', trigger: 'hover focus'};
+  $('#type').tooltip(opts);
+  $('#name').tooltip(opts);
+  $('#origin').tooltip(opts);
+  $('#destination').tooltip(opts);
+
   $('#btn-submit').tooltip();
   $('#btn-submit').click(function() {
     if (checkForm()) {
