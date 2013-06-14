@@ -9,6 +9,12 @@ from .models import Route
 
 def index(request):
     route = Route()
+    route.visitor_id = request.visitor_id
+    if request.user.is_anonymous():
+        route.user = None
+    else:
+        route.user = request.user
+
     route.save()
 
     route_id = route.route_id
@@ -40,6 +46,7 @@ def submit(request, route):
     route.destination = request.POST.get('destination', None)
     route.vehicle_type = request.POST.get('type', None)
     route.path = path
+
     route.save()
 
 @requires_route_id
