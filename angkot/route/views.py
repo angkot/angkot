@@ -30,6 +30,10 @@ def editor(request, route):
 @requires_route_id
 @api
 def submit(request, route):
+    if route.visitor_id != request.visitor_id:
+        return Fail(http_code=403,
+                    error_code=403, error_msg="Invalid owner")
+
     try:
         path = parse_linestring(request.POST.get('data', None))
     except ValueError:
