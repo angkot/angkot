@@ -114,7 +114,7 @@ h1:last-child, h2:last-child, h3:last-child {
   z-index: 25;
 }
 
-#content {
+.sidepanel {
   position: absolute;
   top: 40px;
   left: 0;
@@ -126,7 +126,7 @@ h1:last-child, h2:last-child, h3:last-child {
   border-radius: 0 0 5px 0;
   box-shadow: 0 0px 10px rgba(160, 160, 160, 0.75);
 }
-#content > .close {
+.sidepanel > .close {
   float: right;
   cursor: pointer;
   padding: 5px;
@@ -139,17 +139,17 @@ h1:last-child, h2:last-child, h3:last-child {
   text-align: center;
   color: #444;
 }
-#content > .close:hover {
+.sidepanel > .close:hover {
   box-shadow: 0 0 2px 2px #eee;
 }
-#content.full {
+.sidepanel.full {
   bottom: 0px;
   border-radius: 0;
 }
-#content h2 {
+.sidepanel h2 {
   font-size: 14px;
 }
-#content input[type="text"] {
+.sidepanel input[type="text"] {
   width: 240px;
   margin: 2px 0 3px 0;
   line-height: 24px;
@@ -157,10 +157,10 @@ h1:last-child, h2:last-child, h3:last-child {
   border-radius: 2px;
   padding: 0 5px;
 }
-#content label {
+.sidepanel label {
   color: #444;
 }
-#content button {
+.sidepanel button {
   border: 0px;
   height: 26px;
   line-height: 26px;
@@ -168,15 +168,16 @@ h1:last-child, h2:last-child, h3:last-child {
   border-radius: 2px;
   cursor: pointer;
 }
-#content hr {
+.sidepanel hr {
   border: 0;
   height: 1px;
   background: #ccc;
 }
-#content > *:first-child, #content > .close + * {
+.sidepanel > *:first-child,
+.sidepanel > .close + * {
   margin-top: 0px;
 }
-#content > *:last-child {
+.sidepanel > *:last-child {
   margin-bottom: 0px;
 }
 
