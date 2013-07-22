@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html><head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<link rel="stylesheet" type="text/css" href="design.css"/>
+</head><body>
+
+<div id="head">
+  <h1>Peta Angkutan Umum</h1>
+  <div class="search">
+    <input type="text" name="q" placeholder="Cari Rute" class="search"/><button name="go"><i class="icon-search"></i></button>
+  </div>
+  <div class="new-route">
+    <button><i class="icon-plus-sign"></i> Buat Rute</button>
+  </div>
+  <div class="menu">
+    <ul>
+    <li><a href="">Apa ini?</a></li>
+    <li><a href="">Kontak</a></li>
+    <li><a href="">Login</a></li>
+    </ul>
+  </div>
+</div>
+
+<div id="map"></div>
+
+<div id="content">
+
+  <div id="buat-rute">
+  <h2>Buat Rute</h2>
+  <label>Kota</label>
+  <input name="kota" type="text"/>
+  <label>Perusahaan dan Nomor Angkutan</label>
+  <input name="perusahaan" type="text"/><input name="nomor" type="text"/>
+  <label>Lokasi Keberangkatan</label>
+  <input name="berangkat" type="text"/>
+  <label>Jurusan</label>
+  <input name="jurusan" type="text"/>
+
+  <p style="text-align:right"><button class="simpan"><i class="icon-ok-sign"></i> Simpan Rute</button></p>
+
+  <hr/>
+
+</div>
+
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="gmaps-key.js"></script>
+<script type="text/javascript">
+document.writeln('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key='+GMAPS_KEY+'&sensor=true"></'+'script>');
+</script>
+<script type="text/javascript" src="design.js"></script>
+</body></html>
+
