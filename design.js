@@ -4,30 +4,21 @@
 
 var JAKARTA = [-6.1744444, 106.8294444];
 
-var gm = google.maps,
-    map = undefined;
+var map = undefined;
 
 function setupMap() {
-  var target = document.getElementById('map');
-  var opts = {
-    center: new gm.LatLng(JAKARTA[0], JAKARTA[1]),
-    zoom: 12,
-    mapTypeId: gm.MapTypeId.ROADMAP,
-    streetViewControl: false,
-    mapTypeControl: false,
-    panControl: false,
-    zoomControl: true,
-    zoomControlOptions: {
-      position: gm.ControlPosition.RIGHT_TOP,
-    },
-  }
+  map = L.map('map', {
+    center: JAKARTA,
+    zoom: 13,
+    zoomControl: false,
+  })
 
-  map = new gm.Map(target, opts);
+  L.tileLayer('http://a.tiles.mapbox.com/v3/'+MAPBOX_KEY+'/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery &copy; <a href="http://www.mapbox.com">MapBox</a>',
+    maxZoom: 18
+  }).addTo(map);
 
-  // move the controls a bit lower
-  var spacer = $('<div class="map-control-spacer"/>')[0];
-  spacer.index = -1
-  map.controls[gm.ControlPosition.RIGHT_TOP].push(spacer);
+  new L.Control.Zoom({position: 'bottomright'}).addTo(map);
 }
 
 function setupPage() {

@@ -113,11 +113,6 @@ h1:last-child, h2:last-child, h3:last-child {
   height: auto;
   z-index: 25;
 }
-#map .map-control-spacer {
-  height: 40px;
-  width: 40px;
-  visibility: hidden;
-}
 
 #content {
   position: absolute;
@@ -131,8 +126,25 @@ h1:last-child, h2:last-child, h3:last-child {
   border-radius: 0 0 5px 0;
   box-shadow: 0 0px 10px rgba(160, 160, 160, 0.75);
 }
+#content > .close {
+  float: right;
+  cursor: pointer;
+  padding: 5px;
+  margin: -10px -5px;
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+  line-height: 12px;
+  font-size: 16px;
+  text-align: center;
+  color: #444;
+}
+#content > .close:hover {
+  box-shadow: 0 0 2px 2px #eee;
+}
 #content.full {
-  bottom: 40px;
+  bottom: 0px;
+  border-radius: 0;
 }
 #content h2 {
   font-size: 14px;
@@ -161,7 +173,7 @@ h1:last-child, h2:last-child, h3:last-child {
   height: 1px;
   background: #ccc;
 }
-#content > *:first-child {
+#content > *:first-child, #content > .close + * {
   margin-top: 0px;
 }
 #content > *:last-child {
@@ -181,5 +193,9 @@ h1:last-child, h2:last-child, h3:last-child {
   background: #27AE60;
   color: white;
   font-weight: bold;
+}
+
+.leaflet-top {
+  top: 40px;
 }
 
