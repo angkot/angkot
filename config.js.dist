@@ -1,2 +1,2 @@
-var MAPBOX_KEY = '';
+var GOOGLE_MAPS_KEY = '';
 
