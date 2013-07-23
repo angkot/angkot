@@ -122,6 +122,15 @@ p.getPolyline = function() {
   return this._line;
 }
 
+p.setEnabled = function(enabled) {
+  this._enabled = enabled;
+  this._updateEvents();
+}
+
+p.isEnabled = function() {
+  return this._enabled;
+}
+
 p._init = function() {
   this._line = new gm.Polyline({
     editable: true,
@@ -145,18 +154,37 @@ p._init = function() {
 }
 
 p._setup = function() {
-  var self = this;
   this._line.setMap(this._map);
-  this._onMouseMoveListener = gm.event.addListener(this._map, 'mousemove', function(e) { self._onMouseMove(e); });
-  this._onClickListener = gm.event.addListener(this._map, 'click', function(e) { self._onClick(e); });
-
-  this._onLineDblClickListener = gm.event.addListener(this._line, 'dblclick', function(e) { self._onLineDblClick(e);});
-
   this._next.setMap(this._map);
+  this._updateEvents();
 }
 
 p._destroy = function() {
   this._line.setMap(null);
+  this._next.setMap(null);
+  this._updateEvents();
+}
+
+p._updateEvents = function() {
+  if (this._map && this._enabled) {
+    this._setupEvents();
+  }
+  else {
+    this._destroyEvents();
+  }
+}
+
+p._setupEvents = function() {
+  if (this._onMouseMoveListener) return;
+
+  var self = this;
+  this._onMouseMoveListener = gm.event.addListener(this._map, 'mousemove', function(e) { self._onMouseMove(e); });
+  this._onClickListener = gm.event.addListener(this._map, 'click', function(e) { self._onClick(e); });
+  this._onLineDblClickListener = gm.event.addListener(this._line, 'dblclick', function(e) { self._onLineDblClick(e);});
+}
+
+p._destroyEvents = function() {
+  if (!this._onMouseMoveListener) return;
 
   gm.event.removeListener(this._onMouseMoveListener);
   gm.event.removeListener(this._onClickListener);
@@ -167,8 +195,6 @@ p._destroy = function() {
   gm.event.removeListener(this._onLineDblClickListener);
   delete this._onLineClickListener;
   delete this._onLineDblClickListener;
-
-  this._next.setMap(null);
 }
 
 p._onMouseMove = function(e) {
@@ -239,6 +265,7 @@ function setupMap() {
 
   var pathEditor = new PathEditor();
   pathEditor.setMap(map);
+  pathEditor.setEnabled(true);
 }
 
 function setupPage() {
