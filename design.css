@@ -214,3 +214,14 @@ button > i:first-child {
   font-weight: bold;
 }
 
+/*= angkot map =*/
+
+.angkot-map-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 30;
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+}
+
