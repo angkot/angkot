@@ -75,7 +75,27 @@ return Tooltip;
 
 window.PathEditor = (function() {
 
-var gm = google.maps;
+var gm = google.maps,
+    geom = google.maps.geometry;
+
+function getDistance(a, b) {
+  return geom.spherical.computeDistanceBetween(a, b);
+}
+
+// is p closer to a than to b?
+function isCloser(p, a, b) {
+  var pa = getDistance(p, a);
+  var pb = getDistance(p, b);
+  return pa < pb;
+}
+
+function reversePath(path) {
+  // reverse
+  var arr = path.getArray().slice();
+  for (var i=0, j=arr.length-1; i<arr.length; i++, j--) {
+    path.setAt(i, arr[j]);
+  }
+}
 
 var PathEditor = function() {
   this._init();
@@ -158,6 +178,14 @@ p._onMouseMove = function(e) {
 }
 
 p._onClick = function(e) {
+  if (this._nextPath.getLength() === 0 && this._path.getLength() > 1) {
+    var a = this._path.getAt(0);
+    var b = this._path.getAt(this._path.getLength()-1);
+    if (isCloser(e.latLng, a, b)) {
+      reversePath(this._path);
+    }
+  }
+
   this._path.push(e.latLng);
   if (this._nextPath.getLength() === 0) {
     this._nextPath.push(e.latLng);
