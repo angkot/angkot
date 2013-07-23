@@ -181,6 +181,7 @@ p._setupEvents = function() {
   this._onMouseMoveListener = gm.event.addListener(this._map, 'mousemove', function(e) { self._onMouseMove(e); });
   this._onClickListener = gm.event.addListener(this._map, 'click', function(e) { self._onClick(e); });
   this._onLineDblClickListener = gm.event.addListener(this._line, 'dblclick', function(e) { self._onLineDblClick(e);});
+  this._onKeyUpListener = gm.event.addDomListener(document, 'keyup', function(e) { self._onKeyUp(e); });
 }
 
 p._destroyEvents = function() {
@@ -191,10 +192,11 @@ p._destroyEvents = function() {
   delete this._onMouseMoveListener;
   delete this._onClickListener;
 
-  gm.event.removeListener(this._onLineClickListener);
   gm.event.removeListener(this._onLineDblClickListener);
-  delete this._onLineClickListener;
   delete this._onLineDblClickListener;
+
+  gm.event.removeListener(this._onKeyUpListener);
+  delete this._onKeyUpListener;
 }
 
 p._onMouseMove = function(e) {
@@ -230,6 +232,20 @@ p._onLineDblClick = function(e) {
       this._path.clear();
     }
   }
+}
+
+p._onKeyUp = function(e) {
+  if (e.keyCode != 27) return;
+  if (this._nextPath.getLength() > 0) {
+    this._nextPath.clear();
+  }
+  // TODO figure out how to disable the escape key event when the map lost focus
+  // else if (this._path.getLength() > 0) {
+  //   this._path.removeAt(this._path.getLength()-1);
+  //   if (this._path.getLength() == 1) {
+  //     this._path.clear();
+  //   }
+  // }
 }
 
 return PathEditor;
