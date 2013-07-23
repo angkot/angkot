@@ -213,6 +213,16 @@ button > i:first-child {
   color: white;
   font-weight: bold;
 }
+#buat-rute p.setuju {
+  line-height: 26px;
+  height: 26px;
+}
+#buat-rute p.setuju input {
+  vertical-align: middle;
+}
+#buat-rute p.setuju label {
+  cursor: pointer;
+}
 
 /*= angkot map =*/
 
