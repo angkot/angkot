@@ -72,6 +72,117 @@ return Tooltip;
 
 })();
 
+
+window.PathEditor = (function() {
+
+var gm = google.maps;
+
+var PathEditor = function() {
+  this._init();
+}
+
+var p = PathEditor.prototype;
+
+p.setMap = function(map) {
+  if (this._map) this._destroy();
+  this._map = map;
+  if (this._map) this._setup();
+}
+
+p.getMap = function() {
+  return this._map;
+}
+
+p.reset = function() {
+  this._path.clear();
+  this._nextPath.clear();
+}
+
+p.getPolyline = function() {
+  return this._line;
+}
+
+p._init = function() {
+  this._line = new gm.Polyline({
+    editable: true,
+    clickable: true,
+    draggable: false,
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 3,
+  });
+  this._path = this._line.getPath();
+
+  this._next = new gm.Polyline({
+    editable: false,
+    clickable: false,
+    draggable: false,
+    strokeColor: '#0000FF',
+    strokeOpacity: 0.75,
+    strokeWeight: 3,
+  });
+  this._nextPath = this._next.getPath();
+}
+
+p._setup = function() {
+  var self = this;
+  this._line.setMap(this._map);
+  this._onMouseMoveListener = gm.event.addListener(this._map, 'mousemove', function(e) { self._onMouseMove(e); });
+  this._onClickListener = gm.event.addListener(this._map, 'click', function(e) { self._onClick(e); });
+
+  this._onLineDblClickListener = gm.event.addListener(this._line, 'dblclick', function(e) { self._onLineDblClick(e);});
+
+  this._next.setMap(this._map);
+}
+
+p._destroy = function() {
+  this._line.setMap(null);
+
+  gm.event.removeListener(this._onMouseMoveListener);
+  gm.event.removeListener(this._onClickListener);
+  delete this._onMouseMoveListener;
+  delete this._onClickListener;
+
+  gm.event.removeListener(this._onLineClickListener);
+  gm.event.removeListener(this._onLineDblClickListener);
+  delete this._onLineClickListener;
+  delete this._onLineDblClickListener;
+
+  this._next.setMap(null);
+}
+
+p._onMouseMove = function(e) {
+  if (this._nextPath.getLength() > 0) {
+    this._nextPath.setAt(1, e.latLng);
+  }
+}
+
+p._onClick = function(e) {
+  this._path.push(e.latLng);
+  if (this._nextPath.getLength() === 0) {
+    this._nextPath.push(e.latLng);
+    this._nextPath.push(e.latLng);
+  }
+  this._nextPath.setAt(0, e.latLng);
+}
+
+p._onLineDblClick = function(e) {
+  if (this._nextPath.getLength() > 0) {
+    this._nextPath.clear();
+  }
+  else {
+    this._path.removeAt(e.vertex);
+    if (this._path.getLength() == 1) {
+      this._path.clear();
+    }
+  }
+}
+
+return PathEditor;
+
+})();
+
+
 (function() {
 
 "use strict"
@@ -94,9 +205,12 @@ function setupMap() {
 
   map = new gm.Map(target, opts);
 
-  var tooltip = new Tooltip();
-  tooltip.setMap(map);
-  tooltip.setContent('<strong>a</strong><br/>a b ca');
+  // var tooltip = new Tooltip();
+  // tooltip.setMap(map);
+  // tooltip.setContent('<strong>a</strong><br/>a b ca');
+
+  var pathEditor = new PathEditor();
+  pathEditor.setMap(map);
 }
 
 function setupPage() {
