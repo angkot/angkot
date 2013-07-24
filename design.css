@@ -223,6 +223,9 @@ button > i:first-child {
 #buat-rute p.setuju label {
   cursor: pointer;
 }
+#buat-rute p.error {
+  color: red;
+}
 
 /*= angkot map =*/
 

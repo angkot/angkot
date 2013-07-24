@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html><head>
+<html ng-app="AngkotRouteDesigner"><head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.3/leaflet.css" />
@@ -28,28 +28,35 @@
 <div class="sidepanel full">
   <div class="close">&times;</div>
 
-  <div id="buat-rute">
+  <div id="buat-rute" ng-controller="SubmitRouteController" ng-init="init()">
   <h2>Buat Rute</h2>
   <label>Kota</label>
-  <input name="kota" type="text" placeholder="Jakarta, Bandung, ..."/>
+  <input name="kota" type="text" placeholder="Jakarta, Bandung, ..."
+         ng-model="kota"/>
   <label>Perusahaan dan Nomor Angkutan</label>
-  <input name="perusahaan" type="text" placeholder="Kopaja, Mikrolet, ..."/><input name="nomor" type="text"/>
+  <input name="perusahaan" type="text" placeholder="Kopaja, Mikrolet, ..."
+         ng-model="perusahaan"/><input name="nomor" type="text" ng-model="nomor"/>
   <label>Lokasi Keberangkatan</label>
-  <input name="berangkat" type="text" placeholder="Blok M, Pasar Minggu, ..."/>
+  <input name="berangkat" type="text" placeholder="Blok M, Pasar Minggu, ..."
+         ng-model="berangkat"/>
   <label>Jurusan</label>
-  <input name="jurusan" type="text" placeholder="Depok, Kampung Melayu, ..."/>
+  <input name="jurusan" type="text" placeholder="Depok, Kampung Melayu, ..."
+         ng-model="jurusan"/>
 
   <p class="setuju">
-    <input type="checkbox" name="setuju" id="setuju"/>
+    <input type="checkbox" name="setuju" id="setuju" ng-model="licenseAgreement"/>
     <label for="setuju">menggunakan lisensi
       <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.id" target="_blank" title="Creative Commons Attribution-ShareAlike 3.0 Unported">CC BY-SA</a></label>
   </p>
-  <p style="text-align:right"><button class="simpan"><i class="icon-ok-sign"></i> Simpan Rute</button></p>
+  <p style="text-align:right"><button class="simpan" ng-click="saveRouteCheck()"><i class="icon-ok-sign"></i> Simpan Rute</button></p>
+  <p ng-show="message" ng-bind="message" class="message"></p>
+  <p ng-show="error" ng-bind="error" class="error"></p>
 
 </div>
 
 <script type="text/javascript" src="config.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
 <script type="text/javascript">
 document.writeln('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key='+GOOGLE_MAPS_KEY+'&sensor=true&libraries=geometry"></'+'script>');
 </script>

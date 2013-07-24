@@ -292,5 +292,31 @@ $(document).ready(function() {
   setupPage();
 });
 
+
+var app = angular.module('AngkotRouteDesigner', []);
+
+app.controller('SubmitRouteController', ['$scope', '$http', function($scope, $http) {
+  $scope.init = function() {
+
+  }
+
+  $scope.saveRouteCheck = function() {
+    $scope.error = null;
+    $scope.message = null;
+
+    if (!$scope.licenseAgreement) {
+      $scope.error = 'Demi kepentingan pengayaan data, rute yang Anda kirim perlu dilisensikan di bawah CC BY-SA. Silakan beri tanda centang jika Anda setuju.';
+      return;
+    }
+    $scope.saveRoute();
+  }
+
+  $scope.saveRoute = function() {
+    $scope.message = 'Terima kasih atas partisipasi Anda!';
+  }
+}]);
+
+
 })();
+
 
