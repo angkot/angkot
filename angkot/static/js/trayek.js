@@ -11,6 +11,7 @@ var p = Tooltip.prototype;
 p.setMap = function(map) {
   if (this._map) this._destroy();
   this._map = map;
+  this._updateVisibility();
   if (map) this._setup();
 }
 p.getMap = function() {
@@ -55,22 +56,24 @@ p._onMouseOver = function(e) {
   var p = e.pixel;
   this._pos = {x: p.x, y:p.y};
   this._$c.css({left: this._pos.x+'px', top: this._pos.y+'px'});
+  this._inMap = true;
   this._updateVisibility();
 }
 
 p._onMouseOut = function(e) {
-  this._$c.hide();
+  this._inMap = false;
+  this._updateVisibility();
 }
 
 p._onMouseMove = function(e) {
   var p = e.pixel;
-  var dx = p.x - this._pos.x + 10;
-  var dy = p.y - this._pos.y;
+  var dx = p.x - this._pos.x + 20;
+  var dy = p.y - this._pos.y + 10;
   this._$c.css('transform', 'translate('+dx+'px, '+dy+'px)');
 }
 
 p._updateVisibility = function() {
-  if (!this._content) this._$c.hide();
+  if (!this._content || !this._inMap) this._$c.hide();
   else this._$c.show();
 }
 
@@ -274,11 +277,20 @@ p._updateTooltip = function() {
   if (len == 0) {
     this._tooltip.setContent('Klik untuk lokasi keberangkatan');
   }
-  else if (len < 4 && nextLen) {
+  else if (len < 3 && nextLen) {
     this._tooltip.setContent('Buat rute dengan mengklik titik-titik perjalanan');
   }
-  else if (len < 7 && nextLen) {
+  else if (len < 4 && nextLen) {
     this._tooltip.setContent('Klik dua kali pada peta untuk menyudahi.');
+  }
+  else if (len < 5 && nextLen) {
+    this._tooltip.setContent('Untuk menghapus titik perjalanan, klik dua kali di atasnya');
+  }
+  else if (len < 6 && nextLen) {
+    this._tooltip.setContent('Perbaiki jalur dengan mengubah lokasi titik perjalanan');
+  }
+  else if (len < 7 && nextLen) {
+    this._tooltip.setContent('Have fun!');
   }
   else if (nextLen) {
     var length = getLength(this._path);
