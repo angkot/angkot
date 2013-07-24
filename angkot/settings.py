@@ -162,3 +162,8 @@ LOGGING = {
         },
     }
 }
+
+local = os.path.join(base, 'localsettings.py')
+if os.path.exists(local):
+    execfile(local)
+
