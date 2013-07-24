@@ -318,6 +318,15 @@ return PathEditor;
 
 var app = angular.module('AngkotRouteDesigner', []);
 
+app.config(function($interpolateProvider, $httpProvider) {
+  $interpolateProvider.startSymbol('((');
+  $interpolateProvider.endSymbol('))');
+
+  // From: http://thomas.rabaix.net/blog/2013/05/csrf-token-security-with-angularjs
+  $httpProvider.defaults.headers.common['X-CSRFToken'] = jQuery('input[name=csrfmiddlewaretoken]').attr('value');
+  $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+});
+
 app.filter('lengthUnit', function() {
   return function(value) {
     if (value < 1500) {
@@ -454,7 +463,41 @@ app.controller('SubmitRouteController', ['$scope', '$http', function($scope, $ht
   }
 
   $scope.saveRoute = function() {
-    $scope.message = 'Terima kasih atas partisipasi Anda!';
+    $scope.error = null;
+    $scope.message = 'mengirim data..';
+
+    var coordinates = [];
+    for (var i=0; i<$scope.path.length; i++) {
+      var p = $scope.path[i];
+      coordinates.push([p.lng(), p.lat()]);
+    }
+
+    var geojson = {
+      type: 'LineString',
+      coordinates: coordinates,
+      properties: {
+        kota: $scope.kota,
+        perusahaan: $scope.perusahaan,
+        nomor: $scope.nomor,
+        berangkat: $scope.berangkat,
+        jurusan: $scope.jurusan,
+        license: {
+          'CC BY-SA': $scope.licenseAgreement
+        }
+      }
+    }
+
+    var data = {geojson: JSON.stringify(geojson)};
+    var url = $('body').data('url-save');
+
+    $http.post(url, jQuery.param(data))
+      .success(function() {
+        $scope.message = 'Terima kasih atas partisipasi Anda!';
+      })
+      .error(function(msg, status) {
+        $scope.message = null;
+        $scope.error = 'Gagal! code='+status;
+      });
   }
 }]);
 

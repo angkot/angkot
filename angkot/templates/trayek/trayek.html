@@ -4,7 +4,7 @@
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
 <link rel="stylesheet" type="text/css" href="{% static "css/trayek.css" %}"/>
-</head><body>
+</head><body data-url-save="{% url "trayek_index" %}">
 
 <div id="head">
   <h1>Peta Angkutan Umum</h1>
@@ -29,7 +29,7 @@
   <div class="close">&times;</div>
 
   <div id="buat-rute" ng-controller="SubmitRouteController" ng-init="init()">
-  <h2>Buat Rute</h2>
+  <h2>Buat Rute</h2>{% csrf_token %}
   <label>Kota</label>
   <input name="kota" type="text" placeholder="Jakarta, Bandung, ..."
          ng-model="kota"/>
