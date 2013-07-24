@@ -20,6 +20,7 @@ p.getMap = function() {
 p.setContent = function(html) {
   this._content = html;
   this._$c.html(html);
+  this._updateVisibility();
 }
 p.getContent = function() {
   return this._content;
@@ -54,7 +55,7 @@ p._onMouseOver = function(e) {
   var p = e.pixel;
   this._pos = {x: p.x, y:p.y};
   this._$c.css({left: this._pos.x+'px', top: this._pos.y+'px'});
-  this._$c.show();
+  this._updateVisibility();
 }
 
 p._onMouseOut = function(e) {
@@ -66,6 +67,11 @@ p._onMouseMove = function(e) {
   var dx = p.x - this._pos.x + 10;
   var dy = p.y - this._pos.y;
   this._$c.css('transform', 'translate('+dx+'px, '+dy+'px)');
+}
+
+p._updateVisibility = function() {
+  if (!this._content) this._$c.hide();
+  else this._$c.show();
 }
 
 return Tooltip;
@@ -97,6 +103,10 @@ function reversePath(path) {
   }
 }
 
+function getLength(path) {
+  return geom.spherical.computeLength(path);
+}
+
 var PathEditor = function() {
   this._init();
 }
@@ -106,6 +116,7 @@ var p = PathEditor.prototype;
 p.setMap = function(map) {
   if (this._map) this._destroy();
   this._map = map;
+  this._tooltip.setMap(map);
   if (this._map) this._setup();
 }
 
@@ -125,6 +136,7 @@ p.getPolyline = function() {
 p.setEnabled = function(enabled) {
   this._enabled = enabled;
   this._updateEvents();
+  this._updateTooltip();
 }
 
 p.isEnabled = function() {
@@ -151,6 +163,9 @@ p._init = function() {
     strokeWeight: 3,
   });
   this._nextPath = this._next.getPath();
+
+  this._tooltip = new Tooltip();
+
 }
 
 p._setup = function() {
@@ -220,6 +235,8 @@ p._onClick = function(e) {
     this._nextPath.push(e.latLng);
   }
   this._nextPath.setAt(0, e.latLng);
+
+  this._updateTooltip();
 }
 
 p._onLineDblClick = function(e) {
@@ -232,6 +249,8 @@ p._onLineDblClick = function(e) {
       this._path.clear();
     }
   }
+
+  this._updateTooltip();
 }
 
 p._onKeyUp = function(e) {
@@ -246,6 +265,30 @@ p._onKeyUp = function(e) {
   //     this._path.clear();
   //   }
   // }
+  this._updateTooltip();
+}
+
+p._updateTooltip = function() {
+  var len = this._path.getLength();
+  var nextLen = this._nextPath.getLength();
+  if (len == 0) {
+    this._tooltip.setContent('Klik untuk lokasi keberangkatan');
+  }
+  else if (len < 4 && nextLen) {
+    this._tooltip.setContent('Buat rute dengan mengklik titik-titik perjalanan');
+  }
+  else if (len < 7 && nextLen) {
+    this._tooltip.setContent('Klik dua kali pada peta untuk menyudahi.');
+  }
+  else if (nextLen) {
+    var length = getLength(this._path);
+    if (length < 1500) { length = Math.round(length) + ' m'; }
+    else { length = Math.round(length / 10) / 100 + ' km'; }
+    this._tooltip.setContent(length);
+  }
+  else {
+    this._tooltip.setContent(null);
+  }
 }
 
 return PathEditor;
@@ -271,13 +314,10 @@ function setupMap() {
     maxZoom: 18,
     mapTypeId: gm.MapTypeId.ROADMAP,
     streetViewControl: false,
+    draggableCursor: 'crosshair',
   }
 
   map = new gm.Map(target, opts);
-
-  // var tooltip = new Tooltip();
-  // tooltip.setMap(map);
-  // tooltip.setContent('<strong>a</strong><br/>a b ca');
 
   var pathEditor = new PathEditor();
   pathEditor.setMap(map);
