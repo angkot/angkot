@@ -319,6 +319,7 @@ app.controller('SubmitRouteController', ['$scope', '$http', function($scope, $ht
   var JAKARTA = [-6.1744444, 106.8294444];
   var gm = google.maps,
       map = undefined;
+  gm.visualRefresh = true;
 
   function setupMap() {
     var target = document.getElementById('map');
