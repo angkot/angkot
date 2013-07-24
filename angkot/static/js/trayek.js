@@ -332,12 +332,13 @@ app.controller('SubmitRouteController', ['$scope', '$http', function($scope, $ht
   var JAKARTA = [-6.1744444, 106.8294444];
   var gm = google.maps,
       geom = google.maps.geometry,
+      geocoder = new google.maps.Geocoder(),
       map = undefined,
       pathEditor = undefined;
   gm.visualRefresh = true;
 
   $scope.path = [];
-  $scope.pathLength = 0;
+  $scope.pathInfo = {};
 
   $scope.setupMap = function() {
     // map
@@ -383,8 +384,62 @@ app.controller('SubmitRouteController', ['$scope', '$http', function($scope, $ht
     $scope.setupMap();
   }
 
+  var getLocation = function(results) {
+    var street, area;
+    var ac = results[0].address_components;
+    for (var i=0; i<ac.length; i++) {
+      if (ac[i].types[0] === 'route') {
+        street = ac[i].short_name;
+      }
+      else if (ac[i].types[0] === 'administrative_area_level_3') {
+        area = ac[i].short_name;
+      }
+    }
+    if (street && area) {
+      return street + ', ' + area;
+    }
+    else if (street) {
+      return street;
+    }
+    else if (area) {
+      return area;
+    }
+  }
+
+  $scope.updateStartLocation = _.throttle(function() {
+    $scope.updateLocation('start');
+  }, 2500);
+
+  $scope.updateEndLocation = _.throttle(function() {
+    $scope.updateLocation('end');
+  }, 2500);
+
+  $scope.updateLocation = function(part) {
+    var index = 0;
+    if (part === 'end') index = $scope.path.length-1;
+    var pos = $scope.path[index];
+    geocoder.geocode({latLng: pos},
+      function(results, status) {
+        $scope.$apply(function() {
+          $scope.pathInfo[part] = {
+            point: pos,
+            place: getLocation(results),
+          };
+        });
+      });
+  };
+
   $scope.$watch('path', function(value) {
-    $scope.pathLength = geom.spherical.computeLength($scope.path);
+    $scope.pathInfo.length = geom.spherical.computeLength($scope.path);
+
+    if ($scope.path.length > 0) {
+      if (!$scope.pathInfo.start || $scope.pathInfo.start.point != $scope.path[0]) {
+        $scope.updateStartLocation();
+      }
+      if (!$scope.pathInfo.end || $scope.pathInfo.end.point != $scope.path[$scope.path.length-1]) {
+        $scope.updateEndLocation();
+      }
+    }
   }, true);
 
   $scope.saveRouteCheck = function() {

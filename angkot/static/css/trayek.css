@@ -140,6 +140,7 @@ button > i:first-child {
   background: white;
   border-radius: 0 0 5px 0;
   box-shadow: 0 0px 10px rgba(160, 160, 160, 0.75);
+  overflow: auto;
 }
 .sidepanel > .close {
   float: right;
@@ -225,6 +226,17 @@ button > i:first-child {
 }
 #buat-rute p.error {
   color: red;
+}
+
+#buat-rute .path-info p {
+  margin: 0px;
+}
+#buat-rute .path-info .arrow {
+  color: #aaa;
+  padding-left: 15px;
+}
+#buat-rute .path-info {
+  margin-top: 30px;
 }
 
 /*= angkot map =*/
