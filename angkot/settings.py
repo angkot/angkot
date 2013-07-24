@@ -132,6 +132,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'django.contrib.gis',
     'south',
+    'angkot.trayek',
 )
 
 # A sample logging configuration. The only tangible logging
