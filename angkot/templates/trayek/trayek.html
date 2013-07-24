@@ -1,8 +1,9 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html ng-app="AngkotRouteDesigner"><head>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
-<link rel="stylesheet" type="text/css" href="design.css"/>
+<link rel="stylesheet" type="text/css" href="{% static "css/trayek.css" %}"/>
 </head><body>
 
 <div id="head">
@@ -53,12 +54,12 @@
 
 </div>
 
-<script type="text/javascript" src="config.js"></script>
+<script type="text/javascript" src="{% static "js/map-config.js" %}"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
 <script type="text/javascript">
 document.writeln('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key='+GOOGLE_MAPS_KEY+'&sensor=true&libraries=geometry"></'+'script>');
 </script>
-<script type="text/javascript" src="design.js"></script>
+<script type="text/javascript" src="{% static "js/trayek.js" %}"></script>
 </body></html>
 
