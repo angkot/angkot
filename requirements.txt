@@ -1,4 +1,5 @@
 Django
 psycopg2
 django-uuidfield
+South
 
