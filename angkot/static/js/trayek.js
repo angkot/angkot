@@ -136,6 +136,10 @@ p.getPolyline = function() {
   return this._line;
 }
 
+p.getPath = function() {
+  return this._path;
+}
+
 p.setEnabled = function(enabled) {
   this._enabled = enabled;
   this._updateEvents();
@@ -314,14 +318,30 @@ return PathEditor;
 
 var app = angular.module('AngkotRouteDesigner', []);
 
+app.filter('lengthUnit', function() {
+  return function(value) {
+    if (value < 1500) {
+      return Math.round(value) + ' m';
+    }
+    return Math.round(value / 10) / 100 + ' km';
+  }
+});
+
 app.controller('SubmitRouteController', ['$scope', '$http', function($scope, $http) {
 
   var JAKARTA = [-6.1744444, 106.8294444];
   var gm = google.maps,
-      map = undefined;
+      geom = google.maps.geometry,
+      map = undefined,
+      pathEditor = undefined;
   gm.visualRefresh = true;
 
-  function setupMap() {
+  $scope.path = [];
+  $scope.pathLength = 0;
+
+  $scope.setupMap = function() {
+    // map
+
     var target = document.getElementById('map');
     var opts = {
       center: new gm.LatLng(JAKARTA[0], JAKARTA[1]),
@@ -335,14 +355,37 @@ app.controller('SubmitRouteController', ['$scope', '$http', function($scope, $ht
 
     map = new gm.Map(target, opts);
 
-    var pathEditor = new PathEditor();
+    // path editor
+
+    pathEditor = new PathEditor();
     pathEditor.setMap(map);
     pathEditor.setEnabled(true);
+
+    var path = pathEditor.getPath();
+    gm.event.addListener(path, 'insert_at', function(index) {
+      $scope.$apply(function() {
+        $scope.path.splice(index, 0, path.getAt(index));
+      });
+    });
+    gm.event.addListener(path, 'set_at', function(index) {
+      $scope.$apply(function() {
+        $scope.path[index] = path.getAt(index);
+      });
+    });
+    gm.event.addListener(path, 'remove_at', function(index) {
+      $scope.$apply(function() {
+        $scope.path.splice(index, 1);
+      });
+    });
   }
 
   $scope.init = function() {
-    setupMap();
+    $scope.setupMap();
   }
+
+  $scope.$watch('path', function(value) {
+    $scope.pathLength = geom.spherical.computeLength($scope.path);
+  }, true);
 
   $scope.saveRouteCheck = function() {
     $scope.error = null;

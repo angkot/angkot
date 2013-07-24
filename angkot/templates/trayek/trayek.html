@@ -52,6 +52,10 @@
   <p ng-show="message" ng-bind="message" class="message"></p>
   <p ng-show="error" ng-bind="error" class="error"></p>
 
+  <div class="info">
+    <p class="length">Jarak rute: <span ng-bind="pathLength | lengthUnit"></span></p>
+  </div>
+
 </div>
 
 <script type="text/javascript" src="{% static "js/map-config.js" %}"></script>
