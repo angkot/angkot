@@ -1,8 +1,28 @@
 <!DOCTYPE html>
 <html ng-app="AngkotRouteEditor"><head>
 <style>
+@import url(http://fonts.googleapis.com/css?family=Roboto:400+700);
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400+700);
+@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:400+700);
 body, html { margin: 0px; padding: 0px; }
+html, body, * {
+  margin: 0px; padding: 0px;
+  list-style: none;
+  font-size: 13px;
+  font-family: Roboto, Helvetica, Tahoma, sans-serif;
+}
 #map { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+.angkot-map-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 30;
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+}
+kbd {
+  font-family: 'Roboto Slab', Menlo, monospace;
+}
 </style>
 </head><body ng-controller="MainController" ng-init="init()">
 

@@ -102,6 +102,7 @@ var RouteEditor = (function() {
   P.setMap = function(map) {
     if (this._map) this._destroyEvents();
     this._map = map;
+    this._tooltip.setMap(map);
     if (this._map) this._initEvents();
   }
 
@@ -112,6 +113,7 @@ var RouteEditor = (function() {
   P._init = function() {
     this._routes = [];
     this._events = {};
+    this._tooltip = new Tooltip();
   }
 
   P._clear = function() {
@@ -146,6 +148,9 @@ var RouteEditor = (function() {
   }
 
   P._onMouseOver = function(e) {
+    if (this._routes.length === 0) {
+      this._tooltip.setContent('Klik untuk membuat rute');
+    }
   }
 
   P._onMouseOut = function(e) {
@@ -193,6 +198,19 @@ var RouteEditor = (function() {
 
     this._path.push(e.latLng);
     this._nextPath.setAt(0, e.latLng);
+
+    if (this._routes.length === 1) {
+      var len = this._path.getLength();
+      if (len == 1) {
+        this._tooltip.setContent('Lanjutkan dengan mengklik jalur sepanjang rute');
+      }
+      else if (len == 2) {
+        this._tooltip.setContent('Klik titik terakhir untuk mengakhiri');
+      }
+      else if (len == 3) {
+        this._tooltip.setContent(null);
+      }
+    }
   }
 
   P._onDoubleClick = function(e) {
@@ -204,11 +222,17 @@ var RouteEditor = (function() {
       return;
     }
 
+    var path = route.getPath();
+    var start = e.vertex === 0;
+    var end = e.vertex === path.getLength() - 1;
+    var tip = start || end;
+
     if (route === this._route) {
       if (e.vertex === this._path.getLength() - 1) {
         this._route.setOptions({strokeColor:'#FF0000'});
         this._nextLine.setMap(null);
         this._nextPath.clear();
+        this._tooltip.setContent(null);
         delete this._path;
         delete this._route;
       }
@@ -217,18 +241,43 @@ var RouteEditor = (function() {
       }
     }
     else if (this._route) {
-      this._onClick(e);
+      if (tip && window.event.shiftKey) {
+        console.log('merge');
+
+        var arr = path.getArray().slice();
+        if (end) {
+          arr.reverse();
+        }
+
+        for (var i=0; i<arr.length; i++) {
+          this._path.push(arr[i]);
+        }
+
+        this._route.setOptions({strokeColor:'#FF0000'});
+        this._nextLine.setMap(null);
+        this._nextPath.clear();
+        this._tooltip.setContent(null);
+        delete this._path;
+        delete this._route;
+
+        route.setMap(null);
+        var index = this._routes.indexOf(route);
+        this._routes.splice(index, 1);
+      }
+      else {
+        this._onClick(e);
+      }
     }
     else {
       var path = route.getPath();
-      if (e.vertex === 0) {
+      if (start) {
         // flip vertex
         var arr = path.getArray().slice();
         for (var i=0, j=arr.length-1; j>=0; i++, j--) {
           path.setAt(i, arr[j]);
         }
       }
-      if (e.vertex === 0 || e.vertex === path.getLength() - 1) {
+      if (tip) {
         // continue
         this._route = route;
         this._path = route.getPath();
@@ -237,6 +286,11 @@ var RouteEditor = (function() {
         this._nextLine.setMap(this._map);
         this._nextPath.push(e.latLng);
         this._nextPath.push(e.latLng);
+
+        this._tooltip.setContent(null);
+      }
+      else {
+        this._onClick(e);
       }
     }
   }
@@ -245,11 +299,50 @@ var RouteEditor = (function() {
     console.log('route dbl click', route, e);
   }
 
+  P._onRouteMouseOver = function(route, e) {
+    if (this._routes.length === 0) return;
+
+    if (this._nextPath.getLength() > 0 && e.vertex !== undefined) {
+      // snap to vertex
+      this._nextPath.setAt(1, e.latLng);
+    }
+
+    if (route === this._route) return;
+
+    var path = route.getPath();
+    var start = e.vertex === 0;
+    var end = e.vertex === path.getLength() - 1;
+    var tip = start || end;
+
+    if (!this._route && tip) {
+      this._tooltip.setContent('Klik untuk melanjutkan rute');
+    }
+    else if (tip) {
+      this._tooltip.setContent('Tahan tombol <kbd>Shift</kbd> lalu Klik untuk menggabung rute');
+    }
+  }
+
+  P._onRouteMouseOut = function(route, e) {
+    if (this._routes.length === 0) return;
+    if (route === this._route) return;
+
+    var path = route.getPath();
+    var start = e.vertex === 0;
+    var end = e.vertex === path.getLength() - 1;
+    var tip = start || end;
+
+    if (tip) {
+      this._tooltip.setContent(null);
+    }
+  }
+
   P._initRouteEvents = function(route) {
     var self = this;
     var events = [
       gm.event.addListener(route, 'click', function(e) { self._onRouteClick(route, e); }),
       gm.event.addListener(route, 'dblclick', function(e) { self._onRouteDoubleClick(route, e); }),
+      gm.event.addListener(route, 'mouseover', function(e) { self._onRouteMouseOver(route, e); }),
+      gm.event.addListener(route, 'mouseout', function(e) { self._onRouteMouseOut(route, e); }),
     ];
     this._events[route] = events;
   }
@@ -266,6 +359,85 @@ var RouteEditor = (function() {
   return C;
 })();
 
+var Tooltip = (function() {
+
+  var C = function() {
+    this._init();
+  }
+
+  var P = C.prototype;
+
+  P.setMap = function(map) {
+    if (this._map) this._destroy();
+    this._map = map;
+    this._updateVisibility();
+    if (map) this._setup();
+  }
+  P.getMap = function() {
+    return this._map;
+  }
+
+  P.setContent = function(html) {
+    this._content = html;
+    this._$c.html(html);
+    this._updateVisibility();
+  }
+  P.getContent = function() {
+    return this._content;
+  }
+
+  P._init = function() {
+    this._events = [];
+    this._$c = $('<div class="angkot-map-tooltip"></div>');
+    this._$c.hide();
+  }
+
+  P._setup = function() {
+    var self = this;
+    this._events = [
+      gm.event.addListener(this._map, 'mouseover', function(e) { self._onMouseOver(e); }),
+      gm.event.addListener(this._map, 'mouseout', function(e) { self._onMouseOut(e); }),
+      gm.event.addListener(this._map, 'mousemove', function(e) { self._onMouseMove(e); }),
+    ]
+    this._div = this._map.getDiv();
+    $(this._div).append(this._$c);
+  }
+
+  P._destroy = function() {
+    this._$c.remove();
+    for (var i=0; i<this._events.length; i++) {
+      gm.event.removeListener(this._events[i]);
+    }
+    delete this._div;
+  }
+
+  P._onMouseOver = function(e) {
+    var p = e.pixel;
+    this._pos = {x: p.x, y:p.y};
+    this._$c.css({left: this._pos.x+'px', top: this._pos.y+'px'});
+    this._inMap = true;
+    this._updateVisibility();
+  }
+
+  P._onMouseOut = function(e) {
+    this._inMap = false;
+    this._updateVisibility();
+  }
+
+  P._onMouseMove = function(e) {
+    var p = e.pixel;
+    var dx = p.x - this._pos.x + 20;
+    var dy = p.y - this._pos.y + 10;
+    this._$c.css('transform', 'translate('+dx+'px, '+dy+'px)');
+  }
+
+  P._updateVisibility = function() {
+    if (!this._content || !this._inMap) this._$c.hide();
+    else this._$c.show();
+  }
+
+  return C;
+})();
 
 
 
