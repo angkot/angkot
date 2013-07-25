@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from angkot.decorators import api
+from angkot.decorators import api, OK
 from .models import Submission
 
 @api
@@ -24,6 +24,11 @@ def _save_route(request):
 
     submission.rute = wkt
     submission.save()
+
+    data = dict(submission_id=submission.submission_id)
+    res = OK(data, http_code=201)
+    res['Location'] = '/trayek/+%s/' % submission.submission_id
+    return res
 
 def index(request):
     print 'Method:', request.method
