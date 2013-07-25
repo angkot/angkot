@@ -140,6 +140,7 @@ var RouteEditor = (function() {
       gm.event.addListener(this._map, 'mouseover', function(e) { self._onMouseOver(e); }),
       gm.event.addListener(this._map, 'mouseout', function(e) { self._onMouseOut(e); }),
       gm.event.addListener(this._map, 'click', function(e) { self._onClick(e); }),
+      gm.event.addDomListener(document, 'keyup', function(e) { self._onKeyUp(e); }),
     ]
   }
 
@@ -224,6 +225,39 @@ var RouteEditor = (function() {
     }
   }
 
+  P._onKeyUp = function(e) {
+    if (e.keyCode == 27) { // esc
+      this._stopDrawing();
+    }
+  }
+
+  P._stopDrawing = function() {
+    if (!this._route) return;
+
+    this._route.setOptions({strokeColor:'#FF0000'});
+    this._nextLine.setMap(null);
+    this._nextPath.clear();
+    this._tooltip.setContent(null);
+
+    var index = this._routes.indexOf(this._route);
+    if (this._path.getLength() === 1) {
+      this._routes.splice(index, 1);
+      this._route.setMap(null);
+    }
+    else {
+      if (this._isNewRoute) {
+        gm.event.trigger(this, 'route_added', index);
+      }
+      else {
+        gm.event.trigger(this, 'route_updated', index);
+      }
+    }
+
+    this._isNewRoute = false;
+    delete this._path;
+    delete this._route;
+  }
+
   P._onRouteClick = function(route, e) {
     if (e.vertex === undefined) {
       this._onClick(e);
@@ -237,28 +271,7 @@ var RouteEditor = (function() {
 
     if (route === this._route) {
       if (e.vertex === this._path.getLength() - 1) {
-        this._route.setOptions({strokeColor:'#FF0000'});
-        this._nextLine.setMap(null);
-        this._nextPath.clear();
-        this._tooltip.setContent(null);
-
-        var index = this._routes.indexOf(route);
-        if (this._path.getLength() === 1) {
-          this._routes.splice(index, 1);
-          route.setMap(null);
-        }
-        else {
-          if (this._isNewRoute) {
-            gm.event.trigger(this, 'route_added', index);
-          }
-          else {
-            gm.event.trigger(this, 'route_updated', index);
-          }
-        }
-
-        this._isNewRoute = false;
-        delete this._path;
-        delete this._route;
+        this._stopDrawing();
       }
       else {
         this._onClick(e);
