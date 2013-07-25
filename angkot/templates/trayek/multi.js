@@ -6,6 +6,7 @@
 
 var JAKARTA = [-6.1744444, 106.8294444];
 var gm = google.maps;
+gm.visualRefresh = true;
 
 var app = angular.module('AngkotRouteEditor', []);
 
@@ -140,6 +141,8 @@ var RouteEditor = (function() {
   }
 
   p._onMouseMove = function(e) {
+    if (!this._nextLine || !this._nextPath.getLength()) return;
+    this._nextPath.setAt(1, e.latLng);
   }
 
   p._onMouseOver = function(e) {
@@ -149,6 +152,27 @@ var RouteEditor = (function() {
   }
 
   p._onClick = function(e) {
+    if (!this._nextLine) {
+      var line = new gm.Polyline({
+        clickable: false,
+        editable: false,
+        draggable: false,
+        strokeColor: '#0000FF',
+        strokeOpacity: 0.6,
+        strokeWeight: 2,
+      });
+      this._nextLine = line;
+      this._nextLine.setMap(this._map);
+      this._nextPath = line.getPath();
+    }
+    if (this._nextPath.getLength() == 0) {
+      this._nextPath.push(e.latLng);
+      this._nextPath.push(e.latLng);
+    }
+    if (!this._nextLine.getMap()) {
+      this._nextLine.setMap(this._map);
+    }
+
     if (!this._route) {
       // new route
       var route = new gm.Polyline({
@@ -168,25 +192,52 @@ var RouteEditor = (function() {
     }
 
     this._path.push(e.latLng);
+    this._nextPath.setAt(0, e.latLng);
   }
 
   p._onDoubleClick = function(e) {
   }
 
   p._onRouteClick = function(route, e) {
+    if (e.vertex === undefined) {
+      this._onClick(e);
+      return;
+    }
+
     if (route === this._route) {
-      if (e.vertex === this._path.getLength() -1) {
+      if (e.vertex === this._path.getLength() - 1) {
+        this._route.setOptions({strokeColor:'#FF0000'});
+        this._nextLine.setMap(null);
+        this._nextPath.clear();
         delete this._path;
         delete this._route;
       }
       else {
-        this._path.push(this._path.getAt(e.vertex));
+        this._onClick(e);
       }
+    }
+    else if (this._route) {
+      this._onClick(e);
     }
     else {
       var path = route.getPath();
-      var pos = path.getAt(e.vertex);
-      this._path.push(pos);
+      if (e.vertex === 0) {
+        // flip vertex
+        var arr = path.getArray().slice();
+        for (var i=0, j=arr.length-1; j>=0; i++, j--) {
+          path.setAt(i, arr[j]);
+        }
+      }
+      if (e.vertex === 0 || e.vertex === path.getLength() - 1) {
+        // continue
+        this._route = route;
+        this._path = route.getPath();
+        route.setOptions({strokeColor: '#0000FF'});
+
+        this._nextLine.setMap(this._map);
+        this._nextPath.push(e.latLng);
+        this._nextPath.push(e.latLng);
+      }
     }
   }
 
