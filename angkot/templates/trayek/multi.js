@@ -392,12 +392,12 @@ var RouteEditor = (function() {
   }
 
   P._destroyRouteEvents = function(route) {
-    if (!this._events[route]) return;
-    var events = this._events[route];
+    if (!route._$gr$events) return;
+    var events = route._$gr$events;
     for (var i=0; i<events.length; i++) {
       gm.event.removeListener(events[i]);
     }
-    delete this._events[route];
+    delete route._$gr$events;
   }
 
   return C;
