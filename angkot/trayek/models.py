@@ -65,6 +65,10 @@ class Submission(models.Model):
     user = models.ForeignKey(User, null=True, default=None, blank=True)
     visitor_id = UUIDField(null=True, default=None, blank=True)
 
+    ip_address = models.IPAddressField()
+    user_agent = models.CharField(max_length=1024)
+    raw_geojson = models.TextField()
+
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
