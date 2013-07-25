@@ -299,7 +299,20 @@ var RouteEditor = (function() {
       }
     }
     else {
-      if (tip) {
+      if (window.event.shiftKey) {
+        var index = this._routes.indexOf(route);
+        path.removeAt(e.vertex);
+        if (path.getLength() == 1) {
+          path.clear();
+          route.setMap(null);
+          this._routes.splice(index, 1);
+          gm.event.trigger(this, 'route_deleted', index);
+        }
+        else {
+          gm.event.trigger(this, 'route_updated', index);
+        }
+      }
+      else if (tip) {
         // continue
 
         if (start) {
@@ -329,6 +342,7 @@ var RouteEditor = (function() {
 
   P._onRouteMouseOver = function(route, e) {
     if (this._routes.length === 0) return;
+    if (e.vertex === undefined) return;
 
     if (this._nextPath.getLength() > 0 && e.vertex !== undefined) {
       // snap to vertex
@@ -345,6 +359,9 @@ var RouteEditor = (function() {
     if (!this._route && tip) {
       this._tooltip.setContent('Klik untuk melanjutkan rute');
     }
+    else if (!this._route) {
+      this._tooltip.setContent('Tahan tombol <kbd>Shift</kbd> lalu Klik untuk menghapus titik');
+    }
     else if (tip) {
       this._tooltip.setContent('Tahan tombol <kbd>Shift</kbd> lalu Klik untuk menggabung rute');
     }
@@ -359,7 +376,7 @@ var RouteEditor = (function() {
     var end = e.vertex === path.getLength() - 1;
     var tip = start || end;
 
-    if (tip) {
+    if (tip || !this._route) {
       this._tooltip.setContent(null);
     }
   }
