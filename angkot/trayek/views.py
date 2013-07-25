@@ -10,8 +10,14 @@ def _save_route(request):
     from shapely.geometry import asShape
 
     raw = request.POST['geojson']
+    parent_id = request.POST.get('parent_id', None)
+    try:
+        parent = Submission.objects.get(submission_id=parent_id)
+    except Submission.DoesNotExist:
+        parent = None
 
     submission = Submission()
+    submission.parent = parent
     submission.visitor_id = request.session['visitor-id']
     submission.ip_address = request.META['REMOTE_ADDR']
     submission.user_agent = request.META['HTTP_USER_AGENT']

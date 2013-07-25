@@ -488,11 +488,13 @@ app.controller('SubmitRouteController', ['$scope', '$http', function($scope, $ht
     }
 
     var data = {geojson: JSON.stringify(geojson)};
+    if ($scope.parentId) data['parent_id'] = $scope.parentId
     var url = $('body').data('url-save');
 
     $http.post(url, jQuery.param(data))
-      .success(function() {
+      .success(function(data) {
         $scope.message = 'Terima kasih atas partisipasi Anda!';
+        $scope.parentId = data.submission_id;
       })
       .error(function(msg, status) {
         $scope.message = null;
