@@ -52,9 +52,10 @@ class Trayek(models.Model):
         ordering = ('kota', 'perusahaan',)
 
 class Submission(models.Model):
-    kota = models.ForeignKey(Kota)
-    perusahaan = models.ForeignKey(Perusahaan)
-    nomor = models.CharField(max_length=64)
+    kota = models.ForeignKey(Kota, null=True, default=None, blank=True)
+    perusahaan = models.ForeignKey(Perusahaan, null=True,
+                                   default=None, blank=True)
+    nomor = models.CharField(max_length=64, null=True, default=None, blank=True)
     awal = models.CharField(max_length=128, null=True,
                             default=None, blank=True)
     akhir = models.CharField(max_length=128, null=True,
