@@ -14,7 +14,6 @@ app.controller('MainController', ['$scope', function($scope) {
   $scope.init = function() {
     $scope.center = new gm.LatLng(JAKARTA[0], JAKARTA[1]);
     $scope.zoom = 12;
-    console.log('main init');
 
     var data = {
       type: 'Feature',
@@ -129,7 +128,6 @@ var RouteEditor = (function() {
       gm.event.addListener(this._map, 'mouseover', function(e) { self._onMouseOver(e); }),
       gm.event.addListener(this._map, 'mouseout', function(e) { self._onMouseOut(e); }),
       gm.event.addListener(this._map, 'click', function(e) { self._onClick(e); }),
-      gm.event.addListener(this._map, 'dblclick', function(e) { self._onDoubleClick(e); }),
     ]
   }
 
@@ -213,9 +211,6 @@ var RouteEditor = (function() {
     }
   }
 
-  P._onDoubleClick = function(e) {
-  }
-
   P._onRouteClick = function(route, e) {
     if (e.vertex === undefined) {
       this._onClick(e);
@@ -249,8 +244,6 @@ var RouteEditor = (function() {
     }
     else if (this._route) {
       if (tip && window.event.shiftKey) {
-        console.log('merge');
-
         var arr = path.getArray().slice();
         if (end) {
           arr.reverse();
@@ -302,10 +295,6 @@ var RouteEditor = (function() {
     }
   }
 
-  P._onRouteDoubleClick = function(route, e) {
-    console.log('route dbl click', route, e);
-  }
-
   P._onRouteMouseOver = function(route, e) {
     if (this._routes.length === 0) return;
 
@@ -347,7 +336,6 @@ var RouteEditor = (function() {
     var self = this;
     var events = [
       gm.event.addListener(route, 'click', function(e) { self._onRouteClick(route, e); }),
-      gm.event.addListener(route, 'dblclick', function(e) { self._onRouteDoubleClick(route, e); }),
       gm.event.addListener(route, 'mouseover', function(e) { self._onRouteMouseOver(route, e); }),
       gm.event.addListener(route, 'mouseout', function(e) { self._onRouteMouseOut(route, e); }),
     ];
