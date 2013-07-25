@@ -1,5 +1,17 @@
-class OK(object):
+class APIResponse(object):
+    def __init__(self):
+        self.headers = {}
+
+    def __setitem__(self, key, value):
+        self.headers[key] = value
+
+    def __getitem__(self, key):
+        return self.headers[key]
+
+class OK(APIResponse):
     def __init__(self, data, http_code=200):
+        super(OK, self).__init__()
+
         self.data = data
         self.http_code = http_code
 
@@ -9,9 +21,11 @@ class OK(object):
         data['status'] = 'ok'
         return data
 
-class Fail(object):
+class Fail(APIResponse):
     def __init__(self, data=None, http_code=500,
                        error_code=500, error_msg="Internal server error"):
+        super(OK, self).__init__()
+
         if data is None:
             data = {}
         self.data = data
@@ -35,6 +49,7 @@ def api(func):
     def _func(request, *args, **kwargs):
         res = func(request, *args, **kwargs)
         code = 200
+        headers = {}
 
         if res is None:
             data = {'status': 'ok'}
@@ -46,10 +61,12 @@ def api(func):
         elif isinstance(res, OK):
             data = res.dict
             code = res.http_code
+            headers = res.headers
 
         elif isinstance(res, Fail):
             data = res.dict
             code = res.http_code
+            headers = res.headers
 
         else:
             code = 500
@@ -58,7 +75,10 @@ def api(func):
                     'msg': 'Internal server error'}
 
         data = json.dumps(data)
-        return HttpResponse(data, status=code, content_type='text/plain')
+        res = HttpResponse(data, status=code, content_type='text/plain')
+        for key, value in headers.items():
+            res[key] = value
+        return res
 
     return _func
 
