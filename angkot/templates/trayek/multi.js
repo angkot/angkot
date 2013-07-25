@@ -373,10 +373,10 @@ var RouteEditor = (function() {
       this._tooltip.setContent('Klik untuk melanjutkan rute');
     }
     else if (!this._route) {
-      this._tooltip.setContent('Tahan tombol <kbd>Shift</kbd> lalu Klik untuk menghapus titik');
+      this._tooltip.setContent('Untuk menghapus titik, tahan tombol <kbd>shift</kbd> lalu klik titik yang mau dihapus');
     }
     else if (tip) {
-      this._tooltip.setContent('Tahan tombol <kbd>Shift</kbd> lalu Klik untuk menggabung rute');
+      this._tooltip.setContent('Untuk menggabung rute, tahan tombol <kbd>shift</kbd> lalu klik titik tujuan');
     }
   }
 
