@@ -94,33 +94,33 @@ app.directive('angkotMap', function() {
 });
 
 var RouteEditor = (function() {
-  var c = function() {
+  var C = function() {
     this._init();
   }
-  var p = c.prototype;
+  var P = C.prototype;
 
-  p.setMap = function(map) {
+  P.setMap = function(map) {
     if (this._map) this._destroyEvents();
     this._map = map;
     if (this._map) this._initEvents();
   }
 
-  p.getRoutes = function() {
+  P.getRoutes = function() {
     return this._routes;
   }
 
-  p._init = function() {
+  P._init = function() {
     this._routes = [];
     this._events = {};
   }
 
-  p._clear = function() {
+  P._clear = function() {
   }
 
-  p._reset = function() {
+  P._reset = function() {
   }
 
-  p._initEvents = function() {
+  P._initEvents = function() {
     var self = this;
     this._events.editor = [
       gm.event.addListener(this._map, 'mousemove', function(e) { self._onMouseMove(e); }),
@@ -131,7 +131,7 @@ var RouteEditor = (function() {
     ]
   }
 
-  p._destroyEvents = function() {
+  P._destroyEvents = function() {
     for (var key in this._events) {
       var events = this._events[key];
       for (var i=0; i<events.length; i++) {
@@ -140,18 +140,18 @@ var RouteEditor = (function() {
     }
   }
 
-  p._onMouseMove = function(e) {
+  P._onMouseMove = function(e) {
     if (!this._nextLine || !this._nextPath.getLength()) return;
     this._nextPath.setAt(1, e.latLng);
   }
 
-  p._onMouseOver = function(e) {
+  P._onMouseOver = function(e) {
   }
 
-  p._onMouseOut = function(e) {
+  P._onMouseOut = function(e) {
   }
 
-  p._onClick = function(e) {
+  P._onClick = function(e) {
     if (!this._nextLine) {
       var line = new gm.Polyline({
         clickable: false,
@@ -195,10 +195,10 @@ var RouteEditor = (function() {
     this._nextPath.setAt(0, e.latLng);
   }
 
-  p._onDoubleClick = function(e) {
+  P._onDoubleClick = function(e) {
   }
 
-  p._onRouteClick = function(route, e) {
+  P._onRouteClick = function(route, e) {
     if (e.vertex === undefined) {
       this._onClick(e);
       return;
@@ -241,11 +241,11 @@ var RouteEditor = (function() {
     }
   }
 
-  p._onRouteDoubleClick = function(route, e) {
+  P._onRouteDoubleClick = function(route, e) {
     console.log('route dbl click', route, e);
   }
 
-  p._initRouteEvents = function(route) {
+  P._initRouteEvents = function(route) {
     var self = this;
     var events = [
       gm.event.addListener(route, 'click', function(e) { self._onRouteClick(route, e); }),
@@ -254,7 +254,7 @@ var RouteEditor = (function() {
     this._events[route] = events;
   }
 
-  p._destroyRouteEvents = function(route) {
+  P._destroyRouteEvents = function(route) {
     if (!this._events[route]) return;
     var events = this._events[route];
     for (var i=0; i<events.length; i++) {
@@ -263,7 +263,7 @@ var RouteEditor = (function() {
     delete this._events[route];
   }
 
-  return c;
+  return C;
 })();
 
 
