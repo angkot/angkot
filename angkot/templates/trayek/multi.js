@@ -68,6 +68,18 @@ app.directive('angkotMap', function() {
     var initEditor = function() {
       editor = new RouteEditor()
       editor.setMap(map);
+      gm.event.addListener(editor, 'route_added', function(e) {
+        console.log('route_added', e);
+      });
+      gm.event.addListener(editor, 'route_updated', function(e) {
+        console.log('route_updated', e);
+      });
+      gm.event.addListener(editor, 'route_merged', function(e) {
+        console.log('route_merged', e);
+      });
+      gm.event.addListener(editor, 'route_deleted', function(e) {
+        console.log('route_deleted', e);
+      });
     }
 
     $scope.init = function() {
@@ -188,6 +200,7 @@ var RouteEditor = (function() {
       });
       this._routes.push(route);
 
+      this._isNewRoute = true;
       this._route = route;
       this._path = route.getPath();
       this._initRouteEvents(this._route);
@@ -229,12 +242,21 @@ var RouteEditor = (function() {
         this._nextPath.clear();
         this._tooltip.setContent(null);
 
+        var index = this._routes.indexOf(route);
         if (this._path.getLength() === 1) {
-          var index = this._routes.indexOf(route);
           this._routes.splice(index, 1);
           route.setMap(null);
         }
+        else {
+          if (this._isNewRoute) {
+            gm.event.trigger(this, 'route_added', index);
+          }
+          else {
+            gm.event.trigger(this, 'route_updated', index);
+          }
+        }
 
+        this._isNewRoute = false;
         delete this._path;
         delete this._route;
       }
@@ -244,6 +266,11 @@ var RouteEditor = (function() {
     }
     else if (this._route) {
       if (tip && window.event.shiftKey) {
+        // merge
+
+        var index = this._routes.indexOf(this._route);
+        var withIndex = this._routes.indexOf(route);
+
         var arr = path.getArray().slice();
         if (end) {
           arr.reverse();
@@ -253,6 +280,10 @@ var RouteEditor = (function() {
           this._path.push(arr[i]);
         }
 
+        route.setMap(null);
+        this._routes.splice(withIndex, 1);
+        var toIndex = this._routes.indexOf(this._route);
+
         this._route.setOptions({strokeColor:'#FF0000'});
         this._nextLine.setMap(null);
         this._nextPath.clear();
@@ -260,25 +291,26 @@ var RouteEditor = (function() {
         delete this._path;
         delete this._route;
 
-        route.setMap(null);
-        var index = this._routes.indexOf(route);
-        this._routes.splice(index, 1);
+        this._destroyRouteEvents(route);
+        gm.event.trigger(this, 'route_merged', {first:index, second:withIndex, result:toIndex})
       }
       else {
         this._onClick(e);
       }
     }
     else {
-      var path = route.getPath();
-      if (start) {
-        // flip vertex
-        var arr = path.getArray().slice();
-        for (var i=0, j=arr.length-1; j>=0; i++, j--) {
-          path.setAt(i, arr[j]);
-        }
-      }
       if (tip) {
         // continue
+
+        if (start) {
+          // flip vertex
+          var arr = path.getArray().slice();
+          for (var i=0, j=arr.length-1; j>=0; i++, j--) {
+            path.setAt(i, arr[j]);
+          }
+        }
+
+        this._isNewRoute = false;
         this._route = route;
         this._path = route.getPath();
         route.setOptions({strokeColor: '#0000FF'});
