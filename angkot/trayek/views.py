@@ -2,17 +2,28 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from angkot.decorators import api
+from .models import Submission
 
 @api
 def _save_route(request):
     import geojson
     from shapely.geometry import asShape
 
-    data = request.POST['geojson']
-    data = geojson.loads(data, object_hook=geojson.GeoJSON.to_instance)
-    print data.extra
-    data = asShape(data)
-    print data.wkt
+    raw = request.POST['geojson']
+
+    submission = Submission()
+    submission.visitor_id = request.session['visitor-id']
+    submission.ip_address = request.META['REMOTE_ADDR']
+    submission.user_agent = request.META['HTTP_USER_AGENT']
+    submission.raw_geojson = raw
+    submission.save()
+
+    data = geojson.loads(raw, object_hook=geojson.GeoJSON.to_instance)
+    properties = data.extra['properties']
+    wkt = asShape(data).wkt
+
+    submission.rute = wkt
+    submission.save()
 
 def index(request):
     print 'Method:', request.method
