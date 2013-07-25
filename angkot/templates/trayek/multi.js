@@ -233,6 +233,13 @@ var RouteEditor = (function() {
         this._nextLine.setMap(null);
         this._nextPath.clear();
         this._tooltip.setContent(null);
+
+        if (this._path.getLength() === 1) {
+          var index = this._routes.indexOf(route);
+          this._routes.splice(index, 1);
+          route.setMap(null);
+        }
+
         delete this._path;
         delete this._route;
       }
