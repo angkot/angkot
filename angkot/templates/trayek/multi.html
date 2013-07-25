@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html ng-app="AngkotRouteEditor"><head>
+<style>
+body, html { margin: 0px; padding: 0px; }
+#map { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
+</style>
+</head><body ng-controller="MainController" ng-init="init()">
+
+<angkot-map id="map" center="center" zoom="zoom" path="path"></angkot-map>
+
+<script type="text/javascript" src="map-config.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+<script type="text/javascript">
+document.writeln('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key='+GOOGLE_MAPS_KEY+'&sensor=true&libraries=geometry"></'+'script>');
+</script>
+<script src="multi.js"></script>
+</body></html>
+
