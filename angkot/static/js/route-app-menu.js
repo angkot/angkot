@@ -24,7 +24,7 @@ app.controller('MenuController', ['$scope', function($scope) {
       content: '<p>Jika Anda memiliki saran, kritik, dan pertanyaan, ' +
                'silakan hubungi:</p>' +
                $('.menu .contact.vcard').html() +
-               '<p>Kode dari aplikasi ini juga tersedia di GitHub<br/>' +
+               '<p>Kode dari aplikasi ini tersedia di GitHub<br/>' +
                '<i class="icon-github-alt"></i> <a href="https://github.com/fajran/angkot">https://github.com/fajran/angkot</a></p>',
     });
   }
