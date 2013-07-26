@@ -37,6 +37,14 @@ button > i:first-child {
   margin-right: 5px;
 }
 
+a {
+  text-decoration: none;
+  color: #007AE6;
+}
+a:hover {
+  text-decoration: underline;
+}
+
 /*= modal =*/
 
 .modal {
