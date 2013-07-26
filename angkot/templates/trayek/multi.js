@@ -218,6 +218,7 @@ var RouteEditor = (function() {
     this._routes = [];
     this._events = {};
     this._tooltip = new Tooltip();
+    this._createNextLine();
   }
 
   P._clear = function() {
@@ -229,16 +230,14 @@ var RouteEditor = (function() {
     }
     this._routes = [];
 
-    if (this._nextLine) {
-      this._nextLine.setMap(null);
-      this._nextPath.clear();
-      delete this._nextPath;
-      delete this._nextLine;
-    }
+    this._nextLine.setMap(null);
+    this._nextPath.clear();
+
     if (this._path) {
       delete this._path;
       delete this._route;
     }
+
     this._tooltip.setContent(null);
   }
 
@@ -262,6 +261,21 @@ var RouteEditor = (function() {
     }
   }
 
+  P._createNextLine = function(pos) {
+    var line = new gm.Polyline({
+      clickable: false,
+      editable: false,
+      draggable: false,
+      strokeColor: '#0000FF',
+      strokeOpacity: 0.6,
+      strokeWeight: 2,
+    });
+    this._nextLine = line;
+    this._nextPath = line.getPath();
+    this._nextPath.push(new gm.LatLng(0, 0));
+    this._nextPath.push(new gm.LatLng(0, 0));
+  }
+
   P._onMouseMove = function(e) {
     if (!this._nextLine || !this._nextPath.getLength()) return;
     this._nextPath.setAt(1, e.latLng);
@@ -277,27 +291,6 @@ var RouteEditor = (function() {
   }
 
   P._onClick = function(e) {
-    if (!this._nextLine) {
-      var line = new gm.Polyline({
-        clickable: false,
-        editable: false,
-        draggable: false,
-        strokeColor: '#0000FF',
-        strokeOpacity: 0.6,
-        strokeWeight: 2,
-      });
-      this._nextLine = line;
-      this._nextLine.setMap(this._map);
-      this._nextPath = line.getPath();
-    }
-    if (this._nextPath.getLength() == 0) {
-      this._nextPath.push(e.latLng);
-      this._nextPath.push(e.latLng);
-    }
-    if (!this._nextLine.getMap()) {
-      this._nextLine.setMap(this._map);
-    }
-
     if (!this._route) {
       // new route
       var route = new gm.Polyline({
@@ -319,6 +312,8 @@ var RouteEditor = (function() {
 
     this._path.push(e.latLng);
     this._nextPath.setAt(0, e.latLng);
+    this._nextPath.setAt(1, e.latLng);
+    this._nextLine.setMap(this._map);
 
     if (this._routes.length === 1) {
       var len = this._path.getLength();
@@ -450,9 +445,9 @@ var RouteEditor = (function() {
         this._path = route.getPath();
         route.setOptions({strokeColor: '#0000FF'});
 
+        this._nextPath.setAt(0, e.latLng);
+        this._nextPath.setAt(1, e.latLng);
         this._nextLine.setMap(this._map);
-        this._nextPath.push(e.latLng);
-        this._nextPath.push(e.latLng);
 
         this._tooltip.setContent(null);
       }
