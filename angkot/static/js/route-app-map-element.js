@@ -21,6 +21,15 @@ app.directive('angkotMap', function() {
       map.setZoom(value);
     });
 
+    var apply = function(fn) {
+      if ($scope.$$phase || $scope.$root.$$phase) {
+        fn();
+      }
+      else {
+        $scope.$apply(fn);
+      }
+    }
+
     var initMap = function() {
       var opts = {
         mapTypeId: gm.MapTypeId.ROADMAP,
@@ -29,19 +38,17 @@ app.directive('angkotMap', function() {
       }
       map = new gm.Map($element[0], opts);
 
-      // FIXME update center and zoom when the map is dragged/zoomed
-      // gm.event.addListener(map, 'drag', function() {
-      //   $scope.$apply(function() {
-      //     var center = map.getCenter();
-      //     $scope.center = [center.lat(), center.lng()];
-      //   });
-      // });
-      // gm.event.addListener(map, 'zoom_changed', function() {
-      //   console.log('zoom:', map.getZoom(), 'phase:', $scope.$$phase);
-      //   $scope.$apply(function() {
-      //       $scope.zoom = map.getZoom();
-      //   });
-      // });
+      gm.event.addListener(map, 'drag', function() {
+        apply(function() {
+          var center = map.getCenter();
+          $scope.center = [center.lat(), center.lng()];
+        });
+      });
+      gm.event.addListener(map, 'zoom_changed', function() {
+        apply(function() {
+            $scope.zoom = map.getZoom();
+        });
+      });
     }
 
     var extractPath = function(route) {
