@@ -13,7 +13,7 @@ app.controller('MenuController', ['$scope', function($scope) {
                'sehingga siapapun dapat ikut serta memasukkan dan menyempurnakan data ' +
                'yang ada. Data rute yang dikumpulkan bersifat publik dan dapat digunakan ' +
                'untuk kepentingan apa saja, selama sesuai dengan ' +
-               '<a href="http://creativecommons.org/licenses/by-sa/3.0/deed.id">ketentuan penggunaan data</a>.</p>',
+               '<a target="_blank" href="http://creativecommons.org/licenses/by-sa/3.0/deed.id">ketentuan penggunaan data</a>.</p>',
     });
   }
 
@@ -25,7 +25,7 @@ app.controller('MenuController', ['$scope', function($scope) {
                'silakan hubungi:</p>' +
                $('.menu .contact.vcard').html() +
                '<p>Kode dari aplikasi ini tersedia di GitHub<br/>' +
-               '<i class="icon-github-alt"></i> <a href="https://github.com/fajran/angkot">https://github.com/fajran/angkot</a></p>',
+               '<i class="icon-github-alt"></i> <a target="_blank" href="https://github.com/fajran/angkot">https://github.com/fajran/angkot</a></p>',
     });
   }
 
