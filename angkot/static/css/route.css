@@ -1,0 +1,253 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400+700);
+@import url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400+700);
+
+/*= common =*/
+
+html, body {
+  min-width: 1024px;
+  min-height: 500px;
+}
+html, body, * {
+  margin: 0px; padding: 0px;
+  list-style: none;
+  font-size: 13px;
+  font-family: Roboto, Helvetica, Tahoma, sans-serif;
+}
+p {
+  margin: 5px 0 10px 0;
+}
+h1, h2, h3 {
+  margin: 5px 0 10px 0;
+}
+h1:first-child, h2:first-child, h3:first-child {
+  margin-top: 0px;
+}
+h1:last-child, h2:last-child, h3:last-child {
+  margin-bottom: 0px;
+}
+button > i:first-child {
+  margin-right: 5px;
+}
+
+/*= head =*/
+
+#head {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  height: 40px;
+  max-height: 40px;
+  box-shadow: 0 0px 5px 2px rgba(160, 160, 160, 0.8);
+  z-index: 50;
+  line-height: 40px;
+}
+#head h1 {
+  font-family: "Roboto Condensed", "Helvetica Neue", "Tahoma", sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 40px;
+  padding: 0 10px;
+  display: inline-block;
+  float: left;
+}
+#head .search {
+  display: inline-block;
+  height: 40px;
+  margin-left: 10px;
+}
+#head .search input,
+#head .search button {
+  height: 26px;
+  border: 1px solid #ccc;
+  padding: 0 5px;
+  line-height: 26px;
+}
+#head .search input {
+  width: 200px;
+  border-radius: 2px 0 0 2px;
+}
+#head .search button {
+  padding: 0 10px;
+  height: 28px;
+  border-left: 0px;
+  margin-bottom: 4px;
+  border-radius: 0 2px 2px 0;
+  cursor: pointer;
+}
+#head .new-route {
+  display: inline-block;
+  height: 40px;
+  margin-left: 10px;
+}
+#head .new-route button {
+  border: 0px;
+  padding: 0 10px;
+  height: 28px;
+  margin-bottom: 4px;
+  border-radius: 2px;
+  cursor: pointer;
+  background: #e74c3c;
+  color: white;
+  font-weight: bold;
+  line-height: 28px;
+}
+#head .menu {
+  float: right;
+}
+#head .menu ul li {
+  display: inline-block;
+}
+#head .menu ul li a {
+  height: 40px;
+  line-height: 40px;
+  display: inline-block;
+  padding: 0 10px;
+  font-family: "Roboto Condensed", "Tahoma", sans-serif;
+  color: black;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 20px;
+}
+#head .menu ul li a:hover {
+  background: #eee;
+}
+
+/*= map =*/
+
+#map {
+  position: absolute;
+  top: 40px;
+  left: 280px;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  z-index: 25;
+}
+
+/*= side panel =*/
+
+.sidepanel {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 250px;
+  height: auto;
+  z-index: 40;
+  padding: 15px;
+  background: white;
+  border-radius: 0 0 5px 0;
+  box-shadow: 0 0px 10px rgba(160, 160, 160, 0.75);
+  overflow: auto;
+  bottom: 0px;
+  border-radius: 0;
+}
+.sidepanel > .close {
+  float: right;
+  cursor: pointer;
+  padding: 5px;
+  margin: -10px -5px;
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+  line-height: 12px;
+  font-size: 16px;
+  text-align: center;
+  color: #444;
+}
+.sidepanel > .close:hover {
+  box-shadow: 0 0 2px 2px #eee;
+}
+.sidepanel h2 {
+  font-size: 14px;
+}
+.sidepanel input[type="text"] {
+  width: 100%;
+  margin: 2px 0 3px 0;
+  height: 24px;
+  line-height: 24px;
+  border: 1px solid #aaa;
+  border-radius: 2px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.sidepanel label {
+  color: #444;
+}
+.sidepanel button {
+  border: 0px;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 10px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.sidepanel hr {
+  border: 0;
+  height: 1px;
+  background: #ccc;
+}
+.sidepanel > *:first-child,
+.sidepanel > .close + * {
+  margin-top: 0px;
+}
+.sidepanel > *:last-child {
+  margin-bottom: 0px;
+}
+
+/*= route designer =*/
+
+#buat-rute input[name="perusahaan"] {
+  width: 74%;
+  display: inline;
+  margin-right: 2%;
+}
+#buat-rute input[name="nomor"] {
+  width: 24%;
+  text-align: center;
+}
+#buat-rute button.simpan {
+  background: #27AE60;
+  color: white;
+  font-weight: bold;
+}
+#buat-rute p.setuju {
+  line-height: 26px;
+  height: 26px;
+}
+#buat-rute p.setuju input {
+  vertical-align: middle;
+}
+#buat-rute p.setuju label {
+  cursor: pointer;
+}
+#buat-rute p.error {
+  color: red;
+}
+
+#buat-rute .path-info p {
+  margin: 0px;
+}
+#buat-rute .path-info .arrow {
+  color: #aaa;
+  padding-left: 15px;
+}
+#buat-rute .path-info {
+  margin-top: 30px;
+}
+
+/*= angkot map =*/
+
+.angkot-map-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 30;
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: white;
+  font-size: 12px;
+}
+
