@@ -57,5 +57,5 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
   }
 }]);
 
-})(window.angkot.route.app);
+})(window.angkot.app);
 

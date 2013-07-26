@@ -11,7 +11,7 @@ app.config(function($interpolateProvider, $httpProvider) {
   $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 });
 
-angkot.route.app = app;
+angkot.app = app;
 
 })(angkot);
 

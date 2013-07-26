@@ -25,5 +25,5 @@ app.controller('MainController', ['$scope', function($scope) {
 
 }]);
 
-})(window.angkot.route.app);
+})(window.angkot.app);
 

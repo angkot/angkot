@@ -3,7 +3,7 @@
 "use strict"
 
 var gm = google.maps;
-var app = angkot.route.app;
+var app = angkot.app;
 
 app.directive('angkotMap', function() {
 

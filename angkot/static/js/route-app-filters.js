@@ -9,5 +9,5 @@ app.filter('lengthUnit', function() {
   }
 });
 
-})(window.angkot.route.app);
+})(window.angkot.app);
 
