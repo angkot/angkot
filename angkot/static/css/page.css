@@ -37,3 +37,38 @@ button > i:first-child {
   margin-right: 5px;
 }
 
+/*= modal =*/
+
+.modal {
+  position: absolute;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+.modal .close {
+  float: right;
+  font-size: 24px;
+  line-height: 16px;
+  margin-top: -10px;
+  margin-right: -10px;
+  color: #aaa;
+  cursor: pointer;
+}
+.modal .close:hover {
+  color: #444;
+}
+.modal .c {
+  background: white;
+  width: 450px;
+  margin: 50px auto 0 auto;
+  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.6);
+  padding: 30px;
+}
+.modal .content * {
+  font-size: 14px;
+  line-height: 24px;
+}
+
