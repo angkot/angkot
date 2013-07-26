@@ -14,6 +14,7 @@ app.controller('MainController', ['$scope', function($scope) {
   $scope.init = function() {
     $scope.center = new gm.LatLng(JAKARTA[0], JAKARTA[1]);
     $scope.zoom = 12;
+    $scope.routes = [];
 
     var data = {
       type: 'Feature',
@@ -35,6 +36,15 @@ app.controller('MainController', ['$scope', function($scope) {
       }
     }
   }
+
+  $scope.test = function() {
+    $scope.routes = [[[-6.1835635111822365,106.76067352294922],[-6.156598128419953,106.78882598876953],[-6.158987521497664,106.8087387084961]],[[-6.183904836341575,106.80736541748047],[-6.20267738048731,106.82212829589844],[-6.177419620654008,106.85508728027344]]];
+  }
+
+  $scope.$watch('routes', function(v, o) {
+    console.log('main routes updated', v, o);
+    console.log(JSON.stringify(v));
+  }, true);
 }]);
 
 app.directive('angkotMap', function() {
@@ -65,22 +75,73 @@ app.directive('angkotMap', function() {
       });
     }
 
+    var extractPath = function(route) {
+      var path = route.getPath().getArray().slice();
+      var res = [];
+      for (var i=0; i<path.length; i++) {
+        var p = path[i];
+        res.push([p.lat(), p.lng()]);
+      }
+      return res;
+    }
+
+    var makeLatLng = function(path) {
+      var res = [];
+      for (var i=0; i<path.length; i++) {
+        var p = path[i];
+        res.push(new gm.LatLng(p[0], p[1]));
+      }
+      return res;
+    }
+
     var initEditor = function() {
       editor = new RouteEditor()
       editor.setMap(map);
-      gm.event.addListener(editor, 'route_added', function(e) {
-        console.log('route_added', e);
+      gm.event.addListener(editor, 'route_added', function(index) {
+        var routes = editor.getRoutes();
+        $scope.$apply(function() {
+          $scope.routes.push(extractPath(routes[index]));
+        });
       });
-      gm.event.addListener(editor, 'route_updated', function(e) {
-        console.log('route_updated', e);
+      gm.event.addListener(editor, 'route_updated', function(index) {
+        var routes = editor.getRoutes();
+        $scope.$apply(function() {
+          $scope.routes[index] = extractPath(routes[index]);
+        });
+        console.log('route_updated', index);
       });
       gm.event.addListener(editor, 'route_merged', function(e) {
-        console.log('route_merged', e);
+        var routes = editor.getRoutes();
+        var route = routes[e.result];
+        var a = e.first,
+            b = e.second;
+        if (e.second < e.first) {
+          a = e.second;
+          b = e.first;
+        }
+        $scope.$apply(function() {
+          $scope.routes.splice(b, 1);
+          $scope.routes.splice(a, 1);
+          $scope.routes.splice(e.result, 0, extractPath(route));
+        });
       });
-      gm.event.addListener(editor, 'route_deleted', function(e) {
-        console.log('route_deleted', e);
+      gm.event.addListener(editor, 'route_deleted', function(index) {
+        $scope.$apply(function() {
+          $scope.routes.splice(index, 1);
+        });
+        console.log('route_deleted', index);
       });
     }
+
+    var setRoutes = function(routes) {
+      var data = [];
+      for (var i=0; i<routes.length; i++) {
+        data.push(makeLatLng(routes[i]));
+      }
+      editor.setRouteArrays(data);
+    }
+
+    $scope.$watch('routes', setRoutes);
 
     $scope.init = function() {
       initMap();
@@ -96,7 +157,7 @@ app.directive('angkotMap', function() {
     scope: {
       center: '=center',
       zoom: '=zoom',
-      path: '=path',
+      routes: '=routes',
     },
     link: function(scope, element, attrs) {
       scope.init();
@@ -114,11 +175,43 @@ var RouteEditor = (function() {
     if (this._map) this._destroyEvents();
     this._map = map;
     this._tooltip.setMap(map);
+    for (var i=0; i<this._routes.length; i++) {
+      this._routes[i].setMap(map);
+    }
     if (this._map) this._initEvents();
   }
 
   P.getRoutes = function() {
     return this._routes;
+  }
+
+  P.setRouteArrays = function(paths) {
+    this._clear();
+    if (!paths) return;
+
+    for (var i=0; i<paths.length; i++) {
+      var data = paths[i];
+
+      var route = new gm.Polyline({
+        clickable: true,
+        editable: true,
+        draggable: false,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.9,
+        strokeWeight: 3,
+      });
+
+      var path = route.getPath();
+      for (var j=0; j<data.length; j++) {
+        path.push(data[j]);
+      }
+
+      if (this._map) {
+        route.setMap(this._map);
+      }
+      this._routes.push(route);
+      this._initRouteEvents(route);
+    }
   }
 
   P._init = function() {
@@ -128,9 +221,25 @@ var RouteEditor = (function() {
   }
 
   P._clear = function() {
-  }
+    console.log('clear');
+    for (var i=0; i<this._routes.length; i++) {
+      var route = this._routes[i];
+      route.setMap(null);
+      this._destroyRouteEvents(route);
+    }
+    this._routes = [];
 
-  P._reset = function() {
+    if (this._nextLine) {
+      this._nextLine.setMap(null);
+      this._nextPath.clear();
+      delete this._nextPath;
+      delete this._nextLine;
+    }
+    if (this._path) {
+      delete this._path;
+      delete this._route;
+    }
+    this._tooltip.setContent(null);
   }
 
   P._initEvents = function() {
