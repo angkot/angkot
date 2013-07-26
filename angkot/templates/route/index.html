@@ -13,21 +13,27 @@
     <ul>
     <li><a href="">Apa ini?</a></li>
     <li><a href="">Kontak</a></li>
+    <!--
     <li><a href="">Login</a></li>
+    -->
     </ul>
   </div>
+  <!--
   <div class="search">
     <input type="text" name="q" placeholder="Cari Rute" class="search"/><button name="go"><i class="icon-search"></i></button>
   </div>
   <div class="new-route">
     <button><i class="icon-plus-sign"></i> Buat Rute</button>
   </div>
+  -->
 </div>
 
 <angkot-map id="map" center="center" zoom="zoom" routes="routes"></angkot-map>
 
 <div class="sidepanel full">
+  <!--
   <div class="close">&times;</div>
+  -->
 
   <div id="buat-rute" ng-controller="SubmissionController" ng-init="init()">
   <h2>Buat Rute</h2>{% csrf_token %}
