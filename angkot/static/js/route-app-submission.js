@@ -1,13 +1,11 @@
 (function(app) {
 
-app.filter('lengthUnit', function() {
-  return function(value) {
-    if (value < 1500) {
-      return Math.round(value) + ' m';
-    }
-    return Math.round(value / 10) / 100 + ' km';
-  }
-});
+var JAKARTA = [-6.1744444, 106.8294444];
+
+app.controller('SubmissionController', ['$scope', function($scope) {
+
+
+}]);
 
 })(window.angkot.route.app);
 
