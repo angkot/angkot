@@ -41,6 +41,6 @@ def index(request):
     if request.method == 'POST':
         return _save_route(request)
 
-    return render_to_response('trayek/trayek.html',
+    return render_to_response('trayek/index.html',
                               context_instance=RequestContext(request))
 
