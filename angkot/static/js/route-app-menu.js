@@ -6,7 +6,7 @@ app.controller('MenuController', ['$scope', function($scope) {
     $scope.showModal({
       show: true,
       title: 'Apa ini?',
-      content: '<p>Situs ini memiliki misi untuk mengumpulkan seluruh rute/trayek ' +
+      content: '<p>Misi dari situs ini adalah mengumpulkan seluruh rute/trayek ' +
                'angkuan umum yang ada di Indonesia dan menjadi tempat rujukan ' +
                'alternatif pencarian rute.</p> ' +
                '<p>Situs ini dibuat seperti <a href="http://www.wikipedia.org" target="_blank">Wikipedia</a> ' +
