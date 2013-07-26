@@ -10,9 +10,9 @@
 
 <div id="head">
   <h1>Peta Angkutan Umum</h1>
-  <div class="menu">
+  <div class="menu" ng-controller="MenuController">
     <ul>
-    <li><a href="">Apa ini?</a></li>
+    <li><a href="" ng-click="showAbout()">Apa ini?</a></li>
     <li><a href="">Kontak</a></li>
     <!--
     <li><a href="">Login</a></li>
@@ -28,6 +28,8 @@
   </div>
   -->
 </div>
+
+<modal show="modal.show" title="modal.title" content="modal.content"></modal>
 
 <angkot-map id="map" center="center" zoom="zoom" routes="routes"></angkot-map>
 
@@ -75,6 +77,7 @@
 <script type="text/javascript" src="{% static "js/map-config.js" %}"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-sanitize.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
 <script type="text/javascript">
 document.writeln('<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key='+GOOGLE_MAPS_KEY+'&sensor=true&libraries=geometry"></'+'script>');
@@ -86,6 +89,8 @@ document.writeln('<script type="text/javascript" src="https://maps.googleapis.co
 <script type="text/javascript" src="{% static "js/route-app-filters.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-map-element.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-main.js" %}"></script>
+<script type="text/javascript" src="{% static "js/route-app-menu.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-submission.js" %}"></script>
+<script type="text/javascript" src="{% static "js/app-modal.js" %}"></script>
 </body></html>
 

@@ -23,6 +23,18 @@ app.controller('MainController', ['$scope', function($scope) {
     // console.log(value);
   }, true);
 
+  $scope.showModal = function(data) {
+    $scope.modal = $scope.modal || {};
+    if (data === false) {
+      $scope.modal.show = false;
+    }
+    else {
+      if (data.show !== undefined) $scope.modal.show = data.show;
+      if (data.title !== undefined) $scope.modal.title = data.title;
+      if (data.content !== undefined) $scope.modal.content = data.content;
+    }
+  }
+
 }]);
 
 })(window.angkot.app);

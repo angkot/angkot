@@ -1,6 +1,6 @@
 (function(angkot) {
 
-var app = angular.module('AngkotRouteEditor', []);
+var app = angular.module('AngkotRouteEditor', ['modal']);
 
 app.config(function($interpolateProvider, $httpProvider) {
   $interpolateProvider.startSymbol('((');
