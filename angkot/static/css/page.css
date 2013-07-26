@@ -18,6 +18,14 @@ p {
 }
 h1, h2, h3 {
   margin: 5px 0 10px 0;
+  font-family: "Roboto Condensed", "Tahoma", sans-serif;
+  font-weight: normal;
+}
+h1 {
+  font-size: 24px;
+}
+h2 {
+  font-size: 20px;
 }
 h1:first-child, h2:first-child, h3:first-child {
   margin-top: 0px;
