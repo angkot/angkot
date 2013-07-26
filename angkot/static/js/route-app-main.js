@@ -1,6 +1,6 @@
 (function(app) {
 
-var JAKARTA = [-6.1744444, 106.8294444];
+var JAKARTA = [106.8294444, -6.1744444];
 
 app.controller('MainController', ['$scope', function($scope) {
 

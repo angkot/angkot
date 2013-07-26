@@ -14,7 +14,7 @@ app.directive('angkotMap', function() {
 
     $scope.$watch('center', function(pos) {
       if (pos === undefined) return;
-      var center = new gm.LatLng(pos[0], pos[1]);
+      var center = new gm.LatLng(pos[1], pos[0]);
       map.setCenter(center);
     });
 
@@ -52,7 +52,7 @@ app.directive('angkotMap', function() {
       gm.event.addListener(map, 'drag', function() {
         apply(function() {
           var center = map.getCenter();
-          $scope.center = [center.lat(), center.lng()];
+          $scope.center = [center.lng(), center.lat()];
         });
       });
       gm.event.addListener(map, 'zoom_changed', function() {
@@ -67,7 +67,7 @@ app.directive('angkotMap', function() {
       var res = [];
       for (var i=0; i<path.length; i++) {
         var p = path[i];
-        res.push([p.lat(), p.lng()]);
+        res.push([p.lng(), p.lat()]);
       }
       return res;
     }
@@ -76,7 +76,7 @@ app.directive('angkotMap', function() {
       var res = [];
       for (var i=0; i<path.length; i++) {
         var p = path[i];
-        res.push(new gm.LatLng(p[0], p[1]));
+        res.push(new gm.LatLng(p[1], p[0]));
       }
       return res;
     }
