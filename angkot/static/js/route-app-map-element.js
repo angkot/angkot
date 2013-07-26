@@ -5,6 +5,8 @@
 var gm = google.maps;
 var app = angkot.app;
 
+gm.visualRefresh = true;
+
 app.directive('angkotMap', function() {
 
   var controller = ['$scope', '$element', function($scope, $element) {
