@@ -200,28 +200,28 @@ button > i:first-child {
 
 /*= route designer =*/
 
-#buat-rute input[name="perusahaan"] {
+#buat-rute input[name="company"] {
   width: 74%;
   display: inline;
   margin-right: 2%;
 }
-#buat-rute input[name="nomor"] {
+#buat-rute input[name="number"] {
   width: 24%;
   text-align: center;
 }
-#buat-rute button.simpan {
+#buat-rute button.save {
   background: #27AE60;
   color: white;
   font-weight: bold;
 }
-#buat-rute p.setuju {
+#buat-rute p.license-agreement {
   line-height: 26px;
   height: 26px;
 }
-#buat-rute p.setuju input {
+#buat-rute p.license-agreement input {
   vertical-align: middle;
 }
-#buat-rute p.setuju label {
+#buat-rute p.license-agreement label {
   cursor: pointer;
 }
 #buat-rute p.error {

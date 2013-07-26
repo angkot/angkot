@@ -32,24 +32,24 @@
   <div id="buat-rute" ng-controller="SubmissionController" ng-init="init()">
   <h2>Buat Rute</h2>{% csrf_token %}
   <label>Kota</label>
-  <input name="kota" type="text" placeholder="Jakarta, Bandung, ..."
-         ng-model="kota"/>
+  <input name="city" type="text" placeholder="Jakarta, Bandung, ..."
+         ng-model="city"/>
   <label>Perusahaan dan Nomor Angkutan</label>
-  <input name="perusahaan" type="text" placeholder="Kopaja, Mikrolet, ..."
-         ng-model="perusahaan"/><input name="nomor" type="text" ng-model="nomor"/>
+  <input name="company" type="text" placeholder="Kopaja, Mikrolet, ..."
+         ng-model="company"/><input name="number" type="text" ng-model="number"/>
   <label>Lokasi Keberangkatan</label>
-  <input name="berangkat" type="text" placeholder="Blok M, Pasar Minggu, ..."
-         ng-model="berangkat"/>
+  <input name="origin" type="text" placeholder="Blok M, Pasar Minggu, ..."
+         ng-model="origin"/>
   <label>Jurusan</label>
-  <input name="jurusan" type="text" placeholder="Depok, Kampung Melayu, ..."
-         ng-model="jurusan"/>
+  <input name="destination" type="text" placeholder="Depok, Kampung Melayu, ..."
+         ng-model="destination"/>
 
-  <p class="setuju">
-    <input type="checkbox" name="setuju" id="setuju" ng-model="licenseAgreement"/>
-    <label for="setuju">menggunakan lisensi
+  <p class="license-agreement">
+    <input type="checkbox" name="license-agreement" id="license-agreement" ng-model="licenseAgreement"/>
+    <label for="license-agreement">menggunakan lisensi
       <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.id" target="_blank" title="Creative Commons Attribution-ShareAlike 3.0 Unported">CC BY-SA</a></label>
   </p>
-  <p style="text-align:right"><button class="simpan" ng-click="saveRouteCheck()"><i class="icon-ok-sign"></i> Simpan Rute</button></p>
+  <p style="text-align:right"><button class="save" ng-click="saveRouteCheck()"><i class="icon-ok-sign"></i> Simpan Rute</button></p>
   <p ng-show="message" ng-bind="message" class="message"></p>
   <p ng-show="error" ng-bind="error" class="error"></p>
 
