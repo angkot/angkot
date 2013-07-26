@@ -12,13 +12,24 @@ app.directive('angkotMap', function() {
     var map,
         editor;
 
-    $scope.$watch('center', function(value) {
-      var center = new gm.LatLng(value[0], value[1]);
+    $scope.$watch('center', function(pos) {
+      if (pos === undefined) return;
+      var center = new gm.LatLng(pos[0], pos[1]);
       map.setCenter(center);
     });
 
-    $scope.$watch('zoom', function(value) {
-      map.setZoom(value);
+    $scope.$watch('zoom', function(zoom) {
+      if (zoom === undefined) return;
+      map.setZoom(zoom);
+    });
+
+    $scope.$watch('routes', function(routes) {
+      if (routes === undefined) return;
+      var data = [];
+      for (var i=0; i<routes.length; i++) {
+        data.push(makeLatLng(routes[i]));
+      }
+      editor.setRouteArrays(data);
     });
 
     var apply = function(fn) {
@@ -106,16 +117,6 @@ app.directive('angkotMap', function() {
         });
       });
     }
-
-    var setRoutes = function(routes) {
-      var data = [];
-      for (var i=0; i<routes.length; i++) {
-        data.push(makeLatLng(routes[i]));
-      }
-      editor.setRouteArrays(data);
-    }
-
-    $scope.$watch('routes', setRoutes);
 
     $scope.init = function() {
       initMap();

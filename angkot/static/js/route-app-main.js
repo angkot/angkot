@@ -11,14 +11,16 @@ app.controller('MainController', ['$scope', function($scope) {
   }
 
   $scope.$watch('zoom', function(value) {
-    console.log('main: zoom', value);
+    // console.log('main: zoom', value);
   });
   $scope.$watch('center', function(value) {
-    console.log('main: center', value);
+    // console.log('main: center', value);
   });
 
-  $scope.$watch('routes', function(value) {
-    console.log('routes updated');
+  $scope.$watch('routes', function(value, old) {
+    // console.log('routes updated');
+    // console.log(old);
+    // console.log(value);
   }, true);
 
 }]);
