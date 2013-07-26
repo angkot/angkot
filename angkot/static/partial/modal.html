@@ -1,0 +1,8 @@
+<div class="modal" ng-show="show" ng-click="close()">
+  <div class="c" ng-click="$event.stopPropagation();">
+    <div class="close" ng-click="close()">&times;</div>
+    <h2 ng-show="title" ng-bind="title"></h2>
+    <div class="content" ng-show="content" ng-bind-html="content"></div>
+  </div>
+</div>
+
