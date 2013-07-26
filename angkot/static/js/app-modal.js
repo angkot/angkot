@@ -6,8 +6,8 @@ mod.directive('modal', function() {
   return {
     restrict: 'E',
     scope: {
-      title: '=?title',
-      content: '=?content',
+      title: '=?titleText',
+      content: '=?contentHtml',
       show: '=?show',
     },
     templateUrl: '/static/partial/modal.html',
