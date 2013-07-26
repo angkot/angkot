@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     'south',
     'angkot.trayek',
+    'angkot.route',
 )
 
 # A sample logging configuration. The only tangible logging
