@@ -17,6 +17,20 @@ app.controller('MenuController', ['$scope', function($scope) {
     });
   }
 
+  $scope.showContact = function() {
+    $scope.showModal({
+      show: true,
+      title: 'Kontak',
+      content: '<p>Jika Anda memiliki saran, kritik, dan pertanyaan, ' +
+               'silakan hubungi:</p>' +
+               '<p class="vcard"><span class="fn">Fajran Iman Rusadi</span><br/>' +
+               '<i class="icon-envelope"></i> <a class="email" href="mailto:kontak@angkot.web.id">kontak@angkot.web.id</a><br/>' +
+               '<i class="icon-twitter"></i> <a class="url" href="http://twitter.com/fajran">@fajran</a></p>' +
+               '<p>Kode dari aplikasi ini juga tersedia di GitHub<br/>' +
+               '<i class="icon-github-alt"></i> <a href="https://github.com/fajran/angkot">https://github.com/fajran/angkot</a></p>',
+    });
+  }
+
 }]);
 
 })(window.angkot.app);
