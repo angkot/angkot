@@ -42,8 +42,8 @@ app.controller('MainController', ['$scope', function($scope) {
   }
 
   $scope.$watch('routes', function(v, o) {
-    console.log('main routes updated', v, o);
-    console.log(JSON.stringify(v));
+    // console.log('main routes updated', v, o);
+    // console.log(JSON.stringify(v));
   }, true);
 }]);
 
@@ -108,7 +108,6 @@ app.directive('angkotMap', function() {
         $scope.$apply(function() {
           $scope.routes[index] = extractPath(routes[index]);
         });
-        console.log('route_updated', index);
       });
       gm.event.addListener(editor, 'route_merged', function(e) {
         var routes = editor.getRoutes();
@@ -129,7 +128,6 @@ app.directive('angkotMap', function() {
         $scope.$apply(function() {
           $scope.routes.splice(index, 1);
         });
-        console.log('route_deleted', index);
       });
     }
 
@@ -222,7 +220,6 @@ var RouteEditor = (function() {
   }
 
   P._clear = function() {
-    console.log('clear');
     for (var i=0; i<this._routes.length; i++) {
       var route = this._routes[i];
       route.setMap(null);
