@@ -39,6 +39,16 @@ app.controller('MainController', ['$scope', function($scope) {
     }
   }
 
+  $scope.showModalFrom = function(selector) {
+    var title = jQuery(selector).find('> h2').text();
+    var content = jQuery(selector).find('> .content').html();
+    $scope.showModal({
+      show: true,
+      title: title,
+      content: content,
+    });
+  }
+
   $scope.search = function() {
     var q = jQuery.trim($scope.searchQuery);
     if (!q) return;

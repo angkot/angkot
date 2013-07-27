@@ -12,10 +12,6 @@
 <div id="head">
   <h1>Peta Angkutan Umum</h1>
   <div class="menu" ng-controller="MenuController">
-    <p style="display:none" class="contact vcard"><span class="fn">Fajran Iman Rusadi</span><br/>
-    <i class="icon-envelope"></i> <a target="_blank" class="email" href="mailto:kontak@angkot.web.id">kontak@angkot.web.id</a><br/>
-    <i class="icon-twitter"></i> <a target="_blank" class="url" href="http://twitter.com/fajran">@fajran</a>
-    </p>
     <ul>
     <li><a href="" ng-click="showAbout()">Apa ini?</a></li>
     <li><a href="" ng-click="showContact()">Kontak</a></li>
@@ -33,6 +29,38 @@
     <button><i class="icon-plus-sign"></i> Buat Rute</button>
   </div>
   -->
+</div>
+
+<div style="display:none">
+  <div id="about-content">
+    <h2>Apa ini?</h2>
+    <div class="content">
+      <p>Misi dari situs ini adalah mengumpulkan seluruh rute/trayek
+      angkutan umum yang ada di Indonesia dan menjadi tempat rujukan
+      alternatif pencarian rute.</p>
+      <p>Situs ini dibuat seperti <a href="http://www.wikipedia.org" target="_blank">Wikipedia</a>
+      dan <a href="http://www.openstreetmap.org" target="_blank">OpenStreetMap</a>
+      sehingga siapapun dapat ikut serta memasukkan dan menyempurnakan
+      data yang ada. Data rute yang dikumpulkan bersifat terbuka dan
+      dapat digunakan untuk kepentingan apa saja, selama sesuai dengan
+      <a href="http://opendatacommons.org/licenses/odbl/summary/" target="_blank">ketentuan penggunaan data</a>.</p>
+    </div>
+  </div>
+  <div id="contact-content">
+    <h2>Kontak</h2>
+    <div class="content">
+      <p>Jika Anda memiliki saran, kritik, dan pertanyaan, silakan
+      hubungi:</p>
+      <p class="contact vcard">
+        <span class="fn">Fajran Iman Rusadi</span><br/>
+        <i class="icon-envelope"></i> <a target="_blank" class="email" href="mailto:kontak@angkot.web.id">kontak@angkot.web.id</a><br/>
+        <i class="icon-twitter"></i> <a target="_blank" class="url" href="http://twitter.com/fajran">@fajran</a>
+      </p>
+      <p>Kode dari aplikasi ini tersedia di GitHub<br/>
+        <i class="icon-github-alt"></i> <a target="_blank" href="https://github.com/fajran/angkot">https://github.com/fajran/angkot</a>
+      </p>
+    </div>
+  </div>
 </div>
 
 <modal show="modal.show" title-text="modal.title" content-html="modal.content"></modal>
