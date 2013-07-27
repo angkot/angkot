@@ -5,19 +5,21 @@ var JAKARTA = [106.8294444, -6.1744444];
 app.controller('MainController', ['$scope', function($scope) {
 
   $scope.init = function() {
-    $scope.center = JAKARTA;
-    $scope.zoom = 12;
-    $scope.routes = [];
+    $scope.map = {
+      center: JAKARTA,
+      zoom: 12,
+      routes: [],
+    }
   }
 
-  $scope.$watch('zoom', function(value) {
+  $scope.$watch('map.zoom', function(value) {
     // console.log('main: zoom', value);
   });
-  $scope.$watch('center', function(value) {
+  $scope.$watch('map.center', function(value) {
     // console.log('main: center', value);
   });
 
-  $scope.$watch('routes', function(value, old) {
+  $scope.$watch('map.routes', function(value, old) {
     // console.log('routes updated');
     // console.log(old);
     // console.log(value);
