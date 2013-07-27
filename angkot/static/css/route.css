@@ -27,23 +27,26 @@
   line-height: 24px;
   margin-left: -5px;
 }
-#head .search {
-  display: inline-block;
+
+#head div.search {
   height: 40px;
   margin-left: 10px;
+  left: 270px;
+  top: 0px;
+  position: absolute;
 }
-#head .search input,
-#head .search button {
+#head div.search input,
+#head div.search button {
   height: 26px;
   border: 1px solid #ccc;
   padding: 0 5px;
   line-height: 26px;
 }
-#head .search input {
+#head div.search input {
   width: 200px;
   border-radius: 2px 0 0 2px;
 }
-#head .search button {
+#head div.search button {
   padding: 0 10px;
   height: 28px;
   border-left: 0px;
@@ -51,11 +54,7 @@
   border-radius: 0 2px 2px 0;
   cursor: pointer;
 }
-#head .new-route {
-  display: inline-block;
-  height: 40px;
-  margin-left: 10px;
-}
+
 #head .menu {
   float: right;
 }
