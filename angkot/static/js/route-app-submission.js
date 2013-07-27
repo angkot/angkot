@@ -31,7 +31,7 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
         berangkat: $scope.origin,
         jurusan: $scope.destination,
         license: {
-          'CC BY-SA': $scope.licenseAgreement
+          'ODbL v1.0': $scope.licenseAgreement
         }
       },
       geometry: {
@@ -55,6 +55,11 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
         $scope.error = 'Gagal! code='+status;
       });
   }
+
+  $scope.showLicense = function() {
+    $scope.showModalFrom('#license-info-content');
+  }
+
 }]);
 
 })(window.angkot.app);

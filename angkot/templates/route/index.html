@@ -61,6 +61,25 @@
       </p>
     </div>
   </div>
+  <div id="license-info-content">
+    <h2>Lisensi?</h2>
+    <div class="content">
+      <p>Situs ini bertujuan untuk mengumpulkan data kolektif yang
+      bersifat terbuka. Oleh karena itu, data yang dikumpulkan harus
+      diberi dengan lisensi yang memungkinkan hal tersebut.</p>
+      <p>Lisensi yang kami pilih adalah
+      <a href="http://opendatacommons.org/licenses/odbl/1-0/">Open Database License (ODbL) v1.0</a>
+      (<a href="http://wiki.openstreetmap.org/wiki/Open_Database_License">ringkasan</a>),
+      sama dengan seperti yang digunakan oleh
+      <a href="http://wiki.openstreetmap.org/wiki/Open_Database_License">OpenStreetMap</a>.</p>
+      <p>Dengan lisensi ini Anda dapat dengan bebas menyalin, mengumumkan,
+      menyebarkan, dan mengadaptasi data yang ada selama Anda memberikan
+      atribusi terhadap situs ini dan kontributornya. Jika anda mengubah,
+      mengalihrupakan, atau membuat sesuatu berdasarkan data yang ada,
+      Anda harus mengumumkan yang Anda buat dengan lisensi yang sama atau
+      sejenis dengan lisensi ini.</p>
+    </div>
+  </div>
 </div>
 
 <modal show="modal.show" title-text="modal.title" content-html="modal.content"></modal>
@@ -90,7 +109,8 @@
   <p class="license-agreement">
     <input type="checkbox" name="license-agreement" id="license-agreement" ng-model="licenseAgreement"/>
     <label for="license-agreement">menggunakan lisensi
-      <a href="http://creativecommons.org/licenses/by-sa/3.0/deed.id" target="_blank" title="Creative Commons Attribution-ShareAlike 3.0 Unported">CC BY-SA</a></label>
+      <a href="" title="Open Database License (ODbL) v1.0"
+         ng-click="showLicense(); $event.stopPropagation();">ODbL v1.0</a></label>
   </p>
   <p style="text-align:right"><button class="save" ng-click="saveRouteCheck()"><i class="icon-ok-sign"></i> Simpan Rute</button></p>
   <p ng-show="message" ng-bind="message" class="message"></p>
