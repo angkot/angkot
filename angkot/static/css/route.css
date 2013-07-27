@@ -23,9 +23,15 @@
 }
 #head .alpha {
   float: left;
-  color: red;
   line-height: 24px;
   margin-left: -5px;
+}
+#head .alpha a {
+  color: #e00;
+  text-decoration: none;
+}
+#head .alpha a:hover {
+  color: #f00;
 }
 
 #head div.search {
