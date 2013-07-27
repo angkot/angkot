@@ -67,14 +67,6 @@
   <p ng-show="message" ng-bind="message" class="message"></p>
   <p ng-show="error" ng-bind="error" class="error"></p>
 
-  <div class="path-info" ng-show="pathInfo.length">
-    <p class="start" ng-show="pathInfo.start" ng-bind="pathInfo.start.place"></p>
-    <p class="arrow" ng-show="pathInfo.start && pathInfo.end"><i class="icon-long-arrow-down"></i></p>
-    <p class="length"><span ng-bind="pathInfo.length | lengthUnit"></span></p>
-    <p class="arrow" ng-show="pathInfo.start && pathInfo.end"><i class="icon-long-arrow-down"></i></p>
-    <p class="end" ng-show="pathInfo.end" ng-bind="pathInfo.end.place"></p>
-  </div>
-
   </div>
 
 </div>
