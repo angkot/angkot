@@ -48,6 +48,22 @@ a:hover {
   text-decoration: underline;
 }
 
+input {
+  border: 1px solid #aaa;
+}
+input:focus {
+  box-shadow: 0px 0 5px 0px rgba(0, 128, 255, 0.8);
+  border-color: #08f;
+  outline: none;
+}
+input.error {
+  border-color: red;
+}
+input.error:focus {
+  box-shadow: 0px 0 5px 0px rgba(255, 0, 0, 0.5);
+  outline: none;
+}
+
 /*= modal =*/
 
 .modal {
