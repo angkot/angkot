@@ -195,6 +195,13 @@
 #new-route p.error {
   color: red;
 }
+#new-route p.incomplete strong {
+  text-decoration: underline;
+  font-weight: normal;
+}
+#new-route p.incomplete strong.ok {
+  text-decoration: none;
+}
 
 #new-route .path-info p {
   margin: 0px;

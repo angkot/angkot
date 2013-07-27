@@ -1,8 +1,10 @@
 (function(app) {
 
-var JAKARTA = [-6.1744444, 106.8294444];
-
 app.controller('SubmissionController', ['$scope', '$http', function($scope, $http) {
+
+  $scope.checked = false;
+  $scope.valid = false;
+  $scope.incomplete = false;
 
   $scope.init = function() {
   }
@@ -10,12 +12,39 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
   $scope.saveRouteCheck = function() {
     $scope.error = null;
     $scope.message = null;
+    $scope.errorIncomplete = false;
 
-    if (!$scope.licenseAgreement) {
-      $scope.error = 'Demi kepentingan pengayaan data, rute yang Anda kirim perlu dilisensikan di bawah CC BY-SA. Silakan beri tanda centang jika Anda setuju.';
-      return;
+    var valid = true;
+
+    var focus = function(name) {
+      jQuery('#new-route input[name="'+name+'"]').focus();
     }
-    $scope.saveRoute();
+
+    if (!$scope.city) {
+      focus('city');
+      valid = false;
+    }
+
+    if (valid && !$scope.number) {
+      focus('number');
+      valid = false;
+    }
+
+    if (valid && !$scope.licenseAgreement) {
+      focus('license-agreement');
+      valid = false;
+    }
+
+    if (valid && $scope.map.routes.length === 0) {
+      valid = false;
+    }
+
+    $scope.incomplete = !valid;
+    $scope.checked = true;
+
+    if (valid) {
+      $scope.saveRoute();
+    }
   }
 
   $scope.saveRoute = function() {
@@ -49,6 +78,7 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
       .success(function(data) {
         $scope.message = 'Terima kasih atas partisipasi Anda!';
         $scope.parentId = data.submission_id;
+        $scope.checked = false;
       })
       .error(function(msg, status) {
         $scope.message = null;
