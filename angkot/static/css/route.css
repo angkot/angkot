@@ -50,18 +50,6 @@
   height: 40px;
   margin-left: 10px;
 }
-#head .new-route button {
-  border: 0px;
-  padding: 0 10px;
-  height: 28px;
-  margin-bottom: 4px;
-  border-radius: 2px;
-  cursor: pointer;
-  background: #e74c3c;
-  color: white;
-  font-weight: bold;
-  line-height: 28px;
-}
 #head .menu {
   float: right;
 }
@@ -113,22 +101,6 @@
   bottom: 0px;
   border-radius: 0;
 }
-.sidepanel > .close {
-  float: right;
-  cursor: pointer;
-  padding: 5px;
-  margin: -10px -5px;
-  display: inline-block;
-  height: 12px;
-  width: 12px;
-  line-height: 12px;
-  font-size: 16px;
-  text-align: center;
-  color: #444;
-}
-.sidepanel > .close:hover {
-  box-shadow: 0 0 2px 2px #eee;
-}
 .sidepanel h2 {
   font-size: 16px;
 }
@@ -144,14 +116,6 @@
 }
 .sidepanel label {
   color: #444;
-}
-.sidepanel button {
-  border: 0px;
-  height: 26px;
-  line-height: 26px;
-  padding: 0 10px;
-  border-radius: 2px;
-  cursor: pointer;
 }
 .sidepanel hr {
   border: 0;
@@ -176,11 +140,6 @@
 #new-route input[name="number"] {
   width: 24%;
   text-align: center;
-}
-#new-route button.save {
-  background: #27AE60;
-  color: white;
-  font-weight: bold;
 }
 #new-route p.license-agreement {
   line-height: 26px;
