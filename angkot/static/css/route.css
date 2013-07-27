@@ -21,6 +21,12 @@
   display: inline-block;
   float: left;
 }
+#head .alpha {
+  float: left;
+  color: red;
+  line-height: 24px;
+  margin-left: -5px;
+}
 #head .search {
   display: inline-block;
   height: 40px;
