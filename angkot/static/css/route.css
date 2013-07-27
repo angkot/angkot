@@ -130,6 +130,30 @@
   margin-bottom: 0px;
 }
 
+.sidepanel .nav {
+  margin-top: -15px;
+  margin-left: -15px;
+  margin-bottom: 15px;
+  margin-right: -15px;
+  box-shadow: 0 0 5px 0 rgba(192, 192, 192, 0.8);
+}
+.sidepanel .nav li {
+  display: inline-block;
+  background: white;
+  line-height: 28px;
+  height: 28px;
+  padding: 4px 10px 0 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.sidepanel .nav li.active {
+  background: #eee;
+  border-bottom: 2px solid #eee;
+}
+.sidepanel .nav li:hover {
+  border-bottom: 2px solid #ccc;
+}
+
 /*= route designer =*/
 
 #new-route input[name="company"] {

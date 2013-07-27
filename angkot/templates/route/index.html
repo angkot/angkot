@@ -86,13 +86,20 @@
 
 <angkot-map id="map" center="map.center" zoom="map.zoom" routes="map.routes" viewport="map.viewport"></angkot-map>
 
-<div class="sidepanel full">
+<div class="sidepanel">
   <!--
-  <div class="close">&times;</div>
+  <div class="nav">
+  <ul>
+  <li class="active">Buat Rute</i>
+  <li>Daftar Rute</i>
+  <li>Feedback</i>
+  </ul>
+  </div>
   -->
 
   <div id="new-route" ng-controller="SubmissionController" ng-init="init()">
-  <h2>Buat Rute</h2>{% csrf_token %}
+  <h2>Buat Rute</h2>
+  {% csrf_token %}
   <label>Kota</label>
   <input name="city" type="text" placeholder="Jakarta, Bandung, ..."
          ng-model="city" ng-class="{'error': checked && !city}"/>
