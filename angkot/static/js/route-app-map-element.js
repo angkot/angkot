@@ -48,6 +48,13 @@ app.directive('angkotMap', function() {
         mapTypeId: gm.MapTypeId.ROADMAP,
         streetViewControl: false,
         draggableCursor: 'crosshair',
+        styles: [{
+          featureType: 'poi',
+          elementType: 'labels',
+          stylers: [{
+            visibility: 'off'
+          }]
+        }],
       }
       map = new gm.Map($element[0], opts);
 
