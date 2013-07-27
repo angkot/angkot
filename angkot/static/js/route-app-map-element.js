@@ -34,6 +34,13 @@ app.directive('angkotMap', function() {
       editor.setRouteArrays(data);
     });
 
+    $scope.$watch('viewport', function(value) {
+      if (value === undefined) return;
+      var bounds = new gm.LatLngBounds(new gm.LatLng(value[0][1], value[0][0]),
+                                       new gm.LatLng(value[1][1], value[1][0]));
+      map.fitBounds(bounds);
+    });
+
     var apply = function(fn) {
       if ($scope.$$phase || $scope.$root.$$phase) {
         fn();
@@ -142,6 +149,7 @@ app.directive('angkotMap', function() {
       center: '=center',
       zoom: '=zoom',
       routes: '=routes',
+      viewport: '=viewport',
     },
     link: function(scope, element, attrs) {
       scope.init();
