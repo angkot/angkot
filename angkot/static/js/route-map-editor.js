@@ -87,6 +87,7 @@ P._initEvents = function() {
     gm.event.addListener(this._map, 'mouseout', function(e) { self._onMouseOut(e); }),
     gm.event.addListener(this._map, 'click', function(e) { self._onClick(e); }),
     gm.event.addDomListener(document, 'keyup', function(e) { self._onKeyUp(e); }),
+    gm.event.addDomListener(document, 'keydown', function(e) { self._onKeyDown(e); }),
   ]
 }
 
@@ -168,9 +169,14 @@ P._onClick = function(e) {
 }
 
 P._onKeyUp = function(e) {
+  this._shiftKey = e.shiftKey;
   if (e.keyCode == 27) { // esc
     this._stopDrawing();
   }
+}
+
+P._onKeyDown = function(e) {
+  this._shiftKey = e.shiftKey;
 }
 
 P._stopDrawing = function() {
@@ -220,7 +226,7 @@ P._onRouteClick = function(route, e) {
     }
   }
   else if (this._route) {
-    if (tip && window.event.shiftKey) {
+    if (tip && this._shiftKey) {
       // merge
 
       var index = this._routes.indexOf(this._route);
@@ -254,7 +260,7 @@ P._onRouteClick = function(route, e) {
     }
   }
   else {
-    if (window.event.shiftKey) {
+    if (this._shiftKey) {
       var index = this._routes.indexOf(route);
       path.removeAt(e.vertex);
       if (path.getLength() == 1) {
