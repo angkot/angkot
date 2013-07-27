@@ -203,17 +203,6 @@
   text-decoration: none;
 }
 
-#new-route .path-info p {
-  margin: 0px;
-}
-#new-route .path-info .arrow {
-  color: #aaa;
-  padding-left: 15px;
-}
-#new-route .path-info {
-  margin-top: 30px;
-}
-
 /*= angkot map =*/
 
 .angkot-map-tooltip {
