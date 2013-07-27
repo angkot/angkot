@@ -36,6 +36,9 @@ h1:last-child, h2:last-child, h3:last-child {
 button > i:first-child {
   margin-right: 5px;
 }
+button > i:last-child {
+  margin-right: 0px;
+}
 
 a {
   text-decoration: none;

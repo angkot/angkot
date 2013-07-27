@@ -2,6 +2,8 @@
 
 var JAKARTA = [106.8294444, -6.1744444];
 
+var geocoder = new google.maps.Geocoder();
+
 app.controller('MainController', ['$scope', function($scope) {
 
   $scope.init = function() {
@@ -35,6 +37,32 @@ app.controller('MainController', ['$scope', function($scope) {
       if (data.title !== undefined) $scope.modal.title = data.title;
       if (data.content !== undefined) $scope.modal.content = data.content;
     }
+  }
+
+  $scope.search = function() {
+    var q = jQuery.trim($scope.searchQuery);
+    if (!q) return;
+
+    var query = {
+      address: q,
+      region: 'ID',
+    }
+    geocoder.geocode(query,
+      function(results, status) {
+        console.log(results);
+        var pos = results[0].geometry.location;
+        var center = [pos.lng(), pos.lat()];
+
+        var v = results[0].geometry.viewport;
+        var sw = v.getSouthWest();
+        var ne = v.getNorthEast();
+        var viewport = [[sw.lng(), sw.lat()], [ne.lng(), ne.lat()]];
+        console.log('center', center, 'viewport', viewport);
+        $scope.$apply(function() {
+          $scope.map.viewport = viewport;
+          //$scope.map.center = center;
+        });
+      });
   }
 
 }]);
