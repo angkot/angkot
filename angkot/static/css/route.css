@@ -169,42 +169,42 @@
 
 /*= route designer =*/
 
-#buat-rute input[name="company"] {
+#new-route input[name="company"] {
   width: 74%;
   display: inline;
   margin-right: 2%;
 }
-#buat-rute input[name="number"] {
+#new-route input[name="number"] {
   width: 24%;
   text-align: center;
 }
-#buat-rute button.save {
+#new-route button.save {
   background: #27AE60;
   color: white;
   font-weight: bold;
 }
-#buat-rute p.license-agreement {
+#new-route p.license-agreement {
   line-height: 26px;
   height: 26px;
 }
-#buat-rute p.license-agreement input {
+#new-route p.license-agreement input {
   vertical-align: middle;
 }
-#buat-rute p.license-agreement label {
+#new-route p.license-agreement label {
   cursor: pointer;
 }
-#buat-rute p.error {
+#new-route p.error {
   color: red;
 }
 
-#buat-rute .path-info p {
+#new-route .path-info p {
   margin: 0px;
 }
-#buat-rute .path-info .arrow {
+#new-route .path-info .arrow {
   color: #aaa;
   padding-left: 15px;
 }
-#buat-rute .path-info {
+#new-route .path-info {
   margin-top: 30px;
 }
 
