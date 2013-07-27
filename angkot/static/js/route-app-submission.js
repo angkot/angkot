@@ -65,7 +65,7 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
       },
       geometry: {
         type: 'MultiLineString',
-        coordinates: $scope.routes,
+        coordinates: $scope.map.routes,
       },
     }
 
