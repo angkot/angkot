@@ -29,6 +29,7 @@ class Submission(models.Model):
 
     parsed_ok = models.NullBooleanField(**optional)
     parsed_date = models.DateTimeField(**optional)
+    parsed_error = models.CharField(max_length=1024, **optional)
 
     # Internal
     active = models.BooleanField(default=True)
