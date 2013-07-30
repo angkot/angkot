@@ -50,11 +50,15 @@ def parseData(submission):
     for field in fields:
         if field in prop:
             setattr(submission, field, prop[field])
+        else:
+            setattr(submission, field, None)
 
     # Fill route
     if len(data.geometry.coordinates):
         geometry = asShape(data.geometry)
         submission.route = geometry.wkt
+    else:
+        submission.route = None
 
 def validateData(submission):
     # required fields
@@ -68,6 +72,7 @@ def process(submission):
         parseData(submission)
         validateData(submission)
         submission.parsed_ok = True
+        submission.parsed_error = None
     except StandardError, e:
         submission.parsed_error = str(e)
         submission.parsed_ok = False
