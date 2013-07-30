@@ -35,10 +35,6 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
       valid = false;
     }
 
-    if (valid && $scope.map.routes.length === 0) {
-      valid = false;
-    }
-
     $scope.incomplete = !valid;
     $scope.checked = true;
 
