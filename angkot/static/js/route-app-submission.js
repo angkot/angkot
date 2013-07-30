@@ -8,6 +8,12 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
   $scope.saved = false;
   $scope.modified = false;
 
+  $scope.city = '';
+  $scope.company = '';
+  $scope.number = '';
+  $scope.origin = '';
+  $scope.destination = '';
+
   $scope.init = function() {
   }
 
@@ -104,9 +110,12 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
   });
 
   function updateModified() {
-    $scope.modified = $scope.city || $scope.company || $scope.number ||
-                      $scope.origin || $scope.destination ||
-                      $scope.map.routes;
+    $scope.modified = $scope.city !== '' ||
+                      $scope.company !== '' ||
+                      $scope.number !== '' ||
+                      $scope.origin !== '' ||
+                      $scope.destination !== '' ||
+                      $scope.map.routes.length > 0;
   }
 
   $scope.$watch('city', updateModified);
