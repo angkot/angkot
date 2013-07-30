@@ -44,3 +44,20 @@ def index(request):
     return render_to_response('route/index.html',
                               context_instance=RequestContext(request))
 
+@api
+def submission_list(request):
+    batch = 25
+    start = int(request.GET.get('start', 0))
+
+    items = Submission.objects.filter(active=True)
+    items = items[start:start+batch]
+
+    def format_item(item):
+        return dict(created=int(item.created.strftime("%s")),
+                    geojson=item.to_geojson())
+
+    submissions = [format_item(item) for item in items]
+
+    data = dict(submissions=submissions)
+    return OK(data)
+

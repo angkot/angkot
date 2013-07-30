@@ -36,6 +36,9 @@ class Submission(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ('-updated',)
+
     def to_geojson(self):
         import geojson
         from shapely.geometry import asMultiLineString
