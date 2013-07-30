@@ -98,7 +98,7 @@
   </ul>
   </div>
 
-  <div id="editor" ng-controller="SubmissionController" ng-init="init()">
+  <div id="editor" ng-controller="EditorController" ng-init="init()">
   {% csrf_token %}
   <label>Kota</label>
   <input name="city" type="text" placeholder="Jakarta, Bandung, ..." maxlength="256"
@@ -150,7 +150,7 @@
 <script type="text/javascript" src="{% static "js/route-app-map-element.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-main.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-menu.js" %}"></script>
-<script type="text/javascript" src="{% static "js/route-app-submission.js" %}"></script>
+<script type="text/javascript" src="{% static "js/route-app-editor.js" %}"></script>
 <script type="text/javascript" src="{% static "js/app-modal.js" %}"></script>
 
 {% if GOOGLE_ANALYTICS_ID %}

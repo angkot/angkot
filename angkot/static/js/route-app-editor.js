@@ -1,6 +1,6 @@
 (function(app) {
 
-app.controller('SubmissionController', ['$scope', '$http', function($scope, $http) {
+app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
 
   $scope.checked = false;
   $scope.valid = false;
