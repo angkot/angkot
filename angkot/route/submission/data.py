@@ -3,8 +3,21 @@ from datetime import datetime
 import geojson
 from shapely.geometry import asShape
 
+_max_length = None
+
+def _get_max_lengths(field_map):
+    from ..models import Submission
+    res = {}
+
+    for field in field_map:
+        res[field] = Submission._meta.get_field(field).max_length
+
+    return res
+
 def normalize(prop):
     '''Convert old format to the new one'''
+
+    global _max_length
 
     field_map = dict(city='kota',
                      company='perusahaan',
@@ -14,6 +27,15 @@ def normalize(prop):
     for new, old in field_map.items():
         if old in prop:
             prop[new] = prop[old]
+
+    # Cut values that are too long
+    if _max_length is None:
+        _max_length = _get_max_lengths(field_map)
+
+    for field in field_map:
+        max_length = _max_length[field]
+        if field in prop and prop[field] is not None:
+            prop[field] = prop[field][:max_length]
 
     return prop
 
