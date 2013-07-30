@@ -41,11 +41,11 @@ def validateData(submission):
             raise ValueError('Incomplete data')
 
 def process(submission):
-    parseData(submission)
     try:
+        parseData(submission)
         validateData(submission)
         submission.parsed_ok = True
-    except ValueError, e:
+    except StandardError, e:
         submission.parsed_error = str(e)
         submission.parsed_ok = False
 
