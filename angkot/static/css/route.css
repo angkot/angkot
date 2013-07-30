@@ -167,33 +167,33 @@
 
 /*= route designer =*/
 
-#new-route input[name="company"] {
+#editor input[name="company"] {
   width: 74%;
   display: inline;
   margin-right: 2%;
 }
-#new-route input[name="number"] {
+#editor input[name="number"] {
   width: 24%;
   text-align: center;
 }
-#new-route p.license-agreement {
+#editor p.license-agreement {
   line-height: 26px;
   height: 26px;
 }
-#new-route p.license-agreement input {
+#editor p.license-agreement input {
   vertical-align: middle;
 }
-#new-route p.license-agreement label {
+#editor p.license-agreement label {
   cursor: pointer;
 }
-#new-route p.error {
+#editor p.error {
   color: red;
 }
-#new-route p.incomplete strong {
+#editor p.incomplete strong {
   text-decoration: underline;
   font-weight: normal;
 }
-#new-route p.incomplete strong.ok {
+#editor p.incomplete strong.ok {
   text-decoration: none;
 }
 
