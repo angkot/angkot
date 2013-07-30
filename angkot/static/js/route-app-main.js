@@ -30,6 +30,12 @@ app.controller('MainController', ['$scope', function($scope) {
     // console.log(value);
   }, true);
 
+  $scope.setMapData = function(data) {
+    if (data.center) $scope.map.center = data.center;
+    if (data.zoom) $scope.map.zoom = data.zoom;
+    if (data.routes) $scope.map.routes = data.routes;
+  }
+
   $scope.showModal = function(data) {
     $scope.modal = $scope.modal || {};
     if (data === false) {

@@ -126,6 +126,43 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
   $scope.$watch('licenseAgreement', updateModified);
   $scope.$watch('map.routes', updateModified, true);
 
+  // save/restore data
+
+  $scope.stashData = function() {
+    var routes = [];
+    for (var i=0; i<$scope.map.routes.length; i++) {
+      routes.push($scope.map.routes[i].slice());
+    }
+    var map = {
+      center: $scope.map.center,
+      zoom: $scope.map.zoom,
+      routes: routes,
+    }
+
+    $scope.stash = {
+      city: $scope.city,
+      company: $scope.company,
+      number: $scope.number,
+      origin: $scope.origin,
+      destination: $scope.destination,
+      licenseAgreement: $scope.licenseAgreement,
+      map: map,
+    }
+  }
+
+  $scope.unstashData = function() {
+    var stash = $scope.stash;
+    if (!stash) return;
+
+    $scope.city = stash.city;
+    $scope.company = stash.company;
+    $scope.number = stash.number;
+    $scope.origin = stash.origin;
+    $scope.destination = stash.destination;
+    $scope.licenseAgreement = stash.licenseAgreement;
+    $scope.setMapData(stash.map);
+  }
+
 }]);
 
 })(window.angkot.app);
