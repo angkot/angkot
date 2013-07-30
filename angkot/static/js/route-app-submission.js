@@ -5,6 +5,8 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
   $scope.checked = false;
   $scope.valid = false;
   $scope.incomplete = false;
+  $scope.saved = false;
+  $scope.modified = false;
 
   $scope.init = function() {
   }
@@ -75,6 +77,7 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
         $scope.message = 'Terima kasih atas partisipasi Anda!';
         $scope.parentId = data.submission_id;
         $scope.checked = false;
+        $scope.saved = true;
       })
       .error(function(msg, status) {
         $scope.message = null;
@@ -93,7 +96,26 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
     $scope.origin = '';
     $scope.destination = '';
     $scope.licenseAgreement = false;
+    $scope.modified = false;
+    $scope.saved = false;
+    $scope.checked = false;
+    $scope.message = null;
+    $scope.error = null
   });
+
+  function updateModified() {
+    $scope.modified = $scope.city || $scope.company || $scope.number ||
+                      $scope.origin || $scope.destination ||
+                      $scope.map.routes;
+  }
+
+  $scope.$watch('city', updateModified);
+  $scope.$watch('company', updateModified);
+  $scope.$watch('number', updateModified);
+  $scope.$watch('origin', updateModified);
+  $scope.$watch('destination', updateModified);
+  $scope.$watch('licenseAgreement', updateModified);
+  $scope.$watch('map.routes', updateModified, true);
 
 }]);
 
