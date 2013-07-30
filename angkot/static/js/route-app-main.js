@@ -75,6 +75,22 @@ app.controller('MainController', ['$scope', function($scope) {
       });
   }
 
+  $scope.resetMapCheck = function() {
+    var msg = 'Apakah Anda yakin untuk menghapus semua data yang sudah ' +
+              'Anda masukkan dan mengulangi dari awal?';
+    if (confirm(msg)) {
+      $scope.resetMap();
+    }
+  }
+
+  $scope.resetMap = function() {
+    $scope.$broadcast('map-reset');
+  }
+
+  $scope.$on('map-reset', function() {
+    $scope.map.routes = [];
+  });
+
 }]);
 
 })(window.angkot.app);

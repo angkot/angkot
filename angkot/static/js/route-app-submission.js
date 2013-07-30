@@ -86,6 +86,15 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
     $scope.showModalFrom('#license-info-content');
   }
 
+  $scope.$on('map-reset', function() {
+    $scope.city = '';
+    $scope.company = '';
+    $scope.number = '';
+    $scope.origin = '';
+    $scope.destination = '';
+    $scope.licenseAgreement = false;
+  });
+
 }]);
 
 })(window.angkot.app);
