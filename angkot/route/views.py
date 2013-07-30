@@ -1,8 +1,9 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
-from angkot.decorators import api, OK
+from angkot.decorators import api, OK, Fail
 from .models import Submission
+from .submission.data import process as processSubmission
 
 @api
 def _save_route(request):
@@ -25,9 +26,16 @@ def _save_route(request):
     submission.raw_geojson = raw
     submission.save()
 
+    processSubmission(submission)
+    submission.save()
+
     data = dict(submission_id=submission.submission_id)
-    res = OK(data, http_code=201)
-    res['Location'] = '/trayek/+%s/' % submission.submission_id
+    if submission.parsed_ok:
+        res = OK(data, http_code=201)
+        res['Location'] = '/trayek/+%s/' % submission.submission_id
+    else:
+        res = Fail(data, http_code=400,
+                   error_code=400, error_msg='Invalid data')
     return res
 
 def index(request):
