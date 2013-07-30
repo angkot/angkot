@@ -36,3 +36,28 @@ class Submission(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def to_geojson(self):
+        import geojson
+        from shapely.geometry import asMultiLineString
+
+        if self.route is not None:
+            p = asMultiLineString(self.route)
+            geometry = geojson.loads(geojson.dumps(p))
+        else:
+            geometry = {
+                'type': 'MultiLineString',
+                'coordinates': []
+            }
+
+        return {
+            'type': 'Feature',
+            'properties': {
+                'city': self.city,
+                'company': self.company,
+                'number': self.number,
+                'origin': self.origin,
+                'destination': self.destination,
+            },
+            'geometry': geometry
+        }
+
