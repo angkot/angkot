@@ -54,11 +54,11 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
     var geojson = {
       type: 'Feature',
       properties: {
-        kota: $scope.city,
-        perusahaan: $scope.company,
-        nomor: $scope.number,
-        berangkat: $scope.origin,
-        jurusan: $scope.destination,
+        city: $scope.city,
+        company: $scope.company,
+        number: $scope.number,
+        origin: $scope.origin,
+        destination: $scope.destination,
         license: {
           'ODbL v1.0': $scope.licenseAgreement
         }
