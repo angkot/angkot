@@ -17,6 +17,14 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
   $scope.init = function() {
   }
 
+  $scope.$watch('panel', function(value, old) {
+    if (old == 'editor' && value != 'editor') {
+      $scope.stashData();
+    }
+    if (value != 'editor' || value === old) return;
+    $scope.unstashData();
+  });
+
   $scope.saveRouteCheck = function() {
     $scope.error = null;
     $scope.message = null;
