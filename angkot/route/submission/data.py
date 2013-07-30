@@ -43,7 +43,6 @@ def parseData(submission):
     # Parse
     doc = submission.raw_geojson
     data = geojson.loads(doc, object_hook=geojson.GeoJSON.to_instance)
-    geometry = asShape(data.geometry)
 
     # Fill properties
     prop = normalize(data.properties)
@@ -53,7 +52,9 @@ def parseData(submission):
             setattr(submission, field, prop[field])
 
     # Fill route
-    submission.route = geometry.wkt
+    if len(data.geometry.coordinates):
+        geometry = asShape(data.geometry)
+        submission.route = geometry.wkt
 
 def validateData(submission):
     # required fields
