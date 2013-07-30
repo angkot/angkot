@@ -6,12 +6,15 @@ var geocoder = new google.maps.Geocoder();
 
 app.controller('MainController', ['$scope', function($scope) {
 
+  $scope.panel = undefined;
+
   $scope.init = function() {
     $scope.map = {
       center: JAKARTA,
       zoom: 12,
       routes: [],
     }
+    $scope.showPanel('editor');
   }
 
   $scope.$watch('map.zoom', function(value) {
@@ -90,6 +93,12 @@ app.controller('MainController', ['$scope', function($scope) {
   $scope.$on('map-reset', function() {
     $scope.map.routes = [];
   });
+
+  // panel
+
+  $scope.showPanel = function(name) {
+    $scope.panel = name;
+  }
 
 }]);
 

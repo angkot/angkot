@@ -90,7 +90,7 @@
 <div class="sidepanel" ng-cloak>
   <div class="nav">
   <ul>
-  <li class="active">Buat Rute</i>
+  <li ng-class="{'active':panel=='editor'}" ng-click="showPanel('editor')">Buat Rute</i>
   <!--
   <li>Riwayat Pengiriman</i>
   <li>Feedback</i>
@@ -98,7 +98,7 @@
   </ul>
   </div>
 
-  <div id="editor" ng-controller="EditorController" ng-init="init()">
+  <div id="editor" ng-show="panel=='editor'" ng-controller="EditorController" ng-init="init()">
   {% csrf_token %}
   <label>Kota</label>
   <input name="city" type="text" placeholder="Jakarta, Bandung, ..." maxlength="256"
