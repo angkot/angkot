@@ -102,17 +102,17 @@
   <h2>Buat Rute</h2>
   {% csrf_token %}
   <label>Kota</label>
-  <input name="city" type="text" placeholder="Jakarta, Bandung, ..."
+  <input name="city" type="text" placeholder="Jakarta, Bandung, ..." maxlength="256"
          ng-model="city" ng-class="{'error': checked && !city}"/>
   <label>Perusahaan dan Nomor Angkutan</label>
-  <input name="company" type="text" placeholder="Kopaja, Mikrolet, ..."
-         ng-model="company"/><input name="number" type="text"
+  <input name="company" type="text" placeholder="Kopaja, Mikrolet, ..." maxlength="256"
+         ng-model="company"/><input name="number" type="text" maxlength="64"
                                     ng-model="number" ng-class="{'error': checked && !number}"/>
   <label>Lokasi Keberangkatan</label>
-  <input name="origin" type="text" placeholder="Blok M, Pasar Minggu, ..."
+  <input name="origin" type="text" placeholder="Blok M, Pasar Minggu, ..." maxlength="256"
          ng-model="origin"/>
   <label>Jurusan/Lokasi Akhir</label>
-  <input name="destination" type="text" placeholder="Depok, Kampung Melayu, ..."
+  <input name="destination" type="text" placeholder="Depok, Kampung Melayu, ..." maxlength="256"
          ng-model="destination"/>
 
   <p class="license-agreement">
