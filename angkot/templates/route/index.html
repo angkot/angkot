@@ -91,6 +91,7 @@
   <div class="nav">
   <ul>
   <li ng-class="{'active':panel=='editor'}" ng-click="showPanel('editor')">Buat Rute</i>
+  <li ng-class="{'active':panel=='submission'}" ng-click="showPanel('submission')">Daftar Kiriman</i>
   <!--
   <li>Riwayat Pengiriman</i>
   <li>Feedback</i>
@@ -98,7 +99,7 @@
   </ul>
   </div>
 
-  <div id="editor" ng-show="panel=='editor'" ng-controller="EditorController" ng-init="init()">
+  <div class="content" id="editor" ng-show="panel=='editor'" ng-controller="EditorController" ng-init="init()">
   {% csrf_token %}
   <label>Kota</label>
   <input name="city" type="text" placeholder="Jakarta, Bandung, ..." maxlength="256"
@@ -135,6 +136,32 @@
   </p>
   </div>
 
+  <div class="content" id="submissions" data-url-submissions="{% url "route_submissions" %}"
+       ng-show="panel=='submission'" ng-controller="SubmissionController" ng-init="init()">
+    <div class="loading" ng-show="loading">
+      <p>loading..</p>
+    </div>
+    <div ng-hide="loading">
+      <div class="route" ng-repeat="route in submissions" ng-click="showRoute(route)"
+           ng-class="{'active':route==active}">
+        <p><span class="date" ng-bind="route.created * 1000 | date"></span></p>
+        <p><span class="city" ng-bind="route.geojson.properties.city"></span> &ndash;
+          <span class="company" ng-show="route.geojson.properties.company" ng-bind="route.geojson.properties.company"></span>
+          <span class="number" ng-bind="route.geojson.properties.number"></span></p>
+        <p ng-show="route.geojson.properties.origin || route.geojson.properties.destination">
+          <span class="origin" ng-show="route.geojson.properties.origin" ng-bind="route.geojson.properties.origin"></span>
+          &mdash;
+          <span class="destination" ng-show="route.geojson.properties.destination" ng-bind="route.geojson.properties.destination"></span>
+        </p>
+        <!--
+        <p class="action">
+          <a class="edit" href="" ng-click="editRoute(route)" eat-click>edit</a>
+        </p>
+        -->
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -151,6 +178,7 @@
 <script type="text/javascript" src="{% static "js/route-app-main.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-menu.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-editor.js" %}"></script>
+<script type="text/javascript" src="{% static "js/route-app-submission.js" %}"></script>
 <script type="text/javascript" src="{% static "js/app-modal.js" %}"></script>
 
 {% if GOOGLE_ANALYTICS_ID %}
