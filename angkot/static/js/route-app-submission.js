@@ -13,6 +13,8 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
     if ($scope.submissions === undefined) {
       $scope.reload();
     }
+    $scope.map.routes = [];
+    $scope.map.editable = false;
   });
 
   $scope.reload = function() {

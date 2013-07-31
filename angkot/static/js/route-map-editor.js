@@ -64,6 +64,12 @@ P.fitToBounds = function() {
   this._map.fitBounds(bounds);
 }
 
+P.setEditable = function(editable) {
+  for (var i=0; i<this._routes.length; i++) {
+    this._routes[i].setOptions({editable:editable==true});
+  }
+}
+
 P._init = function() {
   this._routes = [];
   this._events = {};

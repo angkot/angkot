@@ -23,6 +23,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
     }
     if (value != 'editor' || value === old) return;
     $scope.unstashData();
+    $scope.map.editable = true;
   });
 
   $scope.saveRouteCheck = function() {

@@ -36,6 +36,7 @@ app.directive('angkotMap', function() {
       if (data.length>0 && $scope.fitToBounds) {
         editor.fitToBounds();
       }
+      editor.setEditable($scope.editable);
     });
 
     $scope.$watch('viewport', function(value) {
@@ -43,6 +44,10 @@ app.directive('angkotMap', function() {
       var bounds = new gm.LatLngBounds(new gm.LatLng(value[0][1], value[0][0]),
                                        new gm.LatLng(value[1][1], value[1][0]));
       map.fitBounds(bounds);
+    });
+
+    $scope.$watch('editable', function(value) {
+      editor.setEditable(value);
     });
 
     var apply = function(fn) {
@@ -155,6 +160,7 @@ app.directive('angkotMap', function() {
       routes: '=routes',
       viewport: '=viewport',
       fitToBounds: '=fitToBounds',
+      editable: '=editable',
     },
     link: function(scope, element, attrs) {
       scope.init();
