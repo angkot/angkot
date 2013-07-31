@@ -65,9 +65,26 @@ P.fitToBounds = function() {
 }
 
 P.setEditable = function(editable) {
+  editable = editable == true;
+
   for (var i=0; i<this._routes.length; i++) {
-    this._routes[i].setOptions({editable:editable==true});
+    this._routes[i].setOptions({editable:editable});
   }
+
+  if (editable==true) {
+    if (this._map) {
+      this._initEvents();
+    }
+  }
+  else {
+    this._destroyEvents();
+  }
+
+  this._editable = editable;
+}
+
+P.getEditable = function() {
+  return this._editable;
 }
 
 P._init = function() {
@@ -75,6 +92,7 @@ P._init = function() {
   this._events = {};
   this._tooltip = new angkot.route.Tooltip();
   this._createNextLine();
+  this._editable = true;
 }
 
 P._clear = function() {
