@@ -24,5 +24,13 @@ app.directive('ngEnter', function() {
   };
 });
 
+app.directive('eatClick', function() {
+  return function(scope, element, attrs) {
+    $(element).click(function(event) {
+      event.stopPropagation();
+    });
+  }
+})
+
 })(window.angkot.app);
 
