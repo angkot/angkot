@@ -111,6 +111,7 @@
   overflow: auto;
   bottom: 0px;
   border-radius: 0;
+  overflow-x: hidden;
 }
 .sidepanel h2 {
   font-size: 16px;
