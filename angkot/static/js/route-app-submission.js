@@ -14,7 +14,7 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
       $scope.reload();
     }
     $scope.map.routes = [];
-    $scope.map.editable = false;
+    $scope.setMapEditable(false);
   });
 
   $scope.reload = function() {

@@ -36,6 +36,10 @@ app.controller('MainController', ['$scope', function($scope) {
     if (data.routes) $scope.map.routes = data.routes;
   }
 
+  $scope.setMapEditable = function(editable) {
+    $scope.map.editable = editable;
+  }
+
   $scope.showRoute = function(routes) {
     $scope.map.fitToBounds = true;
     $scope.map.routes = routes;
