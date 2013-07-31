@@ -98,6 +98,9 @@ P._clear = function() {
 
 P._initEvents = function() {
   var self = this;
+  if (this._events.length > 0) {
+    this._destroyEvents();
+  }
   this._events.editor = [
     gm.event.addListener(this._map, 'mousemove', function(e) { self._onMouseMove(e); }),
     gm.event.addListener(this._map, 'mouseover', function(e) { self._onMouseOver(e); }),
@@ -115,6 +118,7 @@ P._destroyEvents = function() {
       gm.event.removeListener(events[i]);
     }
   }
+  this._events = [];
 }
 
 P._createNextLine = function(pos) {
