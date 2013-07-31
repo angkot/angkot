@@ -26,9 +26,7 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
   }
 
   $scope.showRoute = function(route) {
-    $scope.setMapData({
-      routes: route.geojson.geometry.coordinates
-    });
+    $scope.$parent.showRoute(route.geojson.geometry.coordinates);
     $scope.active = route;
   }
 

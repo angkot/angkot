@@ -36,6 +36,11 @@ app.controller('MainController', ['$scope', function($scope) {
     if (data.routes) $scope.map.routes = data.routes;
   }
 
+  $scope.showRoute = function(routes) {
+    $scope.map.fitToBounds = true;
+    $scope.map.routes = routes;
+  }
+
   $scope.showModal = function(data) {
     $scope.modal = $scope.modal || {};
     if (data === false) {

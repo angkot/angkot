@@ -32,6 +32,10 @@ app.directive('angkotMap', function() {
         data.push(makeLatLng(routes[i]));
       }
       editor.setRouteArrays(data);
+
+      if (data.length>0 && $scope.fitToBounds) {
+        editor.fitToBounds();
+      }
     });
 
     $scope.$watch('viewport', function(value) {
@@ -150,6 +154,7 @@ app.directive('angkotMap', function() {
       zoom: '=zoom',
       routes: '=routes',
       viewport: '=viewport',
+      fitToBounds: '=fitToBounds',
     },
     link: function(scope, element, attrs) {
       scope.init();

@@ -53,6 +53,18 @@ P.setRouteArrays = function(paths) {
   }
 }
 
+P.fitToBounds = function() {
+  console.log('fit to bounds');
+  var bounds = new gm.LatLngBounds();
+  for (var i=0; i<this._routes.length; i++) {
+    var path = this._routes[i].getPath();
+    for (var j=0, k=path.getLength(); j<k; j++) {
+      bounds.extend(path.getAt(j));
+    }
+  }
+  this._map.fitBounds(bounds);
+}
+
 P._init = function() {
   this._routes = [];
   this._events = {};
