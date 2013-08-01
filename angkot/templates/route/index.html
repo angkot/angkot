@@ -194,5 +194,8 @@
   ga('send', 'pageview');
 </script>
 {% endif %}
+{% if USERVOICE_CODE %}
+{{ USERVOICE_CODE | safe }}
+{% endif %}
 </body></html>
 

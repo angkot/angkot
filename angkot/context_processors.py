@@ -3,6 +3,6 @@ from django.conf import settings
 def configs(request):
     print 'blah'
     fields = ['GOOGLE_ANALYTICS_ID', 'GOOGLE_ANALYTICS_HOST',
-              'GOOGLE_MAPS_KEY']
+              'GOOGLE_MAPS_KEY', 'USERVOICE_CODE']
     return dict([(field, getattr(settings, field, None)) for field in fields])
 
