@@ -98,8 +98,8 @@ L.Polyline.Editable = L.Polyline.Color.extend({
     this.options.editable = editable;
     if (this._map) {
       if (editable) {
-        this._shadow.addTo(map);
-        this._handleGroup.addTo(map);
+        this._shadow.addTo(this._map);
+        this._handleGroup.addTo(this._map);
       }
       else {
         this._map.removeLayer(this._shadow);
