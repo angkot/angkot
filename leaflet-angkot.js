@@ -106,6 +106,11 @@ L.Polyline.Editable = L.Polyline.extend({
     this._resetHandlers();
   },
 
+  setEditable: function(editable) {
+    this.options.editable = editable;
+    this._resetHandlers();
+  },
+
   addLatLng: function(latlng) {
     L.Polyline.prototype.addLatLng.apply(this, arguments);
     this._resetHandlers(); // FIXME
@@ -138,6 +143,8 @@ L.Polyline.Editable = L.Polyline.extend({
 
     this._handlers.splice(0, this._handlers.length);
     this._mids.splice(0, this._mids.length);
+
+    if (!this.options.editable) return;
 
     var len = this._latlngs.length;
     var prev = undefined;
