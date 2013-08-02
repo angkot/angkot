@@ -1,0 +1,9 @@
+.leaflet-angkot-handle {
+  background: white;
+  border: 1px solid blue;
+}
+
+.leaflet-angkot-handle-edge {
+  background: rgba(255, 0, 255, 0.7);
+}
+
