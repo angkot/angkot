@@ -51,6 +51,30 @@ L.Angkot.Route = L.LayerGroup.extend({
     }
   },
 
+  getRoutes: function() {
+    var routes = [];
+    for (var i=0; i<this._polylines.length; i++) {
+      routes.push(this._polylines[i].getLatLngs());
+    }
+    return routes;
+  },
+
+  setRoutes: function(routes) {
+    this.clear();
+    for (var i=0; i<routes.length; i++) {
+      var route = routes[i];
+      var p = this._addPolyline();
+      p.setColor('blue');
+      p.addLatLngs(route);
+    }
+  },
+
+  clear: function() {
+    while (this._polylines.length > 0) {
+      this._removePolyline(this._polylines[0]);
+    }
+  },
+
   _setupEvents: function() {
     if (!this._map) return;
 
