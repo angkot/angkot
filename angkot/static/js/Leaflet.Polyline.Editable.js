@@ -178,9 +178,12 @@ L.Polyline.Editable = L.Polyline.Color.extend({
     handle.on('drag', this._onHandleDrag, this);
     handle.on('dragend', this._onHandleDragEnd, this);
 
-    handle.on('mouseover', this._onHandleMouseEvent, this);
-    handle.on('mouseout', this._onHandleMouseEvent, this);
-    handle.on('click', this._onHandleMouseEvent, this);
+    handle.on('mouseover', this._onHandleEvent, this);
+    handle.on('mouseout', this._onHandleEvent, this);
+    handle.on('click', this._onHandleEvent, this);
+    handle.on('dragstart', this._onHandleEvent, this);
+    handle.on('drag', this._onHandleEvent, this);
+    handle.on('dragend', this._onHandleEvent, this);
 
     return handle;
   },
@@ -262,7 +265,7 @@ L.Polyline.Editable = L.Polyline.Color.extend({
     }
   },
 
-  _onHandleMouseEvent: function(e) {
+  _onHandleEvent: function(e) {
     var h = e.target;
 
     var index = parseInt(this._handles.indexOf(h)/2);
