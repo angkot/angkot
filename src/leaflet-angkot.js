@@ -21,8 +21,10 @@ L.Polyline.Editable = L.Polyline.extend({
     L.Polyline.prototype.onAdd.apply(this, arguments);
 
     this._updateHandlePositions(map);
-    this._shadow.addTo(map);
-    this._handleGroup.addTo(map);
+    if (this.options.editable) {
+      this._shadow.addTo(map);
+      this._handleGroup.addTo(map);
+    }
   },
 
   onRemove: function(map) {
@@ -44,6 +46,16 @@ L.Polyline.Editable = L.Polyline.extend({
 
   setEditable: function(editable) {
     this.options.editable = editable;
+    if (this._map) {
+      if (editable) {
+        this._shadow.addTo(map);
+        this._handleGroup.addTo(map);
+      }
+      else {
+        this._map.removeLayer(this._shadow);
+        this._map.removeLayer(this._handleGroup);
+      }
+    }
     this._resetHandles();
   },
 
@@ -206,3 +218,4 @@ L.Polyline.Editable = L.Polyline.extend({
   },
 
 });
+
