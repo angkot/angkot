@@ -152,11 +152,12 @@ L.Angkot.Route = L.LayerGroup.extend({
   _onHandleClick: function(e) {
     var p = e.target;
     var length = p._latlngs.length;
-
-    var tip = e.vertex === 0 || e.vertex === length-1;
+    var head = e.vertex === 0;
+    var tail = e.vertex === length - 1;
+    var tip = head || tail;
 
     if (e.target == this._active) {
-      if (e.vertex === length-1) {
+      if (tail) {
         if (length === 1) {
           this._removePolyline(p);
         }
