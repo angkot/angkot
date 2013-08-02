@@ -32,6 +32,7 @@ var p = new L.Polyline.Editable([
     [51.51, -0.047]
 ], {
   editable: true,
+  color: 'red',
 }).addTo(map);
 
 var cnt = 3;
@@ -40,6 +41,11 @@ map.on('click', function(e) {
   cnt += 1;
   if (cnt % 5 == 0) {
     p.setEditable(!p.options.editable);
+  }
+  if (cnt % 2 == 0) {
+    var color = p.options.color == 'red' ? 'blue' : 'red';
+    p.setColor(color);
+    console.log('color', p.options.color);
   }
 });
 
