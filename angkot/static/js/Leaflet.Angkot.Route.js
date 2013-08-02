@@ -15,6 +15,8 @@ L.Angkot.Route = L.LayerGroup.extend({
       opacity: 0.5,
     });
     this._ctrlKey = false;
+
+    this._tooltip = new L.Tooltip();
   },
 
   onAdd: function(map) {
@@ -24,6 +26,14 @@ L.Angkot.Route = L.LayerGroup.extend({
       this._setupEvents();
       this._guide.addTo(map);
     }
+
+    this._tooltip.addTo(map);
+    this._tooltip.setContent('hore', 'blah');
+  },
+
+  onRemove: function(map) {
+    map.removeLayer(this._tooltip);
+    L.LayerGroup.prototype.onRemove.apply(this, arguments);
   },
 
   setEditable: function(editable) {
@@ -43,6 +53,7 @@ L.Angkot.Route = L.LayerGroup.extend({
 
     this._map.on('click', this._onMapClick, this);
     this._map.on('mousemove', this._onMapMouseMove, this);
+    this._map.on('mouseover', this._onMapMouseOver, this);
 
     L.DomEvent.addListener(document, 'keydown', function(e) {
       this._ctrlKey = e.ctrlKey;
@@ -57,6 +68,7 @@ L.Angkot.Route = L.LayerGroup.extend({
 
     this._map.off('click', this._onMapClick, this);
     this._map.off('mousemove', this._onMapMouseMove, this);
+    this._map.off('mouseover', this._onMapMouseOver, this);
   },
 
   _onMapClick: function(e) {
@@ -76,17 +88,39 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._guide.spliceLatLngs(0, this._guide._latlngs.length);
     this._guide.addLatLng(e.latlng);
     this._guide.addLatLng(e.latlng);
+
+    if (this._polylines.length == 1) {
+      this._tooltip.setContent('Lanjutkan dengan mengklik titik-titik di sepanjang rute');
+    }
   },
 
   _addNextPoint: function(e) {
     this._active.addLatLng(e.latlng);
     this._guide.spliceLatLngs(0, 1, e.latlng);
+
+    if (this._polylines.length == 1) {
+      var len = this._polylines[0]._latlngs.length;
+      if (len == 2) {
+        this._tooltip.setContent('Klik titik terakhir untuk mengakhiri');
+      }
+      else if (len == 3) {
+        this._tooltip.setContent(null);
+      }
+    }
+  },
+
+  _onMapMouseOver: function(e) {
+    if (this._polylines.length == 0) {
+      this._tooltip.setContent('Klik untuk membuat rute');
+    }
   },
 
   _onMapMouseMove: function(e) {
     if (this._active) {
       this._guide.spliceLatLngs(1, 1, e.latlng);
     }
+
+    this._tooltip.setLatLng(e.latlng);
   },
 
   _createPolyline: function() {
@@ -103,6 +137,8 @@ L.Angkot.Route = L.LayerGroup.extend({
     var p = this._createPolyline();
     p.addTo(this._map);
     p.on('handle:click', this._onHandleClick, this);
+    p.on('handle:mouseover', this._onHandleMouseOver, this);
+    p.on('handle:mouseout', this._onHandleMouseOut, this);
     this._polylines.push(p);
     return p;
   },
@@ -111,6 +147,8 @@ L.Angkot.Route = L.LayerGroup.extend({
     var index = this._polylines.indexOf(p);
     if (index >= 0) this._polylines.splice(index, 1);
 
+    p.off('handle:mouseover', this._onHandleMouseOver, this);
+    p.off('handle:mouseout', this._onHandleMouseOut, this);
     p.off('handle:click', this._onHandleClick, this);
     if (this._map) this._map.removeLayer(p);
   },
@@ -146,6 +184,35 @@ L.Angkot.Route = L.LayerGroup.extend({
     p.spliceLatLngs(e.vertex, 1);
     if (p._latlngs.length === 1) {
       this._removePolyline(p);
+    }
+  },
+
+  _onHandleMouseOver: function(e) {
+    var p = e.target;
+    var length = p._latlngs.length;
+    var head = e.vertex === 0;
+    var tail = e.vertex === length - 1;
+    var tip = head || tail;
+    var onVertex = e.vertex !== undefined;
+
+    if (!this._active) {
+      if (tip) {
+        this._tooltip.setContent('Klik untuk melanjutkan rute');
+      }
+      else if (onVertex) {
+        this._tooltip.setContent('Untuk menghapus titik, tahan tombol <kbd>ctrl</kbd> lalu klik titik yang mau dihapus');
+      }
+    }
+    else if (p !== this._active) {
+      if (tip) {
+        this._tooltip.setContent('Untuk menggabung rute, tahan tombol <kbd>ctrl</kbd> lalu klik titik tujuan');
+      }
+    }
+  },
+
+  _onHandleMouseOut: function(e) {
+    if (!this._active || this._polylines.length > 1) {
+      this._tooltip.setContent(null);
     }
   },
 
