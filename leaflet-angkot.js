@@ -128,6 +128,15 @@ L.Polyline.Editable = L.Polyline.extend({
   },
 
   _resetHandlers: function() {
+    if (this._map) {
+      for (var i=0; i<this._handlers.length; i++) {
+        this._map.removeLayer(this._handlers[i]);
+      }
+      for (var i=0; i<this._mids.length; i++) {
+        this._map.removeLayer(this._mids[i]);
+      }
+    }
+
     this._handlers.splice(0, this._handlers.length);
     this._mids.splice(0, this._mids.length);
 
