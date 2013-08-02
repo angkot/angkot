@@ -93,6 +93,7 @@ L.Polyline.Editable = L.Polyline.Color.extend({
     for (var i=0; i<latlngs.length; i++) {
       this._latlngs.push(latlngs[i]);
     }
+    this._convertLatLngs(this._latlngs, true);
     this.redraw();
     this._resetHandles();
   },
