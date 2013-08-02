@@ -137,6 +137,14 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._removePolyline(p);
   },
 
+  _removeVertex: function(e) {
+    var p = e.target;
+    p.spliceLatLngs(e.vertex, 1);
+    if (p._latlngs.length === 1) {
+      this._removePolyline(p);
+    }
+  },
+
   _onHandleClick: function(e) {
     var p = e.target;
     var length = p._latlngs.length;
@@ -145,11 +153,17 @@ L.Angkot.Route = L.LayerGroup.extend({
 
     if (e.target == this._active) {
       if (e.vertex === length-1) {
+        if (length === 1) {
+          this._removePolyline(p);
+        }
         this._stopDrawing();
       }
       else {
         this._addNextPoint(e);
       }
+    }
+    else if (!this._active && this._shiftKey && e.vertex !== undefined) {
+      this._removeVertex(e);
     }
     else if (tip) {
       if (!this._active) {
