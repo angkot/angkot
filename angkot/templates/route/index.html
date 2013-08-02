@@ -4,9 +4,14 @@
 <title>Peta Angkutan Umum</title>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<link href='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.css' rel='stylesheet' />
+<!--[if lte IE 8]>
+  <link href='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.ie.css' rel='stylesheet' />
+<![endif]-->
 <link rel="stylesheet" type="text/css" href="{% static "css/page.css" %}"/>
 <link rel="stylesheet" type="text/css" href="{% static "css/route.css" %}"/>
 </head><body ng-controller="MainController" ng-init="init()"
+             data-mapbox-key="{{ MAPBOX_KEY }}"
              data-url-save="{% url "route_index" %}">
 
 <div id="head">
@@ -85,7 +90,8 @@
 
 <modal show="modal.show" title-text="modal.title" content-html="modal.content"></modal>
 
-<angkot-map id="map" center="map.center" zoom="map.zoom" routes="map.routes"
+<angkot-map id="map" mapbox-key="mapboxKey"
+            center="map.center" zoom="map.zoom" routes="map.routes"
             viewport="map.viewport" fit-to-bounds="map.fitToBounds"
             editable="map.editable"></angkot-map>
 
@@ -171,12 +177,13 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-sanitize.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_KEY }}&sensor=true&libraries=geometry"></script>
+<script src='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
 <script type="text/javascript" src="{% static "js/route.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-map-tooltip.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-map-editor.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-filters.js" %}"></script>
-<script type="text/javascript" src="{% static "js/route-app-map-element.js" %}"></script>
+<script type="text/javascript" src="{% static "js/route-app-map-element-mapbox.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-main.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-menu.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-editor.js" %}"></script>
