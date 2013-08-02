@@ -12,6 +12,7 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._guide = new L.Polyline.Color([], {
       color: 'blue'
     });
+    this._shiftKey = false;
   },
 
   onAdd: function(map) {
@@ -36,11 +37,17 @@ L.Angkot.Route = L.LayerGroup.extend({
   },
 
   _setupEvents: function() {
-    console.log('setup', this._map);
     if (!this._map) return;
 
     this._map.on('click', this._onMapClick, this);
     this._map.on('mousemove', this._onMapMouseMove, this);
+
+    L.DomEvent.addListener(document, 'keydown', function(e) {
+      this._shiftKey = e.shiftKey;
+    }, this);
+    L.DomEvent.addListener(document, 'keyup', function(e) {
+      this._shiftKey = e.shiftKey;
+    }, this);
   },
 
   _removeEvents: function() {
@@ -56,10 +63,8 @@ L.Angkot.Route = L.LayerGroup.extend({
       this._guide.spliceLatLngs(0, 1, e.latlng);
     }
     else {
-      var p = this._createPolyline();
-      p.addTo(this._map);
+      var p = this._addPolyline();
       p.addLatLng(e.latlng);
-      p.on('handle:click', this._onHandleClick, this);
       this._active = p;
 
       this._guide.spliceLatLngs(0, this._guide._latlngs.length);
@@ -80,6 +85,22 @@ L.Angkot.Route = L.LayerGroup.extend({
       color: 'blue',
     });
     return p;
+  },
+
+  _addPolyline: function() {
+    var p = this._createPolyline();
+    p.addTo(this._map);
+    p.on('handle:click', this._onHandleClick, this);
+    this._polylines.push(p);
+    return p;
+  },
+
+  _removePolyline: function(p) {
+    var index = this._polylines.indexOf(p);
+    if (index >= 0) this._polylines.splice(index, 1);
+
+    p.off('handle:click', this._onHandleClick, this);
+    if (this._map) this._map.removeLayer(p);
   },
 
   _onHandleClick: function(e) {
@@ -103,6 +124,19 @@ L.Angkot.Route = L.LayerGroup.extend({
         this._active.setColor('blue');
         this._guide.addLatLng(e.latlng);
         this._guide.addLatLng(e.latlng);
+      }
+      else if (this._shiftKey) {
+        if (e.vertex === length-1) {
+          p.reverseLatLngs();
+        }
+
+        this._active.addLatLngs(p._latlngs);
+        this._active.setColor('red');
+        this._active = null;
+
+        this._removePolyline(p);
+
+        this._guide.spliceLatLngs(0, this._guide._latlngs.length);
       }
     }
   },
