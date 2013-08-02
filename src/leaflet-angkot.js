@@ -1,24 +1,66 @@
-L.Polyline.Editable = L.Polyline.extend({
+L.Marker.Handle = L.Marker.extend({
+  options: {
+    color: 'red',
+    draggable: true,
+    type: 'vector',
+  },
+
+  initialize: function(pos, options) {
+    L.Marker.prototype.initialize.call(this, pos, options);
+    L.Util.setOptions(this, options);
+
+    var type = options.type;
+    var icon = L.divIcon({
+      className: 'leaflet-angkot-handle leaflet-angkot-handle-' + type,
+      iconSize: new L.Point(10, 10),
+    });
+    this.options.icon = icon;
+  },
+
+  onAdd: function(map) {
+    L.Marker.prototype.onAdd.apply(this, arguments);
+    this._icon.style.borderColor = this.options.color;
+  },
+
+  setColor: function(color) {
+    this.options.color = color;
+    if (this._icon) {
+      this._icon.style.borderColor = this.options.color;
+    }
+  },
+});
+
+L.Polyline.Colorable = L.Polyline.extend({
+  setColor: function(color) {
+    this.options.color = color;
+    this._updateStyle();
+  },
+});
+
+L.Polyline.Editable = L.Polyline.Colorable.extend({
   options: {
     editable: false,
   },
 
   initialize: function(path, options) {
-    L.Polyline.prototype.initialize.call(this, path, options);
+    L.Polyline.Colorable.prototype.initialize.call(this, path, options);
     L.Util.setOptions(this, options);
 
     this._handles = [];
     this._handleGroup = new L.LayerGroup();
-    this._shadow = new L.Polyline([], {
-      opacity: 0.3,
-      weight: 5,
+
+    var opacity = Math.min(this.options.opacity/2.0, 0.4);
+    this._shadow = new L.Polyline.Colorable([], {
+      opacity: opacity,
+      weight: this.options.weight,
+      color: this.options.color,
     });
 
     this._resetHandles();
   },
 
   onAdd: function(map) {
-    L.Polyline.prototype.onAdd.apply(this, arguments);
+    L.Polyline.Colorable.prototype.onAdd.apply(this, arguments);
 
     this._updateHandlePositions(map);
     if (this.options.editable) {
@@ -28,19 +70,27 @@ L.Polyline.Editable = L.Polyline.extend({
   },
 
   onRemove: function(map) {
-    L.Polyline.prototype.onRemove.apply(this, arguments);
+    L.Polyline.Colorable.prototype.onRemove.apply(this, arguments);
 
     map.removeLayer(this._handleGroup);
     map.removeLayer(this._shadow);
   },
 
+  setColor: function(color) {
+    L.Polyline.Colorable.prototype.setColor.apply(this, arguments);
+    for (var i=0; i<this._handles.length; i++) {
+      this._handles[i].setColor(color);
+    }
+    this._shadow.setColor(color);
+  },
+
   addLatLng: function(latlng) {
-    L.Polyline.prototype.addLatLng.apply(this, arguments);
+    L.Polyline.Colorable.prototype.addLatLng.apply(this, arguments);
     if (this.options.editable) this._addHandle(latlng);
   },
 
   spliceLatLngs: function() {
-    L.Polyline.prototype.spliceLatLngs.apply(this, arguments);
+    L.Polyline.Colorable.prototype.spliceLatLngs.apply(this, arguments);
     this._resetHandles();
   },
 
@@ -103,17 +153,12 @@ L.Polyline.Editable = L.Polyline.extend({
   },
 
   _createHandle: function(type) {
-    var icon = L.divIcon({
-      className: 'leaflet-angkot-handle leaflet-angkot-handle-' + type,
-      iconSize: new L.Point(10, 10),
-    });
     var opts = {
-      draggable: true,
-      icon: icon,
       type: type,
+      color: this.options.color,
     }
 
-    var handle = new L.Marker([0,0], opts);
+    var handle = new L.Marker.Handle([0,0], opts);
 
     handle.on('dragstart', this._onHandleDragStart, this);
     handle.on('drag', this._onHandleDrag, this);
