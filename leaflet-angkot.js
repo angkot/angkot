@@ -13,6 +13,10 @@ L.Marker.Handle = L.Marker.extend({
     this.on('dragstart', this._onDragStart, this);
     this.on('drag', this._onDrag, this);
     this.on('dragend', this._onDragEnd, this);
+
+    this.on('mouseover', this._onMouseEvent, this);
+    this.on('mouseout', this._onMouseEvent, this);
+    this.on('click', this._onMouseEvent, this);
   },
 
   onAdd: function() {
@@ -89,6 +93,19 @@ L.Marker.Handle = L.Marker.extend({
   },
 
   _onDragEnd: function(e) {
+  },
+
+  _onMouseEvent: function(e) {
+    if (!this._polyline) return;
+
+    if (this.options.type === 'vertex') {
+      e.vertex = this._polyline._handlers.indexOf(this);
+    }
+    else if (this.options.type === 'edge') {
+      e.edge = this._polyline._mids.indexOf(this);
+    }
+
+    this._polyline.fire('handle:' + e.type, e);
   },
 });
 
