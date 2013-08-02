@@ -17,6 +17,7 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._ctrlKey = false;
 
     this._tooltip = new L.Tooltip();
+    this._distance = 0;
   },
 
   onAdd: function(map) {
@@ -89,6 +90,8 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._guide.addLatLng(e.latlng);
     this._guide.addLatLng(e.latlng);
 
+    this._distance = 0;
+
     if (this._polylines.length == 1) {
       this._tooltip.setContent('Lanjutkan dengan mengklik titik-titik di sepanjang rute');
     }
@@ -97,6 +100,11 @@ L.Angkot.Route = L.LayerGroup.extend({
   _addNextPoint: function(e) {
     this._active.addLatLng(e.latlng);
     this._guide.spliceLatLngs(0, 1, e.latlng);
+
+    if (this._active._latlngs.length > 1) {
+      var last = this._active._latlngs.length-1;
+      this._distance += this._active._latlngs[last-1].distanceTo(this._active._latlngs[last]);
+    }
 
     if (this._polylines.length == 1) {
       var len = this._polylines[0]._latlngs.length;
@@ -118,9 +126,20 @@ L.Angkot.Route = L.LayerGroup.extend({
   _onMapMouseMove: function(e) {
     if (this._active) {
       this._guide.spliceLatLngs(1, 1, e.latlng);
+
+      var last = this._active._latlngs.length-1;
+      var distance = this._active._latlngs[last].distanceTo(e.latlng);
+      distance += this._distance;
+      this._showDistance(distance);
     }
 
     this._tooltip.setLatLng(e.latlng);
+  },
+
+  _showDistance: function(distance) {
+    var text = (Math.round(distance/1000*100)/100) + ' km';
+    if (distance < 1500) text = (Math.round(distance*100)/100) + ' m';
+    this._tooltip.setTitle(text);
   },
 
   _createPolyline: function() {
@@ -157,6 +176,10 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._active.setColor('red');
     this._active = null;
     this._guide.spliceLatLngs(0, this._guide._latlngs.length);
+
+    this._distance = 0;
+
+    this._tooltip.clear();
   },
 
   _continueRoute: function(e) {
@@ -168,6 +191,16 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._active.setColor('blue');
     this._guide.addLatLng(e.latlng);
     this._guide.addLatLng(e.latlng);
+
+    var latlngs = this._active._latlngs;
+    var distance = 0;
+    for (var i=1; i<latlngs.length; i++) {
+      distance += latlngs[i-1].distanceTo(latlngs[i]);
+    }
+    this._distance = distance;
+
+    this._showDistance(distance);
+    this._tooltip.setContent(null);
   },
 
   _mergeRoute: function(e) {
