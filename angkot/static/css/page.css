@@ -141,3 +141,17 @@ input.error:focus {
   background: rgba(255, 255, 255, 0.5);
 }
 
+.leaflet-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  margin-left: 20px;
+  margin-top: 0px;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+.leaflet-tooltip > .title {
+  color: #ff0;
+}
+
