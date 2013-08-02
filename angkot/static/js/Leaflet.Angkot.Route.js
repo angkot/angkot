@@ -12,7 +12,7 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._guide = new L.Polyline.Color([], {
       color: 'blue'
     });
-    this._shiftKey = false;
+    this._ctrlKey = false;
   },
 
   onAdd: function(map) {
@@ -43,10 +43,10 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._map.on('mousemove', this._onMapMouseMove, this);
 
     L.DomEvent.addListener(document, 'keydown', function(e) {
-      this._shiftKey = e.shiftKey;
+      this._ctrlKey = e.ctrlKey;
     }, this);
     L.DomEvent.addListener(document, 'keyup', function(e) {
-      this._shiftKey = e.shiftKey;
+      this._ctrlKey = e.ctrlKey;
     }, this);
   },
 
@@ -162,14 +162,14 @@ L.Angkot.Route = L.LayerGroup.extend({
         this._addNextPoint(e);
       }
     }
-    else if (!this._active && this._shiftKey && e.vertex !== undefined) {
+    else if (!this._active && this._ctrlKey && e.vertex !== undefined) {
       this._removeVertex(e);
     }
     else if (tip) {
       if (!this._active) {
         this._continueRoute(e);
       }
-      else if (this._active && this._shiftKey) {
+      else if (this._active && this._ctrlKey) {
         this._mergeRoute(e);
         this._stopDrawing();
       }
