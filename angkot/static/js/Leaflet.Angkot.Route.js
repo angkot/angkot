@@ -59,18 +59,26 @@ L.Angkot.Route = L.LayerGroup.extend({
 
   _onMapClick: function(e) {
     if (this._active) {
-      this._active.addLatLng(e.latlng);
-      this._guide.spliceLatLngs(0, 1, e.latlng);
+      this._addNextPoint(e);
     }
     else {
-      var p = this._addPolyline();
-      p.addLatLng(e.latlng);
-      this._active = p;
-
-      this._guide.spliceLatLngs(0, this._guide._latlngs.length);
-      this._guide.addLatLng(e.latlng);
-      this._guide.addLatLng(e.latlng);
+      this._startRoute(e);
     }
+  },
+
+  _startRoute: function(e) {
+    var p = this._addPolyline();
+    p.addLatLng(e.latlng);
+    this._active = p;
+
+    this._guide.spliceLatLngs(0, this._guide._latlngs.length);
+    this._guide.addLatLng(e.latlng);
+    this._guide.addLatLng(e.latlng);
+  },
+
+  _addNextPoint: function(e) {
+    this._active.addLatLng(e.latlng);
+    this._guide.spliceLatLngs(0, 1, e.latlng);
   },
 
   _onMapMouseMove: function(e) {
@@ -103,41 +111,63 @@ L.Angkot.Route = L.LayerGroup.extend({
     if (this._map) this._map.removeLayer(p);
   },
 
+  _stopDrawing: function() {
+    this._active.setColor('red');
+    this._active = null;
+    this._guide.spliceLatLngs(0, this._guide._latlngs.length);
+  },
+
+  _continueRoute: function(e) {
+    var p = e.target;
+    if (e.vertex === 0) {
+      p.reverseLatLngs();
+    }
+    this._active = p;
+    this._active.setColor('blue');
+    this._guide.addLatLng(e.latlng);
+    this._guide.addLatLng(e.latlng);
+  },
+
+  _mergeRoute: function(e) {
+    var p = e.target;
+    if (e.vertex !== 0) {
+      p.reverseLatLngs();
+    }
+    this._active.addLatLngs(p._latlngs);
+    this._removePolyline(p);
+  },
+
   _onHandleClick: function(e) {
     var p = e.target;
     var length = p._latlngs.length;
 
+    var tip = e.vertex === 0 || e.vertex === length-1;
+
     if (e.target == this._active) {
       if (e.vertex === length-1) {
-        this._active.setColor('red');
-        this._active = null;
-
-        this._guide.spliceLatLngs(0, this._guide._latlngs.length);
+        this._stopDrawing();
+      }
+      else {
+        this._addNextPoint(e);
       }
     }
-    else if (e.vertex === 0 || e.vertex === length-1) {
+    else if (tip) {
       if (!this._active) {
-        if (e.vertex === 0) {
-          p.reverseLatLngs();
-        }
-        this._active = p;
-        this._active.setColor('blue');
-        this._guide.addLatLng(e.latlng);
-        this._guide.addLatLng(e.latlng);
+        this._continueRoute(e);
       }
-      else if (this._shiftKey) {
-        if (e.vertex === length-1) {
-          p.reverseLatLngs();
-        }
-
-        this._active.addLatLngs(p._latlngs);
-        this._active.setColor('red');
-        this._active = null;
-
-        this._removePolyline(p);
-
-        this._guide.spliceLatLngs(0, this._guide._latlngs.length);
+      else if (this._active && this._shiftKey) {
+        this._mergeRoute(e);
+        this._stopDrawing();
       }
+      else if (this._active) {
+        this._addNextPoint(e);
+      }
+    }
+    else if (!this._active) {
+      this._startRoute(e);
+    }
+    else {
+      this._addNextPoint(e);
     }
   },
 });
