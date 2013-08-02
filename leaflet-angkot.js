@@ -34,7 +34,7 @@ L.Marker.Handle = L.Marker.extend({
     if (!this._polyline) return;
 
     if (this.options.type === 'vertex') {
-      var index = this._polyline._handlers.indexOf(this);
+      var index = this._polyline._handles.indexOf(this);
       var pos = this._polyline._latlngs[index];
       this.setLatLng(pos);
     }
@@ -56,7 +56,7 @@ L.Marker.Handle = L.Marker.extend({
   _onDragStart: function(e) {
     if (this.options.type === 'edge') {
       var index = this._polyline._mids.indexOf(this);
-      this._polyline._handlers.splice(index+1, 0, this);
+      this._polyline._handles.splice(index+1, 0, this);
       this.options.type = 'vertex';
       var className = this._icon.className;
       this._icon.className = className.replace('leaflet-angkot-handle-edge', 'leaflet-angkot-handle-vertex');
@@ -70,9 +70,9 @@ L.Marker.Handle = L.Marker.extend({
       right.addTo(this._map);
     }
 
-    this._index = this._polyline._handlers.indexOf(this);
+    this._index = this._polyline._handles.indexOf(this);
     this._hasLeftEdge = this._index > 0;
-    this._hasRightEdge = this._index < this._polyline._handlers.length-1;
+    this._hasRightEdge = this._index < this._polyline._handles.length-1;
   },
 
   _onDrag: function(e) {
@@ -99,7 +99,7 @@ L.Marker.Handle = L.Marker.extend({
     if (!this._polyline) return;
 
     if (this.options.type === 'vertex') {
-      e.vertex = this._polyline._handlers.indexOf(this);
+      e.vertex = this._polyline._handles.indexOf(this);
     }
     else if (this.options.type === 'edge') {
       e.edge = this._polyline._mids.indexOf(this);
@@ -118,47 +118,47 @@ L.Polyline.Editable = L.Polyline.extend({
     L.Polyline.prototype.initialize.call(this, path, options);
     L.Util.setOptions(this, options);
 
-    this._handlers = [];
+    this._handles = [];
     this._mids = [];
-    this._resetHandlers();
+    this._resetHandles();
   },
 
   setEditable: function(editable) {
     this.options.editable = editable;
-    this._resetHandlers();
+    this._resetHandles();
   },
 
   addLatLng: function(latlng) {
     L.Polyline.prototype.addLatLng.apply(this, arguments);
-    this._resetHandlers(); // FIXME
+    this._resetHandles(); // FIXME
   },
 
   spliceLatLngs: function() {
     L.Polyline.prototype.spliceLatLngs.apply(this, arguments);
-    this._resetHandlers(); // FIXME
+    this._resetHandles(); // FIXME
   },
 
   onAdd: function(map) {
     L.Polyline.prototype.onAdd.apply(this, arguments);
-    this._resetHandlers(); // FIXME
+    this._resetHandles(); // FIXME
   },
 
   onRemove: function(map) {
     L.Polyline.prototype.onRemove.apply(this, arguments);
-    this._resetHandlers(); // FIXME
+    this._resetHandles(); // FIXME
   },
 
-  _resetHandlers: function() {
+  _resetHandles: function() {
     if (this._map) {
-      for (var i=0; i<this._handlers.length; i++) {
-        this._map.removeLayer(this._handlers[i]);
+      for (var i=0; i<this._handles.length; i++) {
+        this._map.removeLayer(this._handles[i]);
       }
       for (var i=0; i<this._mids.length; i++) {
         this._map.removeLayer(this._mids[i]);
       }
     }
 
-    this._handlers.splice(0, this._handlers.length);
+    this._handles.splice(0, this._handles.length);
     this._mids.splice(0, this._mids.length);
 
     if (!this.options.editable) return;
@@ -174,14 +174,14 @@ L.Polyline.Editable = L.Polyline.extend({
       }
 
       var h = L.Polyline.Editable.handle(this, 'vertex');
-      this._handlers.push(h);
+      this._handles.push(h);
 
       prev = latlng;
     }
 
     if (this._map) {
-      for (var i=0; i<this._handlers.length; i++) {
-        this._handlers[i].addTo(this._map);
+      for (var i=0; i<this._handles.length; i++) {
+        this._handles[i].addTo(this._map);
       }
       for (var i=0; i<this._mids.length; i++) {
         this._mids[i].addTo(this._map);
