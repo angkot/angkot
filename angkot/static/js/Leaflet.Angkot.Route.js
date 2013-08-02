@@ -3,6 +3,8 @@ L.Angkot.Route = L.LayerGroup.extend({
     editable: false,
   },
 
+  includes: L.Mixin.Events,
+
   initialize: function(layers, options) {
     L.LayerGroup.prototype.initialize.call(this, layers);
     L.Util.setOptions(this, options);
@@ -91,6 +93,7 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._guide.addLatLng(e.latlng);
 
     this._distance = 0;
+    this._drawMode = 'new';
 
     if (this._polylines.length == 1) {
       this._tooltip.setContent('Lanjutkan dengan mengklik titik-titik di sepanjang rute');
@@ -158,6 +161,7 @@ L.Angkot.Route = L.LayerGroup.extend({
     p.on('handle:click', this._onHandleClick, this);
     p.on('handle:mouseover', this._onHandleMouseOver, this);
     p.on('handle:mouseout', this._onHandleMouseOut, this);
+    p.on('handle:dragend', this._onHandleDragEnd, this);
     this._polylines.push(p);
     return p;
   },
@@ -169,10 +173,13 @@ L.Angkot.Route = L.LayerGroup.extend({
     p.off('handle:mouseover', this._onHandleMouseOver, this);
     p.off('handle:mouseout', this._onHandleMouseOut, this);
     p.off('handle:click', this._onHandleClick, this);
+    p.off('handle:dragend', this._onHandleDragEnd, this);
     if (this._map) this._map.removeLayer(p);
   },
 
   _stopDrawing: function() {
+    var index = this._polylines.indexOf(this._active);
+
     this._active.setColor('red');
     this._active = null;
     this._guide.spliceLatLngs(0, this._guide._latlngs.length);
@@ -180,6 +187,17 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._distance = 0;
 
     this._tooltip.clear();
+
+    if (index >= 0) {
+      if (this._drawMode == 'new') {
+        this.fire('route:add', {index:index});
+      }
+      else if (this._drawMode == 'continue') {
+        this.fire('route:update', {index:index});
+      }
+    }
+
+    this._drawMode = null;
   },
 
   _continueRoute: function(e) {
@@ -199,6 +217,8 @@ L.Angkot.Route = L.LayerGroup.extend({
     }
     this._distance = distance;
 
+    this._drawMode = 'continue';
+
     this._showDistance(distance);
     this._tooltip.setContent(null);
   },
@@ -209,14 +229,25 @@ L.Angkot.Route = L.LayerGroup.extend({
       p.reverseLatLngs();
     }
     this._active.addLatLngs(p._latlngs);
+
+    var index = this._polylines.indexOf(p);
+    this.fire('route:delete', {index:index});
+
     this._removePolyline(p);
   },
 
   _removeVertex: function(e) {
     var p = e.target;
     p.spliceLatLngs(e.vertex, 1);
+
+    var index = this._polylines.indexOf(p);
+
     if (p._latlngs.length === 1) {
       this._removePolyline(p);
+      this.fire('route:delete', {index:index});
+    }
+    else {
+      this.fire('route:update', {index:index});
     }
   },
 
@@ -289,5 +320,13 @@ L.Angkot.Route = L.LayerGroup.extend({
       this._addNextPoint(e);
     }
   },
+
+  _onHandleDragEnd: function(e) {
+    var p = e.target;
+    if (p == this._active) return;
+    var index = this._polylines.indexOf(p);
+    this.fire('route:update', {index:index});
+  },
+
 });
 
