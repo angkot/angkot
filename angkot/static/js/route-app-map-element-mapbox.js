@@ -16,8 +16,9 @@ app.directive('angkotMap', function() {
 
     var initMap = function() {
       var center = [$scope.center[1], $scope.center[0]];
-      map = L.mapbox.map($element[0], $scope.mapboxKey)
-        .setView(center, $scope.zoom);
+      map = L.mapbox.map($element[0], $scope.mapboxKey, {
+          boxZoom: false,
+        }).setView(center, $scope.zoom);
 
       var editor = new L.Angkot.Route();
       editor.setEditable(true);
