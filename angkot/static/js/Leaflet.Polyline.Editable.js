@@ -11,7 +11,7 @@ L.Marker.Handle = L.Marker.extend({
 
     var type = options.type;
     var icon = L.divIcon({
-      className: 'leaflet-angkot-handle leaflet-angkot-handle-' + type,
+      className: 'leaflet-polyline-editable-handle leaflet-polyline-editable-handle-' + type,
       iconSize: new L.Point(10, 10),
     });
     this.options.icon = icon;
@@ -30,27 +30,27 @@ L.Marker.Handle = L.Marker.extend({
   },
 });
 
-L.Polyline.Colorable = L.Polyline.extend({
+L.Polyline.Color = L.Polyline.extend({
   setColor: function(color) {
     this.options.color = color;
     this._updateStyle();
   },
 });
 
-L.Polyline.Editable = L.Polyline.Colorable.extend({
+L.Polyline.Editable = L.Polyline.Color.extend({
   options: {
     editable: false,
   },
 
   initialize: function(path, options) {
-    L.Polyline.Colorable.prototype.initialize.call(this, path, options);
+    L.Polyline.Color.prototype.initialize.call(this, path, options);
     L.Util.setOptions(this, options);
 
     this._handles = [];
     this._handleGroup = new L.LayerGroup();
 
     var opacity = Math.min(this.options.opacity/2.0, 0.4);
-    this._shadow = new L.Polyline.Colorable([], {
+    this._shadow = new L.Polyline.Color([], {
       opacity: opacity,
       weight: this.options.weight,
       color: this.options.color,
@@ -60,7 +60,7 @@ L.Polyline.Editable = L.Polyline.Colorable.extend({
   },
 
   onAdd: function(map) {
-    L.Polyline.Colorable.prototype.onAdd.apply(this, arguments);
+    L.Polyline.Color.prototype.onAdd.apply(this, arguments);
 
     this._updateHandlePositions(map);
     if (this.options.editable) {
@@ -70,14 +70,14 @@ L.Polyline.Editable = L.Polyline.Colorable.extend({
   },
 
   onRemove: function(map) {
-    L.Polyline.Colorable.prototype.onRemove.apply(this, arguments);
+    L.Polyline.Color.prototype.onRemove.apply(this, arguments);
 
     map.removeLayer(this._handleGroup);
     map.removeLayer(this._shadow);
   },
 
   setColor: function(color) {
-    L.Polyline.Colorable.prototype.setColor.apply(this, arguments);
+    L.Polyline.Color.prototype.setColor.apply(this, arguments);
     for (var i=0; i<this._handles.length; i++) {
       this._handles[i].setColor(color);
     }
@@ -85,12 +85,12 @@ L.Polyline.Editable = L.Polyline.Colorable.extend({
   },
 
   addLatLng: function(latlng) {
-    L.Polyline.Colorable.prototype.addLatLng.apply(this, arguments);
+    L.Polyline.Color.prototype.addLatLng.apply(this, arguments);
     if (this.options.editable) this._addHandle(latlng);
   },
 
   spliceLatLngs: function() {
-    L.Polyline.Colorable.prototype.spliceLatLngs.apply(this, arguments);
+    L.Polyline.Color.prototype.spliceLatLngs.apply(this, arguments);
     this._resetHandles();
   },
 
@@ -230,7 +230,7 @@ L.Polyline.Editable = L.Polyline.Colorable.extend({
     else {
       this._latlngs.splice(parseInt(index/2)+1, 0, h._latlng);
       h.options.type = 'vertex';
-      h._icon.className = h._icon.className.replace('leaflet-angkot-handle-edge', 'leaflet-angkot-handle-vertex');
+      h._icon.className = h._icon.className.replace('leaflet-polyline-editable-handle-edge', 'leaflet-polyline-editable-handle-vertex');
 
       var left = this._createHandle('edge');
       var right = this._createHandle('edge');
