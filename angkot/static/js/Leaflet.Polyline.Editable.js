@@ -49,7 +49,7 @@ L.Polyline.Editable = L.Polyline.Color.extend({
     this._handles = [];
     this._handleGroup = new L.LayerGroup();
 
-    var opacity = Math.min(this.options.opacity/2.0, 0.4);
+    var opacity = Math.max(this.options.opacity/2.0, 0.4);
     this._shadow = new L.Polyline.Color([], {
       opacity: opacity,
       weight: this.options.weight,

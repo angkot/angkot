@@ -10,7 +10,9 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._polylines = [];
     this._active = null;
     this._guide = new L.Polyline.Color([], {
-      color: 'blue'
+      color: 'blue',
+      weight: 2,
+      opacity: 0.5,
     });
     this._ctrlKey = false;
   },
@@ -91,6 +93,8 @@ L.Angkot.Route = L.LayerGroup.extend({
     var p = new L.Polyline.Editable([], {
       editable: true,
       color: 'blue',
+      weight: 3,
+      opacity: 0.8,
     });
     return p;
   },
