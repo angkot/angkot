@@ -94,6 +94,11 @@ L.Polyline.Editable = L.Polyline.Color.extend({
     this._resetHandles();
   },
 
+  reverseLatLngs: function() {
+    this._latlngs.reverse();
+    this._resetHandles();
+  },
+
   setEditable: function(editable) {
     this.options.editable = editable;
     if (this._map) {

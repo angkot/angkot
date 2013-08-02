@@ -18,6 +18,10 @@ app.directive('angkotMap', function() {
       var center = [$scope.center[1], $scope.center[0]];
       map = L.mapbox.map($element[0], $scope.mapboxKey)
         .setView(center, $scope.zoom);
+
+      var editor = new L.Angkot.Route();
+      editor.setEditable(true);
+      editor.addTo(map);
     }
 
   }];
