@@ -239,8 +239,8 @@ L.Polyline.Editable = L.Polyline.Colorable.extend({
       this._handles.splice(index, 0, left);
 
       if (this._map) {
-        left.addTo(this._map);
-        right.addTo(this._map);
+        left.addTo(this._handleGroup);
+        right.addTo(this._handleGroup);
         this._updateEdgeHandlePosition(left);
         this._updateEdgeHandlePosition(right);
       }
