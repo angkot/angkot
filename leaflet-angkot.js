@@ -67,7 +67,6 @@ L.Marker.Handle = L.Marker.extend({
     }
 
     this._index = this._polyline._handlers.indexOf(this);
-    console.log('drag start', this._index);
     this._hasLeftEdge = this._index > 0;
     this._hasRightEdge = this._index < this._polyline._handlers.length-1;
   },
