@@ -46,6 +46,15 @@ app.directive('angkotMap', function() {
       }
     });
 
+    $scope.$watch('viewport', function(viewport) {
+      if (!viewport) return;
+
+      var a = [viewport[0][1], viewport[0][0]];
+      var b = [viewport[1][1], viewport[1][0]];
+      var bounds = new L.LatLngBounds([a, b]);
+      map.fitBounds(bounds);
+    });
+
     var map, editor;
 
     var initMap = function() {
