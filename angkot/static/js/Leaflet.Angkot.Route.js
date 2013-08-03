@@ -63,8 +63,7 @@ L.Angkot.Route = L.LayerGroup.extend({
     this.clear();
     for (var i=0; i<routes.length; i++) {
       var route = routes[i];
-      var p = this._addPolyline();
-      p.setColor('blue');
+      var p = this._addPolyline({color:'red'});
       p.addLatLngs(route);
     }
   },
@@ -108,7 +107,7 @@ L.Angkot.Route = L.LayerGroup.extend({
   },
 
   _startRoute: function(e) {
-    var p = this._addPolyline();
+    var p = this._addPolyline({color:'blue'});
     p.addLatLng(e.latlng);
     this._active = p;
 
@@ -169,18 +168,23 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._tooltip.setTitle(text);
   },
 
-  _createPolyline: function() {
-    var p = new L.Polyline.Editable([], {
-      editable: true,
-      color: 'blue',
+  _createPolyline: function(options) {
+    var opts = {
+      editable: this.options.editable,
+      color: 'red',
       weight: 3,
       opacity: 0.8,
-    });
+    };
+    for (k in options) {
+      opts[k] = options[k];
+    }
+
+    var p = new L.Polyline.Editable([], opts);
     return p;
   },
 
-  _addPolyline: function() {
-    var p = this._createPolyline();
+  _addPolyline: function(options) {
+    var p = this._createPolyline(options);
     p.addTo(this._map);
     p.on('handle:click', this._onHandleClick, this);
     p.on('handle:mouseover', this._onHandleMouseOver, this);
