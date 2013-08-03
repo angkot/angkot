@@ -166,6 +166,14 @@
   border-bottom: 2px solid #ccc;
 }
 
+.mapquest-nominatim {
+  margin-top: 100px;
+  color: #888;
+}
+.mapquest-nominatim img {
+  vertical-align: middle;
+}
+
 /*= route designer =*/
 
 #editor input[name="company"] {

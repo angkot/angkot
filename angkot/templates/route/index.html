@@ -26,12 +26,10 @@
     -->
     </ul>
   </div>
-  <!--
   <div class="search">
     <input type="text" name="q" placeholder="Cari Lokasi" class="search"
            ng-model="searchQuery" ng-enter="search()"/><button name="go" ng-click="search()" class="btn"><i class="icon-search"></i></button>
   </div>
-  -->
   <!--
   <div class="new-route">
     <button><i class="icon-plus-sign"></i> Buat Rute</button>
@@ -144,6 +142,7 @@
       <strong ng-class="{'ok':number}">nomor angkutan</strong>, dan
       <strong ng-class="{'ok':licenseAgreement}">persetujuan lisensi</strong>
   </p>
+  <p class="mapquest-nominatim">Nominatim Search Courtesy of<br/><a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png"></p>
   </div>
 
   <div class="content" id="submissions" data-url-submissions="{% url "route_submissions" %}"

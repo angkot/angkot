@@ -3,9 +3,7 @@
 var JAKARTA = [106.8294444, -6.1744444];
 var INDONESIA = [[143.0419921875, 8.189742344383703], [93.8671875, -11.867350911459308]];
 
-// var geocoder = new google.maps.Geocoder();
-
-app.controller('MainController', ['$scope', function($scope) {
+app.controller('MainController', ['$scope', '$http', function($scope, $http) {
 
   $scope.panel = undefined;
 
@@ -70,33 +68,33 @@ app.controller('MainController', ['$scope', function($scope) {
     });
   }
 
-  /*
   $scope.search = function() {
     var q = jQuery.trim($scope.searchQuery);
     if (!q) return;
 
     var query = {
-      address: q,
-      region: 'ID',
+      format: 'json',
+      json_callback: 'JSON_CALLBACK',
+      q: q,
+      countrycodes: 'ID',
     }
-    geocoder.geocode(query,
-      function(results, status) {
-        console.log(results);
-        var pos = results[0].geometry.location;
-        var center = [pos.lng(), pos.lat()];
 
-        var v = results[0].geometry.viewport;
-        var sw = v.getSouthWest();
-        var ne = v.getNorthEast();
-        var viewport = [[sw.lng(), sw.lat()], [ne.lng(), ne.lat()]];
-        console.log('center', center, 'viewport', viewport);
-        $scope.$apply(function() {
-          $scope.map.viewport = viewport;
-          //$scope.map.center = center;
-        });
+    var url = 'http://open.mapquestapi.com/nominatim/v1/search.php?' + jQuery.param(query);
+
+    $http.jsonp(url)
+      .success(function(data) {
+        console.log(data);
+        if (data.length == 0) {
+          console.log('not found');
+        }
+        else {
+          var res = data[0];
+          var bbox = [[res.boundingbox[2], res.boundingbox[0]],
+                      [res.boundingbox[3], res.boundingbox[1]]];
+          $scope.map.viewport = bbox;
+        }
       });
   }
-  */
 
   $scope.resetMapCheck = function() {
     var msg = 'Apakah Anda yakin untuk menghapus semua data yang sudah ' +
