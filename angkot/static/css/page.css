@@ -56,7 +56,8 @@ input:focus {
   border-color: #08f;
   outline: none;
 }
-input.error {
+input.error,
+select.error {
   border-color: red;
   background: #fff4f4;
 }

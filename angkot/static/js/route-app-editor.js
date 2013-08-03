@@ -8,6 +8,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
   $scope.saved = false;
   $scope.modified = false;
 
+  $scope.province = '';
   $scope.city = '';
   $scope.company = '';
   $scope.number = '';
@@ -15,6 +16,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
   $scope.destination = '';
 
   $scope.init = function() {
+    loadProvinces();
   }
 
   $scope.$watch('panel', function(value, old) {
@@ -35,6 +37,11 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
 
     var focus = function(name) {
       jQuery('#new-route input[name="'+name+'"]').focus();
+    }
+
+    if (!$scope.province) {
+      focus('province');
+      valid = false;
     }
 
     if (!$scope.city) {
@@ -67,6 +74,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
     var geojson = {
       type: 'Feature',
       properties: {
+        province: $scope.province,
         city: $scope.city,
         company: $scope.company,
         number: $scope.number,
@@ -105,6 +113,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
   }
 
   $scope.$on('map-reset', function() {
+    $scope.province = '';
     $scope.city = '';
     $scope.company = '';
     $scope.number = '';
@@ -120,7 +129,8 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
   });
 
   function updateModified() {
-    $scope.modified = $scope.city !== '' ||
+    $scope.modified = $scope.province !== '' ||
+                      $scope.city !== '' ||
                       $scope.company !== '' ||
                       $scope.number !== '' ||
                       $scope.origin !== '' ||
@@ -128,6 +138,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
                       $scope.map.routes.length > 0;
   }
 
+  $scope.$watch('province', updateModified);
   $scope.$watch('city', updateModified);
   $scope.$watch('company', updateModified);
   $scope.$watch('number', updateModified);
@@ -150,6 +161,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
     }
 
     $scope.stash = {
+      province: $scope.province,
       city: $scope.city,
       company: $scope.company,
       number: $scope.number,
@@ -164,6 +176,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
     var stash = $scope.stash;
     if (!stash) return;
 
+    $scope.province = stash.province;
     $scope.city = stash.city;
     $scope.company = stash.company;
     $scope.number = stash.number;
@@ -171,6 +184,18 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
     $scope.destination = stash.destination;
     $scope.licenseAgreement = stash.licenseAgreement;
     $scope.setMapData(stash.map);
+  }
+
+  // provinces
+
+  var loadProvinces = function() {
+    var url = jQuery('#editor').data('url-province-list');
+    console.log(url);
+    $http.get(url)
+      .success(function(data) {
+        console.log(data);
+        $scope.provinces = data.provinces;
+      });
   }
 
 }]);

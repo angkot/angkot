@@ -107,8 +107,12 @@
   </ul>
   </div>
 
-  <div class="content" id="editor" ng-show="panel=='editor'" ng-controller="EditorController" ng-init="init()">
+  <div class="content" id="editor" ng-show="panel=='editor'" ng-controller="EditorController" ng-init="init()"
+       data-url-province-list="{% url "route_province_list" %}">
   {% csrf_token %}
+  <label>Provinsi</label>
+  <select name="province" ng-model="province" ng-options="p[0] as p[1] for p in provinces"
+          ng-class="{'error': checked && !province}"></select>
   <label>Kota</label>
   <input name="city" type="text" placeholder="Jakarta, Bandung, ..." maxlength="256"
          ng-model="city" ng-class="{'error': checked && !city}"/>
@@ -138,6 +142,7 @@
   <p ng-show="error" ng-bind="error" class="error"></p>
   <p ng-show="incomplete" class="incomplete error">
     Harap minimal isi
+      <strong ng-class="{'ok':province}">provinsi</strong>,
       <strong ng-class="{'ok':city}">nama kota</strong>,
       <strong ng-class="{'ok':number}">nomor angkutan</strong>, dan
       <strong ng-class="{'ok':licenseAgreement}">persetujuan lisensi</strong>
