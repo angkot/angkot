@@ -11,7 +11,7 @@ app.controller('MainController', ['$scope', function($scope) {
   $scope.init = function() {
     $scope.map = {
       center: JAKARTA,
-      zoom: 12,
+      zoom: 13,
       routes: [],
     }
     $scope.showPanel('editor');

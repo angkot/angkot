@@ -61,6 +61,8 @@ app.directive('angkotMap', function() {
       var center = [$scope.center[1], $scope.center[0]];
       map = L.mapbox.map($element[0], $scope.mapboxKey, {
           boxZoom: false,
+          minZoom: 12,
+          maxZoom: 17,
         }).setView(center, $scope.zoom);
     }
 
