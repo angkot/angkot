@@ -62,7 +62,6 @@ app.directive('angkotMap', function() {
       var b = [bounds[1][1], bounds[1][0]];
       var b = new L.LatLngBounds([a, b]);
       map.setMaxBounds(b);
-      console.log('max', b);
     });
 
     var map, editor;
