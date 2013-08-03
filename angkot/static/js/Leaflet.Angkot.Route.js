@@ -31,7 +31,6 @@ L.Angkot.Route = L.LayerGroup.extend({
     }
 
     this._tooltip.addTo(map);
-    this._tooltip.setContent('hore', 'blah');
   },
 
   onRemove: function(map) {
