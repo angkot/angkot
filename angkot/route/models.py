@@ -42,6 +42,23 @@ PROVINCES = (
     ('ID-PB', 'Papua Barat'),
 )
 
+class Transportation(models.Model):
+    optional = dict(null=True, default=None, blank=True)
+
+    # Data
+    province = models.CharField(max_length=5, choices=PROVINCES)
+    city = models.CharField(max_length=256)
+    company = models.CharField(max_length=256, **optional)
+    number = models.CharField(max_length=64)
+    origin = models.CharField(max_length=256, **optional)
+    destination = models.CharField(max_length=256, **optional)
+    path = models.MultiLineStringField(**optional)
+
+    # Internal
+    active = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
 class Submission(models.Model):
     optional = dict(null=True, default=None, blank=True)
 
@@ -51,6 +68,7 @@ class Submission(models.Model):
     visitor_id = UUIDField()
     ip_address = models.IPAddressField()
     user_agent = models.CharField(max_length=1024)
+    transportation = models.ForeignKey(Transportation, related_name='history', **optional)
 
     # Submitted data
     parent = models.ForeignKey('self', **optional)
