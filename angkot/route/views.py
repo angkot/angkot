@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from angkot.decorators import api, OK, Fail
-from .models import Submission
+from .models import Submission, PROVINCES
 from .submission.data import process as processSubmission
 
 @api
@@ -60,4 +60,8 @@ def submission_list(request):
 
     data = dict(submissions=submissions)
     return OK(data)
+
+@api
+def province_list(request):
+    return dict(provinces=PROVINCES)
 
