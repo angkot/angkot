@@ -98,13 +98,48 @@
 <div class="sidepanel" ng-cloak>
   <div class="nav">
   <ul>
+  <li ng-class="{'active':panel=='transportation'}" ng-click="showPanel('transportation')">Daftar Angkutan</i>
   <li ng-class="{'active':panel=='editor'}" ng-click="showPanel('editor')">Buat Rute</i>
-  <li ng-class="{'active':panel=='submission'}" ng-click="showPanel('submission')">Daftar Kiriman</i>
+  <li ng-class="{'active':panel=='submission'}" ng-click="showPanel('submission')">Kiriman</i>
   <!--
   <li>Riwayat Pengiriman</i>
   <li>Feedback</i>
   -->
   </ul>
+  </div>
+
+  <div class="content" id="transportations"
+       data-url-transportation-list="{% url "route_transportation_list" %}"
+       ng-show="panel=='transportation'" ng-controller="TransportationController" ng-init="init()">
+    <div class="loading" ng-show="loading">
+      <p>loading..</p>
+    </div>
+    <div ng-hide="loading || !count">
+      <select name="province" ng-model="province"
+              ng-options="p[0] as provinceListLabel(p) for p in provinces | filter:provHasTransportation">
+      </select>
+      <select name="city" ng-model="city" ng-show="province"
+              ng-options="cityListLabel(city) for city in cities[province] | filter:cityHasTransportation">
+      </select>
+      <div class="transportation-list">
+        <div class="transportation"
+             ng-repeat="item in transportations[province][city]"
+             ng-click="showTransportation(item)">
+          <p class="company-number">
+            <span class="company" ng-show="item.company" ng-bind="item.company"></span>
+            <span class="number" ng-bind="item.number"></span>
+          </p>
+          <p class="origin-destination" ng-show="item.origin || item.destination">
+            <span class="origin" ng-bind="item.origin"></span>
+            &ndash;
+            <span class="destination" ng-bind="item.destination"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div ng-hide="loading || count">
+      <p>Belum ada angkutan yang terdaftar.</p>
+    </div>
   </div>
 
   <div class="content" id="editor" ng-show="panel=='editor'" ng-controller="EditorController" ng-init="init()"
@@ -193,6 +228,7 @@
 <script type="text/javascript" src="{% static "js/route-app-map-element-mapbox.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-main.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-menu.js" %}"></script>
+<script type="text/javascript" src="{% static "js/route-app-transportation.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-editor.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-submission.js" %}"></script>
 <script type="text/javascript" src="{% static "js/app-modal.js" %}"></script>

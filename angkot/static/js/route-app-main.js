@@ -14,7 +14,7 @@ app.controller('MainController', ['$scope', '$http', function($scope, $http) {
       zoom: 13,
       routes: [],
     }
-    $scope.showPanel('editor');
+    $scope.showPanel('transportation');
     $scope.mapboxKey = jQuery('body').data('mapbox-key');
   }
 

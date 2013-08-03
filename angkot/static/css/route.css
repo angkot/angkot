@@ -175,6 +175,11 @@
   vertical-align: middle;
 }
 
+/*= transportations =*/
+
+#transportations {
+}
+
 /*= route designer =*/
 
 #editor input[name="company"] {
