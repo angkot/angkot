@@ -2,7 +2,7 @@
 
 var JAKARTA = [106.8294444, -6.1744444];
 
-var geocoder = new google.maps.Geocoder();
+// var geocoder = new google.maps.Geocoder();
 
 app.controller('MainController', ['$scope', function($scope) {
 
@@ -68,6 +68,7 @@ app.controller('MainController', ['$scope', function($scope) {
     });
   }
 
+  /*
   $scope.search = function() {
     var q = jQuery.trim($scope.searchQuery);
     if (!q) return;
@@ -93,6 +94,7 @@ app.controller('MainController', ['$scope', function($scope) {
         });
       });
   }
+  */
 
   $scope.resetMapCheck = function() {
     var msg = 'Apakah Anda yakin untuk menghapus semua data yang sudah ' +
