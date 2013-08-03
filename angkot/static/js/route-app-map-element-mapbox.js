@@ -29,10 +29,20 @@ app.directive('angkotMap', function() {
 
     $scope.$watch('routes', function(routes) {
       var res = [];
+      var bounds;
       for (var i=0; i<routes.length; i++) {
-        res.push(toLatLng(routes[i]));
+        var route = toLatLng(routes[i]);
+        res.push(route);
+
+        var bound = new L.LatLngBounds(route);
+        if (!bounds) bounds = bound;
+        else bounds.extend(bound);
       }
       editor.setRoutes(res);
+
+      if ($scope.fitToBounds && bounds) {
+        map.fitBounds(bounds);
+      }
     });
 
     var map, editor;
