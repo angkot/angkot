@@ -52,7 +52,7 @@ class Transportation(models.Model):
     number = models.CharField(max_length=64)
     origin = models.CharField(max_length=256, **optional)
     destination = models.CharField(max_length=256, **optional)
-    path = models.MultiLineStringField(**optional)
+    route = models.MultiLineStringField(**optional)
 
     # Internal
     active = models.BooleanField(default=True)
