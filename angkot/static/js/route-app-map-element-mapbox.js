@@ -65,18 +65,18 @@ app.directive('angkotMap', function() {
           maxZoom: 17,
         }).setView(center, $scope.zoom);
 
-      map.on('zoomend', function() {
-        $scope.$apply(function() {
-          $scope.zoom = map.getZoom();
-        });
-      });
+      // map.on('zoomend', function() {
+      //   $scope.$apply(function() {
+      //     $scope.zoom = map.getZoom();
+      //   });
+      // });
 
-      map.on('moveend', function() {
-        $scope.$apply(function() {
-          var center = map.getCenter();
-          $scope.center = [center.lng, center.lat];
-        });
-      });
+      // map.on('moveend', function() {
+      //   $scope.$apply(function() {
+      //     var center = map.getCenter();
+      //     $scope.center = [center.lng, center.lat];
+      //   });
+      // });
 
     }
 
