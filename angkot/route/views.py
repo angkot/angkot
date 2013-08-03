@@ -2,7 +2,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 
 from angkot.decorators import api, OK, Fail
-from .models import Submission, PROVINCES
+from .models import Transportation, Submission, PROVINCES
 from .submission.data import process as processSubmission
 
 @api
@@ -64,4 +64,27 @@ def submission_list(request):
 @api
 def province_list(request):
     return dict(provinces=PROVINCES)
+
+@api
+def transportation_list(request):
+    # TODO cache this
+    def format_date(d):
+        return d.strftime('%s')
+
+    def format_transportation(t):
+        return dict(id=t.id,
+                    province=t.province,
+                    city=t.city,
+                    company=t.company,
+                    number=t.number,
+                    origin=t.origin,
+                    destination=t.destination,
+                    created=format_date(t.created),
+                    updated=format_date(t.updated))
+
+    items = Transportation.objects.filter(active=True)
+    transportations = map(format_transportation, items)
+
+    return dict(provinces=PROVINCES,
+                transportations=transportations)
 
