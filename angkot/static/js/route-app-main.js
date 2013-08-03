@@ -1,6 +1,7 @@
 (function(app) {
 
 var JAKARTA = [106.8294444, -6.1744444];
+var INDONESIA = [[143.0419921875, 8.189742344383703], [93.8671875, -11.867350911459308]];
 
 // var geocoder = new google.maps.Geocoder();
 
@@ -11,6 +12,7 @@ app.controller('MainController', ['$scope', function($scope) {
   $scope.init = function() {
     $scope.map = {
       center: JAKARTA,
+      maxBounds: INDONESIA,
       zoom: 13,
       routes: [],
     }

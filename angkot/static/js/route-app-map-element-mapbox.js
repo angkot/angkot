@@ -55,6 +55,16 @@ app.directive('angkotMap', function() {
       map.fitBounds(bounds);
     });
 
+    $scope.$watch('maxBounds', function(bounds) {
+      if (!bounds) return;
+
+      var a = [bounds[0][1], bounds[0][0]];
+      var b = [bounds[1][1], bounds[1][0]];
+      var b = new L.LatLngBounds([a, b]);
+      map.setMaxBounds(b);
+      console.log('max', b);
+    });
+
     var map, editor;
 
     var initMap = function() {
@@ -139,6 +149,7 @@ app.directive('angkotMap', function() {
       viewport: '=',
       fitToBounds: '=',
       editable: '=',
+      maxBounds: '=',
     },
     link: function(scope, element, attrs) {
       scope.init();
