@@ -1,6 +1,10 @@
 from django.contrib.gis import admin
 
-from .models import Submission
+from .models import Transportation, Submission
+
+class TransportationAdmin(admin.GeoModelAdmin):
+    list_display = ('province', 'city', 'company', 'number', 'origin',
+                    'destination', 'active', 'updated')
 
 class SubmissionAdmin(admin.GeoModelAdmin):
     def visitor_id(obj):
@@ -10,5 +14,6 @@ class SubmissionAdmin(admin.GeoModelAdmin):
 
     list_display = ('submission_id', 'ip_address', visitor_id, 'parsed_ok', 'created',)
 
+admin.site.register(Transportation, TransportationAdmin)
 admin.site.register(Submission, SubmissionAdmin)
 
