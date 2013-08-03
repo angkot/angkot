@@ -39,6 +39,7 @@ app.directive('angkotMap', function() {
         else bounds.extend(bound);
       }
       editor.setRoutes(res);
+      editor.setEditable($scope.editable);
 
       if ($scope.fitToBounds && bounds) {
         map.fitBounds(bounds);
