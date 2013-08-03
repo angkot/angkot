@@ -115,7 +115,8 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
     $scope.saved = false;
     $scope.checked = false;
     $scope.message = null;
-    $scope.error = null
+    $scope.error = null;
+    $scope.parentId = null;
   });
 
   function updateModified() {
