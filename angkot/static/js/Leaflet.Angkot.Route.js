@@ -80,6 +80,7 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._map.on('click', this._onMapClick, this);
     this._map.on('mousemove', this._onMapMouseMove, this);
     this._map.on('mouseover', this._onMapMouseOver, this);
+    this._map.on('mouseout', this._onMapMouseOut, this);
 
     L.DomEvent.addListener(document, 'keydown', function(e) {
       this._ctrlKey = e.ctrlKey;
@@ -93,6 +94,7 @@ L.Angkot.Route = L.LayerGroup.extend({
     if (!this._map) return;
 
     this._map.off('click', this._onMapClick, this);
+    this._map.off('mouseout', this._onMapMouseOut, this);
     this._map.off('mousemove', this._onMapMouseMove, this);
     this._map.off('mouseover', this._onMapMouseOver, this);
   },
@@ -147,6 +149,10 @@ L.Angkot.Route = L.LayerGroup.extend({
     if (this._polylines.length == 0) {
       this._tooltip.setContent('Klik untuk membuat rute');
     }
+  },
+
+  _onMapMouseOut: function(e) {
+    this._tooltip.clear();
   },
 
   _onMapMouseMove: function(e) {
