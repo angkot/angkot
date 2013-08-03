@@ -46,7 +46,7 @@ def parseData(submission):
 
     # Fill properties
     prop = normalize(data.properties)
-    fields = ['city', 'company', 'number', 'origin', 'destination']
+    fields = ['province', 'city', 'company', 'number', 'origin', 'destination']
     for field in fields:
         if field in prop:
             setattr(submission, field, prop[field])
@@ -62,7 +62,7 @@ def parseData(submission):
 
 def validateData(submission):
     # required fields
-    fields = ['city', 'number']
+    fields = ['province', 'city', 'number']
     for field in fields:
         if getattr(submission, field) is None:
             raise ValueError('Incomplete data')
