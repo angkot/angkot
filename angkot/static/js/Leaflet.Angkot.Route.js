@@ -16,7 +16,7 @@ L.Angkot.Route = L.LayerGroup.extend({
       weight: 2,
       opacity: 0.5,
     });
-    this._ctrlKey = false;
+    this._shiftKey = false;
 
     this._tooltip = new L.Tooltip();
     this._distance = 0;
@@ -83,10 +83,10 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._map.on('mouseout', this._onMapMouseOut, this);
 
     L.DomEvent.addListener(document, 'keydown', function(e) {
-      this._ctrlKey = e.ctrlKey;
+      this._shiftKey = e.shiftKey;
     }, this);
     L.DomEvent.addListener(document, 'keyup', function(e) {
-      this._ctrlKey = e.ctrlKey;
+      this._shiftKey = e.shiftKey;
     }, this);
   },
 
@@ -298,12 +298,12 @@ L.Angkot.Route = L.LayerGroup.extend({
         this._tooltip.setContent('Klik untuk melanjutkan rute');
       }
       else if (onVertex) {
-        this._tooltip.setContent('Untuk menghapus titik, tahan tombol <kbd>ctrl</kbd> lalu klik titik yang mau dihapus');
+        this._tooltip.setContent('Untuk menghapus titik, tahan tombol <kbd>shift</kbd> lalu klik titik yang mau dihapus');
       }
     }
     else if (p !== this._active) {
       if (tip) {
-        this._tooltip.setContent('Untuk menggabung rute, tahan tombol <kbd>ctrl</kbd> lalu klik titik tujuan');
+        this._tooltip.setContent('Untuk menggabung rute, tahan tombol <kbd>shift</kbd> lalu klik titik tujuan');
       }
     }
   },
@@ -332,14 +332,14 @@ L.Angkot.Route = L.LayerGroup.extend({
         this._addNextPoint(e);
       }
     }
-    else if (!this._active && this._ctrlKey && e.vertex !== undefined) {
+    else if (!this._active && this._shiftKey && e.vertex !== undefined) {
       this._removeVertex(e);
     }
     else if (tip) {
       if (!this._active) {
         this._continueRoute(e);
       }
-      else if (this._active && this._ctrlKey) {
+      else if (this._active && this._shiftKey) {
         this._mergeRoute(e);
         this._stopDrawing();
       }
