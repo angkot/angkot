@@ -26,7 +26,9 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
     }
     $scope.setMapEditable(true);
     if (value != 'editor' || value === old) return;
-    $scope.unstashData();
+    if ($scope.unstashData()) {
+      $scope.reset();
+    }
   });
 
   $scope.saveRouteCheck = function() {
@@ -113,7 +115,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
     $scope.showModalFrom('#license-info-content');
   }
 
-  $scope.$on('map-reset', function() {
+  $scope.reset = function() {
     $scope.province = '';
     $scope.city = '';
     $scope.company = '';
@@ -127,6 +129,12 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
     $scope.message = null;
     $scope.error = null;
     $scope.parentId = null;
+    $scope.setMapData({routes:[]});
+  }
+
+  $scope.$on('map-reset', function() {
+    $scope.reset();
+    $scope.stash = null;
   });
 
   function updateModified() {
@@ -175,7 +183,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
 
   $scope.unstashData = function() {
     var stash = $scope.stash;
-    if (!stash) return;
+    if (!stash) return false;
 
     $scope.province = stash.province;
     $scope.city = stash.city;
@@ -185,11 +193,9 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
     $scope.destination = stash.destination;
     $scope.licenseAgreement = stash.licenseAgreement;
     $scope.setMapData(stash.map);
-  }
 
-  $scope.$on('map-reset', function() {
-    $scope.stash = null;
-  });
+    return true;
+  }
 
   // provinces
 
