@@ -96,27 +96,6 @@ class Submission(models.Model):
         ordering = ('-updated',)
 
     def to_geojson(self):
-        import geojson
-        from shapely.geometry import asMultiLineString
-
-        if self.route is not None:
-            p = asMultiLineString(self.route)
-            geometry = geojson.loads(geojson.dumps(p))
-        else:
-            geometry = {
-                'type': 'MultiLineString',
-                'coordinates': []
-            }
-
-        return {
-            'type': 'Feature',
-            'properties': {
-                'city': self.city,
-                'company': self.company,
-                'number': self.number,
-                'origin': self.origin,
-                'destination': self.destination,
-            },
-            'geometry': geometry
-        }
+        from . import utils
+        return utils.to_geojson(self)
 
