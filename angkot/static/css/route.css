@@ -294,6 +294,9 @@
   border-bottom: 1px dotted #ccc;
   text-align: center;
 }
+.leaflet-transportation-info span.empty {
+  display: inline-block;
+}
 .leaflet-transportation-info .empty:hover {
   background: LightYellow;
 }

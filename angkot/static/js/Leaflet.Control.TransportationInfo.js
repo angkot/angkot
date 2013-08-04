@@ -80,14 +80,32 @@ L.Control.TransportationInfo = L.Control.extend({
       destination: 'jurusan',
     }
 
+    var hover = function(e, label) {
+      e.unbind('mouseover');
+      e.unbind('mouseout');
+      if (!label) return;
+      e.mouseover(function() {
+        var w = e.width();
+        e.css({width:w+'px'});
+        e.text('edit');
+      });
+      e.mouseout(function() {
+        e.text(label);
+      });
+    }
+
     var set = function(n) {
-      c.find('.'+n).removeClass('empty');
-      c.find('.'+n).text(info[n]);
+      var e = c.find('.'+n);
+      hover(e);
+      e.removeClass('empty');
+      e.text(info[n]);
     }
 
     var empty = function(n) {
-      c.find('.'+n).addClass('empty');
-      c.find('.'+n).text(labels[n]);
+      var e = c.find('.'+n);
+      hover(e, labels[n]);
+      e.addClass('empty');
+      e.text(labels[n]);
     }
 
     var update = function(n) {
@@ -100,15 +118,18 @@ L.Control.TransportationInfo = L.Control.extend({
     update('origin');
     update('destination');
 
+    var e = c.find('.route');
     if (route.coordinates && route.coordinates.length > 0) {
       var distance = this._formatDistance(this._getDistance(route.coordinates));
       var text = route.coordinates.length + ' rute &ndash; ' + distance;
-      c.find('.route').removeClass('empty');
-      c.find('.route').html(text);
+      hover(e);
+      e.removeClass('empty');
+      e.html(text);
     }
     else {
-      c.find('.route').addClass('empty');
-      c.find('.route').text('gambar rute');
+      e.addClass('empty');
+      e.text('gambar rute');
+      hover(e, 'gambar rute');
     }
   },
 });
