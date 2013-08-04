@@ -24,3 +24,29 @@ def generate_id():
 
     return convert_base(t, CHARS)
 
+def to_geojson(obj):
+    import geojson
+    from shapely.geometry import asMultiLineString
+
+    if obj.route is not None:
+        p = asMultiLineString(obj.route)
+        geometry = geojson.loads(geojson.dumps(p))
+    else:
+        geometry = {
+            'type': 'MultiLineString',
+            'coordinates': []
+        }
+
+    return {
+        'type': 'Feature',
+        'properties': {
+            'province': obj.province,
+            'city': obj.city,
+            'company': obj.company,
+            'number': obj.number,
+            'origin': obj.origin,
+            'destination': obj.destination,
+        },
+        'geometry': geometry
+    }
+
