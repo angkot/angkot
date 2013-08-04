@@ -1,4 +1,6 @@
 L.Control.TransportationInfo = L.Control.extend({
+  includes: L.Mixin.Events,
+
   options: {
     position: 'topleft',
   },
@@ -22,8 +24,9 @@ L.Control.TransportationInfo = L.Control.extend({
         .on(c, 'dblclick', stop)
         .on(c, 'click', L.DomEvent.preventDefault)
 
+    var self = this;
     jQuery(c).find('> p.edit a').click(function() {
-      console.log('edit');
+      self.fire('edit');
     });
 
     return c;
@@ -60,6 +63,7 @@ L.Control.TransportationInfo = L.Control.extend({
   },
 
   _update: function() {
+    var self = this;
     var data = this._data;
     var c = jQuery(this._c);
 
@@ -83,6 +87,7 @@ L.Control.TransportationInfo = L.Control.extend({
     var hover = function(e, label) {
       e.unbind('mouseover');
       e.unbind('mouseout');
+      e.unbind('click');
       if (!label) return;
       e.mouseover(function() {
         var w = e.width();
@@ -91,6 +96,9 @@ L.Control.TransportationInfo = L.Control.extend({
       });
       e.mouseout(function() {
         e.text(label);
+      });
+      e.click(function() {
+        self.fire('edit');
       });
     }
 

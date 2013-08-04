@@ -126,6 +126,10 @@ app.controller('MainController', ['$scope', '$http', function($scope, $http) {
     $scope.map.routes = [];
   });
 
+  $scope.editMap = function() {
+    console.log('main edit map');
+  }
+
   // panel
 
   $scope.showPanel = function(name) {

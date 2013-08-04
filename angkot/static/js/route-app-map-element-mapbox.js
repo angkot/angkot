@@ -95,6 +95,9 @@ app.directive('angkotMap', function() {
       info = new L.Control.TransportationInfo();
       map.addControl(info);
 
+      info.on('edit', function() {
+        $scope.editMap();
+      });
     }
 
     var initEditor = function() {
@@ -158,6 +161,7 @@ app.directive('angkotMap', function() {
       editable: '=',
       maxBounds: '=',
       info: '=',
+      editMap: '&',
     },
     link: function(scope, element, attrs) {
       scope.init();
