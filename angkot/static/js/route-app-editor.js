@@ -187,6 +187,10 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
     $scope.setMapData(stash.map);
   }
 
+  $scope.$on('map-reset', function() {
+    $scope.stash = null;
+  });
+
   // provinces
 
   var loadProvinces = function() {
