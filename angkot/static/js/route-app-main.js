@@ -117,6 +117,11 @@ app.controller('MainController', ['$scope', '$http', function($scope, $http) {
     $scope.$broadcast('map-reset');
   }
 
+  $scope.newRoute = function() {
+    $scope.resetMap();
+    $scope.showPanel('editor');
+  }
+
   $scope.$on('map-reset', function() {
     $scope.map.routes = [];
   });

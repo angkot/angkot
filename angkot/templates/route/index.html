@@ -122,6 +122,7 @@
       <select name="city" ng-model="city" ng-show="province"
               ng-options="cityListLabel(city) for city in cities[province] | filter:cityHasTransportation">
       </select>
+      <div class="new">Tahu rute angkutan yang lain?<br/><a href="" ng-click="newRoute()">Yuk tambahkan!</a></div>
       <div class="list">
         <div class="transportation"
              ng-repeat="item in transportations[province][city]"
