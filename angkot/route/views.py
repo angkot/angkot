@@ -5,6 +5,9 @@ from angkot.decorators import api, OK, Fail
 from .models import Transportation, Submission, PROVINCES
 from .submission.data import process as processSubmission
 
+def _format_date(d):
+    return d.strftime('%s')
+
 @api
 def _save_route(request):
     import geojson
@@ -68,9 +71,6 @@ def province_list(request):
 @api
 def transportation_list(request):
     # TODO cache this
-    def format_date(d):
-        return d.strftime('%s')
-
     def format_transportation(t):
         return dict(id=t.id,
                     province=t.province,
@@ -79,12 +79,22 @@ def transportation_list(request):
                     number=t.number,
                     origin=t.origin,
                     destination=t.destination,
-                    created=format_date(t.created),
-                    updated=format_date(t.updated))
+                    created=_format_date(t.created),
+                    updated=_format_date(t.updated))
 
     items = Transportation.objects.filter(active=True)
     transportations = map(format_transportation, items)
 
     return dict(provinces=PROVINCES,
                 transportations=transportations)
+
+@api
+def transportation_data(request, tid):
+    tid = int(tid)
+    t = Transportation.objects.get(pk=tid)
+
+    return dict(id=t.id,
+                geojson=t.to_geojson(),
+                created=_format_date(t.created),
+                updated=_format_date(t.updated))
 
