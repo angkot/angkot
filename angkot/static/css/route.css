@@ -273,3 +273,28 @@
   font-size: 12px;
 }
 
+.leaflet-transportation-info {
+  border-radius: 2px;
+  padding: 10px;
+  background: white;
+  box-shadow: 0 0 5px 0 #888;
+  min-width: 150px;
+}
+.leaflet-transportation-info p {
+  margin: 0 0 5px 0;
+}
+.leaflet-transportation-info p.edit {
+  margin: 5px 0 0 0;
+  text-align: right;
+}
+.leaflet-transportation-info .empty {
+  cursor: pointer;
+  color: #888;
+  padding: 0 10px;
+  border-bottom: 1px dotted #ccc;
+  text-align: center;
+}
+.leaflet-transportation-info .empty:hover {
+  background: LightYellow;
+}
+

@@ -64,7 +64,12 @@ app.directive('angkotMap', function() {
       map.setMaxBounds(b);
     });
 
-    var map, editor;
+    $scope.$watch('info', function(data) {
+      console.log('map info', data);
+      info.setData(data);
+    });
+
+    var map, editor, info;
 
     var initMap = function() {
       var center = [$scope.center[1], $scope.center[0]];
@@ -86,6 +91,9 @@ app.directive('angkotMap', function() {
       //     $scope.center = [center.lng, center.lat];
       //   });
       // });
+
+      info = new L.Control.TransportationInfo();
+      map.addControl(info);
 
     }
 
@@ -149,6 +157,7 @@ app.directive('angkotMap', function() {
       fitToBounds: '=',
       editable: '=',
       maxBounds: '=',
+      info: '=',
     },
     link: function(scope, element, attrs) {
       scope.init();

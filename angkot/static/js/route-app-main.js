@@ -39,6 +39,7 @@ app.controller('MainController', ['$scope', '$http', function($scope, $http) {
 
   $scope.setMapGeoJSON = function(data) {
     $scope.showRoute(data.geometry.coordinates);
+    $scope.showInfo(data);
   }
 
   $scope.setMapEditable = function(editable) {
@@ -48,6 +49,10 @@ app.controller('MainController', ['$scope', '$http', function($scope, $http) {
   $scope.showRoute = function(routes) {
     $scope.map.fitToBounds = true;
     $scope.map.routes = routes;
+  }
+
+  $scope.showInfo = function(data) {
+    $scope.map.info = data;
   }
 
   $scope.showModal = function(data) {
