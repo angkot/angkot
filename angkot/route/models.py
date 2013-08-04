@@ -59,6 +59,10 @@ class Transportation(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def to_geojson(self):
+        from . import utils
+        return utils.to_geojson(self)
+
 class Submission(models.Model):
     optional = dict(null=True, default=None, blank=True)
 
