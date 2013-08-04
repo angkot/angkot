@@ -37,6 +37,10 @@ app.controller('MainController', ['$scope', '$http', function($scope, $http) {
     if (data.routes) $scope.map.routes = data.routes;
   }
 
+  $scope.setMapGeoJSON = function(data) {
+    $scope.showRoute(data.geometry.coordinates);
+  }
+
   $scope.setMapEditable = function(editable) {
     $scope.map.editable = editable;
   }

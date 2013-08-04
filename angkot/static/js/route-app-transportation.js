@@ -44,6 +44,7 @@ app.controller('TransportationController', ['$scope', '$http', function($scope, 
       if (!$scope.count) {
         $scope.province = prov;
         $scope.city = city;
+        $scope.transportation = item;
       }
 
       $scope.count += 1;
@@ -96,8 +97,25 @@ app.controller('TransportationController', ['$scope', '$http', function($scope, 
     return $scope.city_count[$scope.province][city];
   }
 
+  $scope.$watch('transportation', function(t, old) {
+    console.log('w', t, old);
+    if (!t) return;
+    if (t == old) return;
+    $scope.showTransportation(t);
+  });
+
+  $scope.setTransportation = function(t) {
+    $scope.transportation = t;
+  }
+
   $scope.showTransportation = function(t) {
-    console.log('show', t);
+    var url = jQuery('#transportations').data('url-transportation-data');
+    url = url.replace('0', t.id);
+    $http.get(url)
+      .success(function(data) {
+        $scope.setMapEditable(false);
+        $scope.setMapGeoJSON(data.geojson);
+      });
   }
 
 }]);

@@ -110,6 +110,7 @@
 
   <div class="content" id="transportations"
        data-url-transportation-list="{% url "route_transportation_list" %}"
+       data-url-transportation-data="{% url "route_transportation_data" 0 %}"
        ng-show="panel=='transportation'" ng-controller="TransportationController" ng-init="init()">
     <div class="loading" ng-show="loading">
       <p>loading..</p>
@@ -124,7 +125,8 @@
       <div class="transportation-list">
         <div class="transportation"
              ng-repeat="item in transportations[province][city]"
-             ng-click="showTransportation(item)">
+             ng-class="{'active':item==transportation}"
+             ng-click="setTransportation(item)">
           <p class="company-number">
             <span class="company" ng-show="item.company" ng-bind="item.company"></span>
             <span class="number" ng-bind="item.number"></span>
