@@ -22,6 +22,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
   $scope.$watch('panel', function(value, old) {
     if (old == 'editor' && value != 'editor') {
       $scope.stashData();
+      $scope.map.routes = [];
     }
     $scope.setMapEditable(true);
     if (value != 'editor' || value === old) return;
