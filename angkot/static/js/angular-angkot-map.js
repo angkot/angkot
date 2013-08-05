@@ -1,10 +1,10 @@
-(function(angkot) {
+(function() {
 
 "use strict"
 
-var app = angkot.app;
+var mod = angular.module('angkotMap', []);
 
-app.directive('angkotMap', function() {
+mod.directive('angkotMap', function() {
 
   var controller = ['$scope', '$element', function($scope, $element) {
 
@@ -157,5 +157,5 @@ app.directive('angkotMap', function() {
 
 });
 
-})(window.angkot);
+})();
 
