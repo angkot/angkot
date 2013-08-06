@@ -32,7 +32,7 @@ app.controller('SubmissionListController', ['$scope', '$http', function($scope, 
   }
 
   $scope.showRoute = function(route) {
-    $scope.$parent.showRoute(route.geojson.geometry.coordinates);
+    $scope.map.routes = route.geojson.geometry.coordinates;
     $scope.active = route;
   }
 

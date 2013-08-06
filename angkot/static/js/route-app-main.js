@@ -25,11 +25,6 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
     console.log('route changed');
   }
 
-  $scope.showRoute = function(routes) {
-    $scope.map.fitToBounds = true;
-    $scope.map.routes = routes;
-  }
-
   $scope.search = function() {
     var q = jQuery.trim($scope.searchQuery);
     if (!q) return;
