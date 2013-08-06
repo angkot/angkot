@@ -4,7 +4,7 @@ window.angkot = {};
 
 (function(angkot) {
 
-var app = angular.module('AngkotRoute', ['modal', 'angkotMap']);
+var app = angular.module('AngkotRoute', ['modal', 'angkotMap', 'angkotFilter']);
 
 app.config(function($interpolateProvider, $httpProvider) {
   $interpolateProvider.startSymbol('((');

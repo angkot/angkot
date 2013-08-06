@@ -1,6 +1,10 @@
-(function(app) {
+'use strict';
 
-app.filter('lengthUnit', function() {
+(function() {
+
+var mod = angular.module('angkotFilter', []);
+
+mod.filter('lengthUnit', function() {
   return function(value) {
     if (value < 1500) {
       return Math.round(value) + ' m';
@@ -10,7 +14,7 @@ app.filter('lengthUnit', function() {
 });
 
 // From http://stackoverflow.com/a/17364716/252384
-app.directive('ngEnter', function() {
+mod.directive('ngEnter', function() {
   return function(scope, element, attrs) {
     element.bind("keydown keypress", function(event) {
       if(event.which === 13) {
@@ -24,7 +28,7 @@ app.directive('ngEnter', function() {
   };
 });
 
-app.directive('eatClick', function() {
+mod.directive('eatClick', function() {
   return function(scope, element, attrs) {
     $(element).click(function(event) {
       event.stopPropagation();
@@ -32,5 +36,5 @@ app.directive('eatClick', function() {
   }
 })
 
-})(window.angkot.app);
+})();
 
