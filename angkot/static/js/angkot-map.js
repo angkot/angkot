@@ -17,6 +17,17 @@ mod.factory('mapService', function() {
     routes: [],
     fitRoutesToBounds: true,
 
+    update: function(data) {
+      if (data.viewport !== undefined) this.viewport = data.viewport;
+      if (data.maxBounds !== undefined) this.maxBounds = data.maxBounds;
+      if (data.editable !== undefined) this.editable = data.editable;
+      if (data.routes !== undefined) this.routes = data.routes;
+      if (data.view !== undefined) {
+        if (data.view.center !== undefined) this.view.center = data.view.center;
+        if (data.view.zoom !== undefined) this.view.zoom = data.view.zoom;
+      }
+    },
+
     setCenter: function(center) {
       this.view.center = center;
     },
