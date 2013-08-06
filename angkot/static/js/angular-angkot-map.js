@@ -8,26 +8,28 @@ mod.directive('angkotMap', function() {
 
   var controller = ['$scope', '$element', function($scope, $element) {
 
+    var map, editor;
+
     $scope.init = function() {
       initMap();
       initEditor();
     }
 
-    $scope.$watch('editable', function(value) {
+    $scope.$watch('data.editable', function(value) {
       editor.setEditable(value);
     });
 
     var updateView = function() {
-      var pos = $scope.center;
+      var pos = $scope.data.center;
       var center = [pos[1], pos[0]];
-      var zoom = $scope.zoom;
+      var zoom = $scope.data.zoom;
       map.setView(center, zoom);
     }
 
-    $scope.$watch('center', updateView);
-    $scope.$watch('zoom', updateView);
+    $scope.$watch('data.center', updateView);
+    $scope.$watch('data.zoom', updateView);
 
-    $scope.$watch('routes', function(routes) {
+    $scope.$watch('data.routes', function(routes) {
       var res = [];
       var bounds;
       for (var i=0; i<routes.length; i++) {
@@ -41,12 +43,12 @@ mod.directive('angkotMap', function() {
       editor.setRoutes(res);
       editor.setEditable($scope.editable);
 
-      if ($scope.fitToBounds && bounds) {
+      if ($scope.data.fitToBounds && bounds) {
         map.fitBounds(bounds);
       }
     });
 
-    $scope.$watch('viewport', function(viewport) {
+    $scope.$watch('data.viewport', function(viewport) {
       if (!viewport) return;
 
       var a = [viewport[0][1], viewport[0][0]];
@@ -55,7 +57,7 @@ mod.directive('angkotMap', function() {
       map.fitBounds(bounds);
     });
 
-    $scope.$watch('maxBounds', function(bounds) {
+    $scope.$watch('data.maxBounds', function(bounds) {
       if (!bounds) return;
 
       var a = [bounds[0][1], bounds[0][0]];
@@ -64,53 +66,53 @@ mod.directive('angkotMap', function() {
       map.setMaxBounds(b);
     });
 
-    var map, editor;
-
     var initMap = function() {
-      var center = [$scope.center[1], $scope.center[0]];
+      var center = [0, 0]
       map = L.mapbox.map($element[0], $scope.mapboxKey, {
           boxZoom: false,
           minZoom: 7,
           maxZoom: 17,
-        }).setView(center, $scope.zoom);
+        }).setView(center, 15);
 
       // map.on('zoomend', function() {
       //   $scope.$apply(function() {
-      //     $scope.zoom = map.getZoom();
+      //     $scope.data.zoom = map.getZoom();
       //   });
       // });
 
       // map.on('moveend', function() {
       //   $scope.$apply(function() {
       //     var center = map.getCenter();
-      //     $scope.center = [center.lng, center.lat];
+      //     $scope.data.center = [center.lng, center.lat];
       //   });
       // });
 
     }
 
     var initEditor = function() {
-      editor = new L.Angkot.Route();
-      editor.setEditable($scope.editable);
+      editor = new L.Angkot.Route({editable: false});
       editor.addTo(map);
 
       editor.on('route:add', function(e) {
         var routes = editor.getRoutes();
         $scope.$apply(function() {
-          $scope.routes.push(toLngLat(routes[e.index]));
+          $scope.data.routes.push(toLngLat(routes[e.index]));
+          $scope.fireRouteChanged();
         });
       });
 
       editor.on('route:delete', function(e) {
         $scope.$apply(function() {
-          $scope.routes.splice(e.index, 1);
+          $scope.data.routes.splice(e.index, 1);
+          $scope.fireRouteChanged();
         });
       });
 
       editor.on('route:update', function(e) {
         var routes = editor.getRoutes();
         $scope.$apply(function() {
-          $scope.routes[e.index] = toLngLat(routes[e.index]);
+          $scope.data.routes[e.index] = toLngLat(routes[e.index]);
+          $scope.fireRouteChanged();
         });
       });
     }
@@ -142,13 +144,8 @@ mod.directive('angkotMap', function() {
     controller: controller,
     scope: {
       mapboxKey: '=',
-      center: '=',
-      zoom: '=',
-      routes: '=',
-      viewport: '=',
-      fitToBounds: '=',
-      editable: '=',
-      maxBounds: '=',
+      data: '=mapData',
+      fireRouteChanged: '&onroutechanged',
     },
     link: function(scope, element, attrs) {
       scope.init();

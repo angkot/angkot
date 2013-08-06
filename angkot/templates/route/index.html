@@ -90,10 +90,7 @@
 
 <modal show="modal.show" title-text="modal.title" content-html="modal.content"></modal>
 
-<angkot-map id="map" mapbox-key="mapboxKey"
-            center="map.center" zoom="map.zoom" routes="map.routes"
-            viewport="map.viewport" fit-to-bounds="map.fitToBounds"
-            editable="map.editable" max-bounds="map.maxBounds"></angkot-map>
+<angkot-map id="map" mapbox-key="mapboxKey" map-data="map" onroutechanged="onRouteChanged()"></angkot-map>
 
 <div class="sidepanel" ng-cloak>
   <div class="nav">

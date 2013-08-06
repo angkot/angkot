@@ -13,23 +13,16 @@ app.controller('MainController', ['$scope', '$http', function($scope, $http) {
       maxBounds: INDONESIA,
       zoom: 13,
       routes: [],
+      fitRoutesToBounds: true,
+      editable: false,
     }
     $scope.showPanel('editor');
     $scope.mapboxKey = jQuery('body').data('mapbox-key');
   }
 
-  $scope.$watch('map.zoom', function(value) {
-    // console.log('main: zoom', value);
-  });
-  $scope.$watch('map.center', function(value) {
-    // console.log('main: center', value);
-  });
-
-  $scope.$watch('map.routes', function(value, old) {
-    // console.log('routes updated');
-    // console.log(old);
-    // console.log(value);
-  }, true);
+  $scope.onRouteChanged = function() {
+    console.log('route changed');
+  }
 
   $scope.setMapData = function(data) {
     if (data.center) $scope.map.center = data.center;
