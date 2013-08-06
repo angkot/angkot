@@ -207,9 +207,9 @@
   text-decoration: none;
 }
 
-/*= submissions =*/
+/*= submission-list =*/
 
-#submissions .route {
+#submission-list .route {
   border-bottom: 1px solid #ccc;
   margin-left: -15px;
   margin-right: -15px;
@@ -217,20 +217,20 @@
   cursor: pointer;
   border-left: 5px solid #fff;
 }
-#submissions .route.active {
+#submission-list .route.active {
   background: #eee;
   border-left: 5px solid #eee;
 }
-#submissions .route:hover {
+#submission-list .route:hover {
   border-left: 5px solid #ccc;
 }
-#submissions .route p {
+#submission-list .route p {
   margin: 0px;
 }
-#submissions .route p.action {
+#submission-list .route p.action {
   text-align: right;
 }
-#submissions .date {
+#submission-list .date {
   color: #aaa;
   font-size: 12px;
 }

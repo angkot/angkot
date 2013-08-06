@@ -13,7 +13,7 @@
 </head><body ng-controller="MainController" ng-init="init()"
              data-mapbox-key="{{ MAPBOX_KEY }}"
              data-url-province-list="{% url "route_province_list" %}"
-             data-url-submissions="{% url "route_submissions" %}"
+             data-url-submission-list="{% url "route_submission_list" %}"
              data-url-save="{% url "route_index" %}">
 
 <div id="head">
@@ -49,7 +49,7 @@
   <div class="nav">
   <ul>
   <li ng-class="{'active':panel=='data-form'}" ng-click="showPanel('data-form')">Buat Rute</i>
-  <li ng-class="{'active':panel=='submission'}" ng-click="showPanel('submission')">Daftar Kiriman</i>
+  <li ng-class="{'active':panel=='submission-list'}" ng-click="showPanel('submission-list')">Daftar Kiriman</i>
   <!--
   <li>Riwayat Pengiriman</i>
   <li>Feedback</i>
@@ -103,8 +103,9 @@
   </div>
   <!-- // data form -->
 
-  <div class="content" id="submissions" data-url-submissions="{% url "route_submissions" %}"
-       ng-show="panel=='submission'" ng-controller="SubmissionController" ng-init="init()">
+  <!-- submission list -->
+  <div class="content" id="submission-list"
+       ng-show="panel=='submission-list'" ng-controller="SubmissionListController" ng-init="init()">
     <div class="loading" ng-show="loading">
       <p>loading..</p>
     </div>
@@ -120,14 +121,10 @@
           &mdash;
           <span class="destination" ng-show="route.geojson.properties.destination" ng-bind="route.geojson.properties.destination"></span>
         </p>
-        <!--
-        <p class="action">
-          <a class="edit" href="" ng-click="editRoute(route)" eat-click>edit</a>
-        </p>
-        -->
       </div>
     </div>
   </div>
+  <!-- // submission list -->
 
 </div>
 
@@ -146,10 +143,10 @@
 <script type="text/javascript" src="{% static "js/angkot-filter.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-dataform.js" %}"></script>
+<script type="text/javascript" src="{% static "js/angkot-route-submissionlist.js" %}"></script>
 
 <script type="text/javascript" src="{% static "js/route-app-main.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-menu.js" %}"></script>
-<script type="text/javascript" src="{% static "js/route-app-submission.js" %}"></script>
 
 {% if GOOGLE_ANALYTICS_ID %}
 <script>
