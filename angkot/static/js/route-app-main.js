@@ -3,9 +3,10 @@
 var JAKARTA = [106.8294444, -6.1744444];
 var INDONESIA = [[143.0419921875, 8.189742344383703], [93.8671875, -11.867350911459308]];
 
-app.controller('MainController', ['$scope', '$http', function($scope, $http) {
+app.controller('MainController', ['$scope', '$http', 'modalService', function($scope, $http, modalService) {
 
   $scope.panel = undefined;
+  $scope.modal = modalService;
 
   $scope.init = function() {
     $scope.map = {
@@ -39,26 +40,10 @@ app.controller('MainController', ['$scope', '$http', function($scope, $http) {
     $scope.map.routes = routes;
   }
 
-  $scope.showModal = function(data) {
-    $scope.modal = $scope.modal || {};
-    if (data === false) {
-      $scope.modal.show = false;
-    }
-    else {
-      if (data.show !== undefined) $scope.modal.show = data.show;
-      if (data.title !== undefined) $scope.modal.title = data.title;
-      if (data.content !== undefined) $scope.modal.content = data.content;
-    }
-  }
-
   $scope.showModalFrom = function(selector) {
     var title = jQuery(selector).find('> h2').text();
     var content = jQuery(selector).find('> .content').html();
-    $scope.showModal({
-      show: true,
-      title: title,
-      content: content,
-    });
+    $scope.modal.show(content, title);
   }
 
   $scope.search = function() {

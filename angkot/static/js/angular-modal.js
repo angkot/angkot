@@ -1,24 +1,46 @@
 (function() {
 
 var mod = angular.module('modal', ['ngSanitize']);
-mod.directive('modal', function() {
+
+mod.factory('modalService', function() {
+  return {
+    visible: false,
+    title: undefined,
+    content: undefined,
+
+    show: function(content, title) {
+      this.content = content;
+      this.title = title;
+      this.visible = true;
+    },
+
+    hide: function() {
+      this.visible = false;
+    },
+  }
+});
+
+mod.directive('modal', ['modalService', function(modalService) {
 
   return {
     restrict: 'E',
     scope: {
-      title: '=?titleText',
-      content: '=?contentHtml',
-      show: '=?show',
+      data: '=data',
+      fireModalClosed: '&?onmodalclosed',
     },
+    replace: true,
     templateUrl: '/static/partial/modal.html',
     controller: ['$scope', function($scope) {
       $scope.close = function() {
-        $scope.show = false;
+        $scope.data.visible = false;
+        if ($scope.fireModalClosed) {
+          $scope.fireModalClosed();
+        }
       }
     }]
   }
 
-});
+}]);
 
 })();
 
