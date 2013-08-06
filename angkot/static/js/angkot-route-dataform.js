@@ -155,9 +155,12 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
       routes.push($scope.map.routes[i].slice());
     }
     var map = {
-      center: $scope.map.center,
-      zoom: $scope.map.zoom,
+      view: {
+        center: $scope.map.view.center,
+        zoom: $scope.map.view.zoom,
+      },
       routes: routes,
+      editable: $scope.map.editable,
     }
 
     $scope.stash = {
@@ -183,7 +186,7 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
     $scope.origin = stash.origin;
     $scope.destination = stash.destination;
     $scope.licenseAgreement = stash.licenseAgreement;
-    $scope.setMapData(stash.map);
+    $scope.map.update(stash.map);
   }
 
   // provinces

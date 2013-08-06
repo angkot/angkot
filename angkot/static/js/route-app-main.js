@@ -25,12 +25,6 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
     console.log('route changed');
   }
 
-  $scope.setMapData = function(data) {
-    if (data.center) $scope.map.center = data.center;
-    if (data.zoom) $scope.map.zoom = data.zoom;
-    if (data.routes) $scope.map.routes = data.routes;
-  }
-
   $scope.setMapEditable = function(editable) {
     $scope.map.editable = editable;
   }
