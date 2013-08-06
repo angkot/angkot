@@ -126,7 +126,7 @@ L.Angkot.Route = L.LayerGroup.extend({
 
   _addNextPoint: function(e) {
     this._active.addLatLng(e.latlng);
-    this._guide.spliceLatLngs(0, 1, e.latlng);
+    this._guide.spliceLatLngs(0, 2, e.latlng, e.latlng);
 
     if (this._active._latlngs.length > 1) {
       var last = this._active._latlngs.length-1;
