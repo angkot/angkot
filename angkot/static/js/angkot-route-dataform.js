@@ -1,6 +1,6 @@
 (function(app) {
 
-app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
+app.controller('DataFormController', ['$scope', '$http', function($scope, $http) {
 
   $scope.checked = false;
   $scope.valid = false;
@@ -20,11 +20,11 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
   }
 
   $scope.$watch('panel', function(value, old) {
-    if (old == 'editor' && value != 'editor') {
+    if (old == 'data-form' && value != 'data-form') {
       $scope.stashData();
     }
     $scope.setMapEditable(true);
-    if (value != 'editor' || value === old) return;
+    if (value != 'data-form' || value === old) return;
     $scope.unstashData();
   });
 
@@ -189,7 +189,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
   // provinces
 
   var loadProvinces = function() {
-    var url = jQuery('#editor').data('url-province-list');
+    var url = jQuery('body').data('url-province-list');
     console.log(url);
     $http.get(url)
       .success(function(data) {

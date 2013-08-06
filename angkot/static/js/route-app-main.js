@@ -17,7 +17,7 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
     $scope.map.maxBounds = INDONESIA;
     $scope.map.fitRoutesToBounds = true;
     $scope.map.editable = false;
-    $scope.showPanel('editor');
+    $scope.showPanel('data-form');
     $scope.mapboxKey = jQuery('body').data('mapbox-key');
   }
 

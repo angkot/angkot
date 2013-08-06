@@ -19,7 +19,7 @@ app.controller('SubmissionController', ['$scope', '$http', function($scope, $htt
 
   $scope.reload = function() {
     $scope.loading++;
-    var url = jQuery('#submissions').data('url-submissions');
+    var url = jQuery('body').data('url-submissions');
     $http.get(url)
       .success(function(data) {
         data.submissions.sort(function(a, b) {

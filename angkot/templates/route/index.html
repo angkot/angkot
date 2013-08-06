@@ -12,6 +12,8 @@
 <link rel="stylesheet" type="text/css" href="{% static "css/route.css" %}"/>
 </head><body ng-controller="MainController" ng-init="init()"
              data-mapbox-key="{{ MAPBOX_KEY }}"
+             data-url-province-list="{% url "route_province_list" %}"
+             data-url-submissions="{% url "route_submissions" %}"
              data-url-save="{% url "route_index" %}">
 
 <div id="head">
@@ -46,7 +48,7 @@
 <div class="sidepanel" ng-cloak>
   <div class="nav">
   <ul>
-  <li ng-class="{'active':panel=='editor'}" ng-click="showPanel('editor')">Buat Rute</i>
+  <li ng-class="{'active':panel=='data-form'}" ng-click="showPanel('data-form')">Buat Rute</i>
   <li ng-class="{'active':panel=='submission'}" ng-click="showPanel('submission')">Daftar Kiriman</i>
   <!--
   <li>Riwayat Pengiriman</i>
@@ -55,9 +57,8 @@
   </ul>
   </div>
 
-  <div class="content" id="editor" ng-show="panel=='editor'" ng-controller="EditorController" ng-init="init()"
-       data-url-province-list="{% url "route_province_list" %}">
-  {% csrf_token %}
+  <!-- data form -->
+  <div class="content" id="data-form" ng-show="panel=='data-form'" ng-controller="DataFormController" ng-init="init()">
   <label>Provinsi</label>
   <select name="province" ng-model="province" ng-options="p[0] as p[1] for p in provinces"
           ng-class="{'error': checked && !province}"></select>
@@ -84,7 +85,8 @@
   </p>
   <div>
     <p style="float:left" ng-show="modified" class="reset"><a href="" ng-click="resetMapCheck()">ulangi dari awal</a></p>
-    <p style="text-align:right"><button class="btn btn-green" ng-click="saveRouteCheck()"><i class="icon-ok-sign"></i> Simpan Rute</button></p>
+    <p style="text-align:right"><button class="btn btn-green" ng-click="saveRouteCheck()">
+      <i class="icon-ok-sign"></i> Simpan Rute</button></p>
   </div>
   <p ng-show="message" ng-bind="message" class="message"></p>
   <p ng-show="error" ng-bind="error" class="error"></p>
@@ -95,8 +97,11 @@
       <strong ng-class="{'ok':number}">nomor angkutan</strong>, dan
       <strong ng-class="{'ok':licenseAgreement}">persetujuan lisensi</strong>
   </p>
-  <p class="mapquest-nominatim">Nominatim Search Courtesy of<br/><a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png"></p>
+  <p class="mapquest-nominatim">Nominatim Search Courtesy of<br/>
+    <a href="http://www.mapquest.com/" target="_blank">MapQuest</a>
+    <img src="//developer.mapquest.com/content/osm/mq_logo.png"></p>
   </div>
+  <!-- // data form -->
 
   <div class="content" id="submissions" data-url-submissions="{% url "route_submissions" %}"
        ng-show="panel=='submission'" ng-controller="SubmissionController" ng-init="init()">
@@ -140,10 +145,10 @@
 <script type="text/javascript" src="{% static "js/angkot-map.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-filter.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route.js" %}"></script>
+<script type="text/javascript" src="{% static "js/angkot-route-dataform.js" %}"></script>
 
 <script type="text/javascript" src="{% static "js/route-app-main.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-menu.js" %}"></script>
-<script type="text/javascript" src="{% static "js/route-app-editor.js" %}"></script>
 <script type="text/javascript" src="{% static "js/route-app-submission.js" %}"></script>
 
 {% if GOOGLE_ANALYTICS_ID %}

@@ -177,33 +177,33 @@
 
 /*= route designer =*/
 
-#editor input[name="company"] {
+#data-form input[name="company"] {
   width: 74%;
   display: inline;
   margin-right: 2%;
 }
-#editor input[name="number"] {
+#data-form input[name="number"] {
   width: 24%;
   text-align: center;
 }
-#editor p.license-agreement {
+#data-form p.license-agreement {
   line-height: 26px;
   height: 26px;
 }
-#editor p.license-agreement input {
+#data-form p.license-agreement input {
   vertical-align: middle;
 }
-#editor p.license-agreement label {
+#data-form p.license-agreement label {
   cursor: pointer;
 }
-#editor p.error {
+#data-form p.error {
   color: red;
 }
-#editor p.incomplete strong {
+#data-form p.incomplete strong {
   text-decoration: underline;
   font-weight: normal;
 }
-#editor p.incomplete strong.ok {
+#data-form p.incomplete strong.ok {
   text-decoration: none;
 }
 
