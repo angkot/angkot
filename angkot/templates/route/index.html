@@ -23,20 +23,12 @@
     <ul>
     <li><a href="" ng-click="showAbout()">Apa ini?</a></li>
     <li><a href="" ng-click="showContact()">Kontak</a></li>
-    <!--
-    <li><a href="">Login</a></li>
-    -->
     </ul>
   </div>
   <div class="search">
     <input type="text" name="q" placeholder="Cari Lokasi" class="search"
            ng-model="searchQuery" ng-enter="search()"/><button name="go" ng-click="search()" class="btn"><i class="icon-search"></i></button>
   </div>
-  <!--
-  <div class="new-route">
-    <button><i class="icon-plus-sign"></i> Buat Rute</button>
-  </div>
-  -->
 </div>
 
 <div style="display:none" ng-include="'{% static "partial/modal-content.html" %}'"></div>
@@ -50,10 +42,6 @@
   <ul>
   <li ng-class="{'active':panel=='data-form'}" ng-click="showPanel('data-form')">Buat Rute</i>
   <li ng-class="{'active':panel=='submission-list'}" ng-click="showPanel('submission-list')">Daftar Kiriman</i>
-  <!--
-  <li>Riwayat Pengiriman</i>
-  <li>Feedback</i>
-  -->
   </ul>
   </div>
 
@@ -142,11 +130,11 @@
 <script type="text/javascript" src="{% static "js/angkot-map.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-filter.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route.js" %}"></script>
+<script type="text/javascript" src="{% static "js/angkot-route-menu.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-dataform.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-submissionlist.js" %}"></script>
 
 <script type="text/javascript" src="{% static "js/route-app-main.js" %}"></script>
-<script type="text/javascript" src="{% static "js/route-app-menu.js" %}"></script>
 
 {% if GOOGLE_ANALYTICS_ID %}
 <script>
