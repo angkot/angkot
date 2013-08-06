@@ -25,10 +25,6 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
     console.log('route changed');
   }
 
-  $scope.setMapEditable = function(editable) {
-    $scope.map.editable = editable;
-  }
-
   $scope.showRoute = function(routes) {
     $scope.map.fitToBounds = true;
     $scope.map.routes = routes;

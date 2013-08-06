@@ -23,7 +23,7 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
     if (old == 'data-form' && value != 'data-form') {
       $scope.stashData();
     }
-    $scope.setMapEditable(true);
+    $scope.map.editable = true;
     if (value != 'data-form' || value === old) return;
     $scope.unstashData();
   });
