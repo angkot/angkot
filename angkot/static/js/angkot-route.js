@@ -1,6 +1,10 @@
+'use strict';
+
+window.angkot = {};
+
 (function(angkot) {
 
-var app = angular.module('AngkotRouteEditor', ['modal', 'angkotMap']);
+var app = angular.module('AngkotRoute', ['modal', 'angkotMap']);
 
 app.config(function($interpolateProvider, $httpProvider) {
   $interpolateProvider.startSymbol('((');
@@ -9,9 +13,10 @@ app.config(function($interpolateProvider, $httpProvider) {
   // From: http://thomas.rabaix.net/blog/2013/05/csrf-token-security-with-angularjs
   $httpProvider.defaults.headers.common['X-CSRFToken'] = jQuery('input[name=csrfmiddlewaretoken]').attr('value');
   $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+
 });
 
 angkot.app = app;
 
-})(angkot);
+})(window.angkot);
 
