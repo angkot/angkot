@@ -40,12 +40,6 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
     $scope.map.routes = routes;
   }
 
-  $scope.showModalFrom = function(selector) {
-    var title = jQuery(selector).find('> h2').text();
-    var content = jQuery(selector).find('> .content').html();
-    $scope.modal.show(content, title);
-  }
-
   $scope.search = function() {
     var q = jQuery.trim($scope.searchQuery);
     if (!q) return;

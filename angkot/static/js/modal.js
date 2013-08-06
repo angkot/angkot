@@ -14,6 +14,12 @@ mod.factory('modalService', function() {
       this.visible = true;
     },
 
+    showFromSelector: function(selector) {
+      var title = jQuery(selector).find('> h2').text();
+      var content = jQuery(selector).find('> .content').html();
+      this.show(content, title);
+    },
+
     hide: function() {
       this.visible = false;
     },

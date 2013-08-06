@@ -3,11 +3,11 @@
 app.controller('MenuController', ['$scope', function($scope) {
 
   $scope.showAbout = function() {
-    $scope.showModalFrom('#about-content');
+    $scope.modal.showFromSelector('#about-content');
   }
 
   $scope.showContact = function() {
-    $scope.showModalFrom('#contact-content');
+    $scope.modal.showFromSelector('#contact-content');
   }
 
 }]);
