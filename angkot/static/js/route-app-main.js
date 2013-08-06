@@ -3,20 +3,20 @@
 var JAKARTA = [106.8294444, -6.1744444];
 var INDONESIA = [[143.0419921875, 8.189742344383703], [93.8671875, -11.867350911459308]];
 
-app.controller('MainController', ['$scope', '$http', 'modalService', function($scope, $http, modalService) {
+app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService', function($scope, $http, modalService, mapService) {
 
   $scope.panel = undefined;
   $scope.modal = modalService;
+  $scope.map = mapService;
 
   $scope.init = function() {
-    $scope.map = {
+    $scope.map.view = {
       center: JAKARTA,
-      maxBounds: INDONESIA,
       zoom: 13,
-      routes: [],
-      fitRoutesToBounds: true,
-      editable: false,
     }
+    $scope.map.maxBounds = INDONESIA;
+    $scope.map.fitRoutesToBounds = true;
+    $scope.map.editable = false;
     $scope.showPanel('editor');
     $scope.mapboxKey = jQuery('body').data('mapbox-key');
   }

@@ -4,6 +4,30 @@
 
 var mod = angular.module('angkotMap', []);
 
+mod.factory('mapService', function() {
+
+  return {
+    view: {
+      center: [0,0],
+      zoom: 1,
+    },
+    viewport: undefined,
+    maxBounds: undefined,
+    editable: false,
+    routes: [],
+    fitRoutesToBounds: true,
+
+    setCenter: function(center) {
+      this.view.center = center;
+    },
+
+    setZoom: function(zoom) {
+      this.view.zoom = zoom;
+    },
+  }
+
+});
+
 mod.directive('angkotMap', function() {
 
   var controller = ['$scope', '$element', function($scope, $element) {
@@ -15,38 +39,12 @@ mod.directive('angkotMap', function() {
       initEditor();
     }
 
-    $scope.$watch('data.editable', function(value) {
-      editor.setEditable(value);
-    });
-
-    var updateView = function() {
-      var pos = $scope.data.center;
+    $scope.$watch('data.view', function(value) {
+      var pos = value.center;
       var center = [pos[1], pos[0]];
-      var zoom = $scope.data.zoom;
+      var zoom = value.zoom;
       map.setView(center, zoom);
-    }
-
-    $scope.$watch('data.center', updateView);
-    $scope.$watch('data.zoom', updateView);
-
-    $scope.$watch('data.routes', function(routes) {
-      var res = [];
-      var bounds;
-      for (var i=0; i<routes.length; i++) {
-        var route = toLatLng(routes[i]);
-        res.push(route);
-
-        var bound = new L.LatLngBounds(route);
-        if (!bounds) bounds = bound;
-        else bounds.extend(bound);
-      }
-      editor.setRoutes(res);
-      editor.setEditable($scope.editable);
-
-      if ($scope.data.fitToBounds && bounds) {
-        map.fitBounds(bounds);
-      }
-    });
+    }, true);
 
     $scope.$watch('data.viewport', function(viewport) {
       if (!viewport) return;
@@ -66,27 +64,36 @@ mod.directive('angkotMap', function() {
       map.setMaxBounds(b);
     });
 
+    $scope.$watch('data.editable', function(value) {
+      editor.setEditable(!!value);
+    });
+
+    $scope.$watch('data.routes', function(routes) {
+      var res = [];
+      var bounds;
+      for (var i=0; i<routes.length; i++) {
+        var route = toLatLng(routes[i]);
+        res.push(route);
+
+        var bound = new L.LatLngBounds(route);
+        if (!bounds) bounds = bound;
+        else bounds.extend(bound);
+      }
+      editor.setRoutes(res);
+      editor.setEditable($scope.data.editable);
+
+      if ($scope.data.fitRoutesToBounds && bounds) {
+        map.fitBounds(bounds);
+      }
+    });
+
     var initMap = function() {
       var center = [0, 0]
       map = L.mapbox.map($element[0], $scope.mapboxKey, {
           boxZoom: false,
           minZoom: 7,
           maxZoom: 17,
-        }).setView(center, 15);
-
-      // map.on('zoomend', function() {
-      //   $scope.$apply(function() {
-      //     $scope.data.zoom = map.getZoom();
-      //   });
-      // });
-
-      // map.on('moveend', function() {
-      //   $scope.$apply(function() {
-      //     var center = map.getCenter();
-      //     $scope.data.center = [center.lng, center.lat];
-      //   });
-      // });
-
+        }).setView(center, 1);
     }
 
     var initEditor = function() {
