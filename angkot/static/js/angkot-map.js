@@ -16,6 +16,7 @@ mod.factory('mapService', function() {
     editable: false,
     routes: [],
     fitRoutesToBounds: true,
+    info: undefined,
 
     update: function(data) {
       if (data.viewport !== undefined) this.viewport = data.viewport;
@@ -26,6 +27,7 @@ mod.factory('mapService', function() {
         if (data.view.center !== undefined) this.view.center = data.view.center;
         if (data.view.zoom !== undefined) this.view.zoom = data.view.zoom;
       }
+      if (data.info !== undefined) this.info = data.info;
     },
 
     setCenter: function(center) {
