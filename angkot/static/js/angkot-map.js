@@ -45,10 +45,11 @@ mod.directive('angkotMap', function() {
 
   var controller = ['$scope', '$element', function($scope, $element) {
 
-    var map, editor;
+    var map, editor, info;
 
     $scope.init = function() {
       initMap();
+      initInfoControl();
       initEditor();
     }
 
@@ -100,6 +101,16 @@ mod.directive('angkotMap', function() {
       }
     });
 
+    $scope.$watch('data.info', function(data) {
+      if (!data && info._map) {
+        map.removeControl(info);
+      }
+      else if (data && !info._map) {
+        map.addControl(info);
+      }
+      info.setData(data);
+    });
+
     var initMap = function() {
       var center = [0, 0]
       map = L.mapbox.map($element[0], $scope.mapboxKey, {
@@ -107,6 +118,10 @@ mod.directive('angkotMap', function() {
           minZoom: 7,
           maxZoom: 17,
         }).setView(center, 1);
+    }
+
+    var initInfoControl = function() {
+      info = new L.Control.TransportationInfo();
     }
 
     var initEditor = function() {
