@@ -6,7 +6,7 @@ L.Control.TransportationInfo = L.Control.extend({
   },
 
   onAdd: function(map) {
-    var html = '<p><span class="company"></span> <span class="number"></span>';
+    var html = '<p class="t"><span class="company"></span> <span class="number"></span>';
     html += '<p><span class="origin"></span> &ndash; <span class="destination"></span>';
     html += '<p class="route"></p>';
     html += '<p class="edit"><a href="http://google.com">edit</a></p>';
@@ -135,7 +135,10 @@ L.Control.TransportationInfo = L.Control.extend({
     var e = c.find('.route');
     if (route.coordinates && route.coordinates.length > 0) {
       var distance = this._formatDistance(this._getDistance(route.coordinates));
-      var text = route.coordinates.length + ' rute &ndash; ' + distance;
+      var text = distance;
+      if (route.coordinates.length > 1) {
+        text = route.coordinates.length + ' rute &ndash; ' + distance;
+      }
       hover(e);
       e.removeClass('empty');
       e.html(text);

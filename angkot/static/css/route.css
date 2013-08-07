@@ -261,6 +261,9 @@
   margin: 5px 0 0 0;
   text-align: right;
 }
+.leaflet-transportation-info p.t {
+  text-decoration: underline;
+}
 .leaflet-transportation-info .empty {
   cursor: pointer;
   color: #888;
