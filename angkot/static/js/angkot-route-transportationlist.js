@@ -66,7 +66,12 @@ app.controller('TransportationListController', ['$scope', '$http', function($sco
   });
 
   $scope.showTransportation = function(t) {
-    console.log(t);
+    // TODO show loading
+    var url = jQuery('body').data('url-transportation-data').replace('0', t.id);
+    $http.get(url)
+      .success(function(data) {
+        $scope.map.info = data.geojson;
+      });
   }
 
 }]);
