@@ -71,6 +71,8 @@ app.controller('TransportationListController', ['$scope', '$http', function($sco
     $http.get(url)
       .success(function(data) {
         $scope.map.info = data.geojson;
+        $scope.map.fitRoutesToBounds = true;
+        $scope.map.routes = data.geojson.geometry.coordinates;
       });
   }
 
