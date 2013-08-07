@@ -117,7 +117,10 @@ mod.directive('angkotMap', function() {
           boxZoom: false,
           minZoom: 7,
           maxZoom: 17,
+          zoomControl: false,
         }).setView(center, 1);
+
+      map.addControl(new L.Control.Zoom({position: 'topright'}));
     }
 
     var initInfoControl = function() {
