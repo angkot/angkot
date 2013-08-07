@@ -186,7 +186,7 @@ mod.directive('angkotMap', function() {
     scope: {
       mapboxKey: '=',
       data: '=mapData',
-      fireRouteChanged: '&onroutechanged',
+      fireRouteChanged: '&onroutechange',
     },
     link: function(scope, element, attrs) {
       scope.init();
