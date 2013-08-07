@@ -67,6 +67,7 @@ L.Control.TransportationInfo = L.Control.extend({
   },
 
   _update: function() {
+    var self = this;
     var data = this._data;
     var c = jQuery(this._c);
 
@@ -90,7 +91,10 @@ L.Control.TransportationInfo = L.Control.extend({
     var hover = function(e, label) {
       e.unbind('mouseover');
       e.unbind('mouseout');
+      e.unbind('click');
+
       if (!label) return;
+
       e.mouseover(function() {
         var w = e.width();
         e.css({width:w+'px'});
@@ -98,6 +102,9 @@ L.Control.TransportationInfo = L.Control.extend({
       });
       e.mouseout(function() {
         e.text(label);
+      });
+      e.click(function() {
+        self.fireEditClick();
       });
     }
 
