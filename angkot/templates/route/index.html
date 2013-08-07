@@ -14,6 +14,7 @@
              data-mapbox-key="{{ MAPBOX_KEY }}"
              data-url-province-list="{% url "route_province_list" %}"
              data-url-submission-list="{% url "route_submission_list" %}"
+             data-url-transportation-list="{% url "route_transportation_list" %}"
              data-url-save="{% url "route_index" %}">
 
 <div id="head">
@@ -40,9 +41,31 @@
 <div class="sidepanel" ng-cloak>
   <div class="nav">
   <ul>
+  <li ng-class="{'active':panel=='transportation-list'}" ng-click="showPanel('transportation-list')">Angkutan Umum</i>
   <li ng-class="{'active':panel=='data-form'}" ng-click="showPanel('data-form')">Buat Rute</i>
   <li ng-class="{'active':panel=='submission-list'}" ng-click="showPanel('submission-list')">Daftar Kiriman</i>
   </ul>
+  </div>
+
+  <!-- transportation list -->
+  <div class="content" id="transportation-list" ng-show="panel=='transportation-list'"
+       ng-controller="TransportationListController" ng-init="init()">
+    <div ng-show="loading">
+      <p>loading..</p>
+    </div>
+    <div ng-hide="loading">
+      <div class="province" ng-repeat="group in groups">
+        <h2 ng-bind="provinceName[group.province]"></h2>
+        <ul>
+        <li ng-repeat="item in group.transportations | orderBy:'_label'">
+          <a href="" ng-click="showTransportation(item)">
+            <span class="company" ng-bind="item.company"></span>
+            <span class="number" ng-bind="item.number"></span>
+          </a>
+        </li>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <!-- data form -->
@@ -131,6 +154,7 @@
 <script type="text/javascript" src="{% static "js/angkot-filter.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-menu.js" %}"></script>
+<script type="text/javascript" src="{% static "js/angkot-route-transportationlist.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-dataform.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-submissionlist.js" %}"></script>
 
