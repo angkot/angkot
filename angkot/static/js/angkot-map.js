@@ -122,6 +122,9 @@ mod.directive('angkotMap', function() {
 
     var initInfoControl = function() {
       info = new L.Control.TransportationInfo();
+      info.on('edit-click', function() {
+        console.log('edit click');
+      });
     }
 
     var initEditor = function() {

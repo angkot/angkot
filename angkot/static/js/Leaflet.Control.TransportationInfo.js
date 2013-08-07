@@ -1,4 +1,6 @@
 L.Control.TransportationInfo = L.Control.extend({
+  includes: L.Mixin.Events,
+
   options: {
     position: 'topleft',
   },
@@ -22,8 +24,9 @@ L.Control.TransportationInfo = L.Control.extend({
         .on(c, 'dblclick', stop)
         .on(c, 'click', L.DomEvent.preventDefault)
 
+    var self = this;
     jQuery(c).find('> p.edit a').click(function() {
-      console.log('edit');
+      self.fireEditClick();
     });
 
     return c;
@@ -32,6 +35,10 @@ L.Control.TransportationInfo = L.Control.extend({
   setData: function(data) {
     this._data = data;
     this._update();
+  },
+
+  fireEditClick: function() {
+    this.fire('edit-click');
   },
 
   _getDistance: function(routes) {
