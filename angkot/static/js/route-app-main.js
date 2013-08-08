@@ -22,7 +22,6 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
   }
 
   $scope.onRouteChanged = function() {
-    console.log('route changed');
   }
 
   $scope.onRouteEditClicked = function() {
@@ -44,9 +43,8 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
 
     $http.jsonp(url)
       .success(function(data) {
-        console.log(data);
         if (data.length == 0) {
-          console.log('not found');
+          console.error('search not found');
         }
         else {
           var res = data[0];

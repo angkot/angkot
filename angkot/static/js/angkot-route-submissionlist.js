@@ -22,7 +22,6 @@ app.controller('SubmissionListController', ['$scope', '$http', function($scope, 
     var url = jQuery('body').data('url-submission-list');
     $http.get(url)
       .success(function(data) {
-        console.log(data);
         data.submissions.sort(function(a, b) {
           return b.created - a.created;
         });

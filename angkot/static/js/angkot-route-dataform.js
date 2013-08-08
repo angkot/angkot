@@ -193,10 +193,8 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
 
   var loadProvinces = function() {
     var url = jQuery('body').data('url-province-list');
-    console.log(url);
     $http.get(url)
       .success(function(data) {
-        console.log(data);
         $scope.provinces = data.provinces;
       });
   }

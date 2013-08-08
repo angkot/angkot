@@ -55,7 +55,6 @@ L.Control.TransportationInfo = L.Control.extend({
         p = n;
       }
     }
-    console.log(routes);
     return distance;
   },
 
