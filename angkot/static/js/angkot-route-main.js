@@ -23,11 +23,12 @@ app.factory('transportationService', function() {
   }
 });
 
-app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService', function($scope, $http, modalService, mapService) {
+app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService', 'transportationService', function($scope, $http, modalService, mapService, transportationService) {
 
   $scope.panel = undefined;
   $scope.modal = modalService;
   $scope.map = mapService;
+  $scope.info = transportationService;
 
   $scope.init = function() {
     $scope.map.view = {

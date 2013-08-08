@@ -1,14 +1,12 @@
 (function(app) {
 
-app.controller('DataFormController', ['$scope', '$http', 'transportationService', function($scope, $http, transportationService) {
+app.controller('DataFormController', ['$scope', '$http', function($scope, $http) {
 
   $scope.checked = false;
   $scope.valid = false;
   $scope.incomplete = false;
   $scope.saved = false;
   $scope.modified = false;
-
-  $scope.info = transportationService;
 
   $scope.init = function() {
     loadProvinces();
