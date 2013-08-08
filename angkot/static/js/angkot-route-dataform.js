@@ -13,11 +13,7 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
   }
 
   $scope.$watch('panel', function(value, old) {
-    if (old == 'data-form' && value != 'data-form') {
-      $scope.stashData();
-    }
     if (value != 'data-form' || value === old) return;
-    $scope.unstashData();
     $scope.map.editable = true;
   });
 
@@ -134,48 +130,6 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
   $scope.$watch('info.destination', updateModified);
   $scope.$watch('licenseAgreement', updateModified);
   $scope.$watch('map.routes', updateModified, true);
-
-  // save/restore data
-
-  $scope.stashData = function() {
-    var routes = [];
-    for (var i=0; i<$scope.map.routes.length; i++) {
-      routes.push($scope.map.routes[i].slice());
-    }
-    var map = {
-      view: {
-        center: $scope.map.view.center,
-        zoom: $scope.map.view.zoom,
-      },
-      routes: routes,
-      editable: $scope.map.editable,
-    }
-
-    $scope.stash = {
-      province: $scope.info.province,
-      city: $scope.info.city,
-      company: $scope.info.company,
-      number: $scope.info.number,
-      origin: $scope.info.origin,
-      destination: $scope.info.destination,
-      licenseAgreement: $scope.licenseAgreement,
-      map: map,
-    }
-  }
-
-  $scope.unstashData = function() {
-    var stash = $scope.stash;
-    if (!stash) return;
-
-    $scope.info.province = stash.province;
-    $scope.info.city = stash.city;
-    $scope.info.company = stash.company;
-    $scope.info.number = stash.number;
-    $scope.info.origin = stash.origin;
-    $scope.info.destination = stash.destination;
-    $scope.licenseAgreement = stash.licenseAgreement;
-    $scope.map.update(stash.map);
-  }
 
   // provinces
 
