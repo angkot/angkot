@@ -25,6 +25,10 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
     console.log('route changed');
   }
 
+  $scope.onRouteEditClicked = function() {
+    $scope.$broadcast('route-edit-click');
+  }
+
   $scope.search = function() {
     var q = jQuery.trim($scope.searchQuery);
     if (!q) return;

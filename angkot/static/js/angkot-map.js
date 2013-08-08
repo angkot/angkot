@@ -126,7 +126,7 @@ mod.directive('angkotMap', function() {
     var initInfoControl = function() {
       info = new L.Control.TransportationInfo();
       info.on('edit-click', function() {
-        console.log('edit click');
+        $scope.fireRouteEditClicked();
       });
     }
 
@@ -187,6 +187,7 @@ mod.directive('angkotMap', function() {
       mapboxKey: '=',
       data: '=mapData',
       fireRouteChanged: '&onroutechange',
+      fireRouteEditClicked: '&onrouteeditclick',
     },
     link: function(scope, element, attrs) {
       scope.init();
