@@ -26,6 +26,7 @@ L.Angkot.Route = L.LayerGroup.extend({
     L.LayerGroup.prototype.onAdd.apply(this, arguments);
 
     if (this.options.editable) {
+      this._removeEvents();
       this._setupEvents();
       this._guide.addTo(map);
     }
@@ -40,8 +41,8 @@ L.Angkot.Route = L.LayerGroup.extend({
 
   setEditable: function(editable) {
     this.options.editable = editable;
+    this._removeEvents();
     if (editable) this._setupEvents();
-    else this._removeEvents();
 
     // FIXME restructure
     if (this._map) {
@@ -81,12 +82,8 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._map.on('mouseover', this._onMapMouseOver, this);
     this._map.on('mouseout', this._onMapMouseOut, this);
 
-    L.DomEvent.addListener(document, 'keydown', function(e) {
-      this._shiftKey = e.shiftKey;
-    }, this);
-    L.DomEvent.addListener(document, 'keyup', function(e) {
-      this._shiftKey = e.shiftKey;
-    }, this);
+    L.DomEvent.addListener(document, 'keydown', this._onKeyEvent, this);
+    L.DomEvent.addListener(document, 'keyup', this._onKeyEvent, this);
   },
 
   _removeEvents: function() {
@@ -96,6 +93,13 @@ L.Angkot.Route = L.LayerGroup.extend({
     this._map.off('mouseout', this._onMapMouseOut, this);
     this._map.off('mousemove', this._onMapMouseMove, this);
     this._map.off('mouseover', this._onMapMouseOver, this);
+
+    L.DomEvent.removeListener(document, 'keydown', this._onKeyEvent, this);
+    L.DomEvent.removeListener(document, 'keyup', this._onKeyEvent, this);
+  },
+
+  _onKeyEvent: function(e) {
+    this._shiftKey = e.shiftKey;
   },
 
   _onMapClick: function(e) {
