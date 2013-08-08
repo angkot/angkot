@@ -3,6 +3,26 @@
 var JAKARTA = [106.8294444, -6.1744444];
 var INDONESIA = [[143.0419921875, 8.189742344383703], [93.8671875, -11.867350911459308]];
 
+app.factory('transportationService', function() {
+  return {
+    province: undefined,
+    city: undefined,
+    company: undefined,
+    number: undefined,
+    origin: undefined,
+    destination: undefined,
+
+    reset: function() {
+      this.province = undefined;
+      this.city = undefined;
+      this.company = undefined;
+      this.number = undefined;
+      this.origin = undefined;
+      this.destination = undefined;
+    },
+  }
+});
+
 app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService', function($scope, $http, modalService, mapService) {
 
   $scope.panel = undefined;
