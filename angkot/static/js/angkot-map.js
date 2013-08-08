@@ -37,6 +37,10 @@ mod.factory('mapService', function() {
     setZoom: function(zoom) {
       this.view.zoom = zoom;
     },
+
+    reset: function() {
+      this.routes = [];
+    },
   }
 
 });
