@@ -20,6 +20,15 @@ app.factory('transportationService', function() {
       this.origin = undefined;
       this.destination = undefined;
     },
+
+    update: function(data) {
+      if (data.province !== undefined) this.province = data.province;
+      if (data.city !== undefined) this.city = data.city;
+      if (data.company !== undefined) this.company = data.company;
+      if (data.number !== undefined) this.number = data.number;
+      if (data.origin !== undefined) this.origin = data.origin;
+      if (data.destination !== undefined) this.destination = data.destination;
+    }
   }
 });
 
