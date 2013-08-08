@@ -1,6 +1,6 @@
 (function(app) {
 
-app.controller('DataFormController', ['$scope', '$http', function($scope, $http) {
+app.controller('DataFormController', ['$scope', '$http', 'transportationService', function($scope, $http, transportationService) {
 
   $scope.checked = false;
   $scope.valid = false;
@@ -8,12 +8,7 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
   $scope.saved = false;
   $scope.modified = false;
 
-  $scope.province = '';
-  $scope.city = '';
-  $scope.company = '';
-  $scope.number = '';
-  $scope.origin = '';
-  $scope.destination = '';
+  $scope.info = transportationService;
 
   $scope.init = function() {
     loadProvinces();
@@ -39,17 +34,17 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
       jQuery('#new-route input[name="'+name+'"]').focus();
     }
 
-    if (!$scope.province) {
+    if (!$scope.info.province) {
       focus('province');
       valid = false;
     }
 
-    if (!$scope.city) {
+    if (!$scope.info.city) {
       focus('city');
       valid = false;
     }
 
-    if (valid && !$scope.number) {
+    if (valid && !$scope.info.number) {
       focus('number');
       valid = false;
     }
@@ -74,12 +69,12 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
     var geojson = {
       type: 'Feature',
       properties: {
-        province: $scope.province,
-        city: $scope.city,
-        company: $scope.company,
-        number: $scope.number,
-        origin: $scope.origin,
-        destination: $scope.destination,
+        province: $scope.info.province,
+        city: $scope.info.city,
+        company: $scope.info.company,
+        number: $scope.info.number,
+        origin: $scope.info.origin,
+        destination: $scope.info.destination,
         license: {
           'ODbL v1.0': $scope.licenseAgreement
         }
@@ -113,12 +108,7 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
   }
 
   $scope.$on('map-reset', function() {
-    $scope.province = '';
-    $scope.city = '';
-    $scope.company = '';
-    $scope.number = '';
-    $scope.origin = '';
-    $scope.destination = '';
+    $scope.info.reset();
     $scope.licenseAgreement = false;
     $scope.modified = false;
     $scope.saved = false;
@@ -129,21 +119,21 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
   });
 
   function updateModified() {
-    $scope.modified = $scope.province !== '' ||
-                      $scope.city !== '' ||
-                      $scope.company !== '' ||
-                      $scope.number !== '' ||
-                      $scope.origin !== '' ||
-                      $scope.destination !== '' ||
+    $scope.modified = $scope.info.province !== '' ||
+                      $scope.info.city !== '' ||
+                      $scope.info.company !== '' ||
+                      $scope.info.number !== '' ||
+                      $scope.info.origin !== '' ||
+                      $scope.info.destination !== '' ||
                       $scope.map.routes.length > 0;
   }
 
-  $scope.$watch('province', updateModified);
-  $scope.$watch('city', updateModified);
-  $scope.$watch('company', updateModified);
-  $scope.$watch('number', updateModified);
-  $scope.$watch('origin', updateModified);
-  $scope.$watch('destination', updateModified);
+  $scope.$watch('info.province', updateModified);
+  $scope.$watch('info.city', updateModified);
+  $scope.$watch('info.company', updateModified);
+  $scope.$watch('info.number', updateModified);
+  $scope.$watch('info.origin', updateModified);
+  $scope.$watch('info.destination', updateModified);
   $scope.$watch('licenseAgreement', updateModified);
   $scope.$watch('map.routes', updateModified, true);
 
@@ -164,12 +154,12 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
     }
 
     $scope.stash = {
-      province: $scope.province,
-      city: $scope.city,
-      company: $scope.company,
-      number: $scope.number,
-      origin: $scope.origin,
-      destination: $scope.destination,
+      province: $scope.info.province,
+      city: $scope.info.city,
+      company: $scope.info.company,
+      number: $scope.info.number,
+      origin: $scope.info.origin,
+      destination: $scope.info.destination,
       licenseAgreement: $scope.licenseAgreement,
       map: map,
     }
@@ -179,12 +169,12 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
     var stash = $scope.stash;
     if (!stash) return;
 
-    $scope.province = stash.province;
-    $scope.city = stash.city;
-    $scope.company = stash.company;
-    $scope.number = stash.number;
-    $scope.origin = stash.origin;
-    $scope.destination = stash.destination;
+    $scope.info.province = stash.province;
+    $scope.info.city = stash.city;
+    $scope.info.company = stash.company;
+    $scope.info.number = stash.number;
+    $scope.info.origin = stash.origin;
+    $scope.info.destination = stash.destination;
     $scope.licenseAgreement = stash.licenseAgreement;
     $scope.map.update(stash.map);
   }

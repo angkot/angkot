@@ -75,21 +75,21 @@
   <!-- data form -->
   <div class="content" id="data-form" ng-show="panel=='data-form'" ng-controller="DataFormController" ng-init="init()">
   <label>Provinsi</label>
-  <select name="province" ng-model="province" ng-options="p[0] as p[1] for p in provinces"
-          ng-class="{'error': checked && !province}"></select>
+  <select name="province" ng-model="info.province" ng-options="p[0] as p[1] for p in provinces"
+          ng-class="{'error': checked && !info.province}"></select>
   <label>Kota</label>
   <input name="city" type="text" placeholder="Jakarta, Bandung, ..." maxlength="256"
-         ng-model="city" ng-class="{'error': checked && !city}"/>
+         ng-model="info.city" ng-class="{'error': checked && !info.city}"/>
   <label>Perusahaan dan Nomor Angkutan</label>
   <input name="company" type="text" placeholder="Kopaja, Mikrolet, ..." maxlength="256"
-         ng-model="company"/><input name="number" type="text" maxlength="64"
-                                    ng-model="number" ng-class="{'error': checked && !number}"/>
+         ng-model="info.company"/><input name="number" type="text" maxlength="64"
+                                         ng-model="info.number" ng-class="{'error': checked && !info.number}"/>
   <label>Lokasi Keberangkatan</label>
   <input name="origin" type="text" placeholder="Blok M, Pasar Minggu, ..." maxlength="256"
-         ng-model="origin"/>
+         ng-model="info.origin"/>
   <label>Jurusan/Lokasi Akhir</label>
   <input name="destination" type="text" placeholder="Depok, Kampung Melayu, ..." maxlength="256"
-         ng-model="destination"/>
+         ng-model="info.destination"/>
 
   <p class="license-agreement">
     <input type="checkbox" name="license-agreement" id="license-agreement"
@@ -107,9 +107,9 @@
   <p ng-show="error" ng-bind="error" class="error"></p>
   <p ng-show="incomplete" class="incomplete error">
     Harap minimal isi
-      <strong ng-class="{'ok':province}">provinsi</strong>,
-      <strong ng-class="{'ok':city}">nama kota</strong>,
-      <strong ng-class="{'ok':number}">nomor angkutan</strong>, dan
+      <strong ng-class="{'ok':info.province}">provinsi</strong>,
+      <strong ng-class="{'ok':info.city}">nama kota</strong>,
+      <strong ng-class="{'ok':info.number}">nomor angkutan</strong>, dan
       <strong ng-class="{'ok':licenseAgreement}">persetujuan lisensi</strong>
   </p>
   <p class="mapquest-nominatim">Nominatim Search Courtesy of<br/>
