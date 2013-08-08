@@ -89,7 +89,7 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
   }
 
   $scope.$on('map-reset', function() {
-    $scope.map.routes = [];
+    $scope.map.reset();
   });
 
   // panel
