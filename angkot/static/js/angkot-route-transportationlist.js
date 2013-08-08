@@ -14,6 +14,7 @@ app.controller('TransportationListController', ['$scope', '$http', function($sco
     if ($scope.transportations === undefined) {
       $scope.reload();
     }
+    $scope.map.editable = false;
   });
 
   $scope.reload = function() {

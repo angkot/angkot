@@ -23,9 +23,9 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
     if (old == 'data-form' && value != 'data-form') {
       $scope.stashData();
     }
-    $scope.map.editable = true;
     if (value != 'data-form' || value === old) return;
     $scope.unstashData();
+    $scope.map.editable = true;
   });
 
   $scope.saveRouteCheck = function() {
