@@ -49,6 +49,10 @@ L.Angkot.Route = L.LayerGroup.extend({
       if (editable) this._guide.addTo(this._map);
       else this._map.removeLayer(this._guide);
     }
+
+    for (var i=0; i<this._polylines.length; i++) {
+      this._polylines[i].setEditable(editable);
+    }
   },
 
   getRoutes: function() {

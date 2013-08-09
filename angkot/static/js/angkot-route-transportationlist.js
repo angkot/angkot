@@ -71,12 +71,18 @@ app.controller('TransportationListController', ['$scope', '$http', function($sco
     var url = jQuery('body').data('url-transportation-data').replace('0', t.id);
     $http.get(url)
       .success(function(data) {
+        $scope.data = data;
         $scope.map.info = data.geojson;
         $scope.map.editable = false;
         $scope.map.fitRoutesToBounds = true;
         $scope.map.routes = data.geojson.geometry.coordinates;
       });
   }
+
+  $scope.$on('route-edit-click', function() {
+    if ($scope.panel !== 'transportation-list') return;
+    $scope.info.update($scope.data.geojson.properties);
+  });
 
 }]);
 
