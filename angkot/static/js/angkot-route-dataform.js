@@ -105,7 +105,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
       },
     }
 
-    var url = $('body').data('url-save');
+    var url = $('body').data('url-transportation-data-save').replace('0', $scope.data.id);
 
     var data = {geojson: JSON.stringify(geojson)};
     if ($scope.parentId) data['parent_id'] = $scope.parentId

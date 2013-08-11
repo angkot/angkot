@@ -3,6 +3,7 @@ import json
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.db import transaction
+from django.core.urlresolvers import resolve
 
 from angkot.decorators import api, OK, Fail, post_only
 from .models import Transportation, Submission, PROVINCES
@@ -119,4 +120,51 @@ def transportation_data(request, tid):
                 geojson=t.to_geojson(),
                 created=_format_date(t.created),
                 updated=_format_date(t.updated))
+
+@api
+@post_only
+def transportation_data_save(request, tid):
+    import geojson
+    from shapely.geometry import asShape
+
+    tid = int(tid)
+    t = Transportation.objects.get(pk=tid)
+
+    raw = request.POST['geojson']
+    print raw
+    parent_id = request.POST.get('parent_id', None)
+    try:
+        parent = Submission.objects.get(submission_id=parent_id)
+    except Submission.DoesNotExist:
+        parent = None
+
+    s = Submission()
+    s.parent = parent
+    s.visitor_id = request.session['visitor-id']
+    s.ip_address = request.META['REMOTE_ADDR']
+    s.user_agent = request.META['HTTP_USER_AGENT']
+    s.raw_geojson = raw
+    s.save()
+
+    processSubmission(s)
+    if s.parsed_ok:
+        s.transportation = t
+    s.save()
+
+    if s.parsed_ok:
+        # Update transportation
+        # province, city, and number are not updated from here
+        t.company = s.company
+        t.origin = s.origin
+        t.destination = s.destination
+        t.route = s.route
+        t.save()
+
+    data = dict(submission_id=s.submission_id)
+    if s.parsed_ok:
+        res = OK(data, http_code=201)
+    else:
+        res = Fail(data, http_code=400,
+                   error_code=400, error_msg='Invalid data')
+    return res
 
