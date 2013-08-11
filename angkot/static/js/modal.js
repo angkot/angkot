@@ -31,7 +31,7 @@ mod.factory('modalService', function() {
   }
 });
 
-mod.directive('modal', ['modalService', function(modalService) {
+mod.directive('modal', ['modalService', '$compile', function(modalService, $compile) {
 
   return {
     restrict: 'E',
@@ -41,13 +41,25 @@ mod.directive('modal', ['modalService', function(modalService) {
     },
     replace: true,
     templateUrl: '/static/partial/modal.html',
-    controller: ['$scope', function($scope) {
+    controller: ['$scope', '$element', function($scope, $element) {
       $scope.close = function() {
         $scope.data.visible = false;
         if ($scope.fireModalClosed) {
           $scope.fireModalClosed();
         }
       }
+
+      $scope.$watch('data.title', function(value) {
+        $scope.title = value;
+      });
+
+      $scope.$watch('data.content', function(value) {
+        var html = $(value);
+        if (html.hasClass('compile')) {
+          html = $compile(html)($scope);
+        }
+        jQuery($element).find('> .c > .content').html(html);
+      });
     }]
   }
 
