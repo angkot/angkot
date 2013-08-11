@@ -70,8 +70,8 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
       valid = false;
     }
 
-    if (valid && !$scope.licenseAgreement) {
-      focus('license-agreement');
+    if (valid && !$scope.termAgreement) {
+      focus('term-agreement');
       valid = false;
     }
 
@@ -96,9 +96,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
         number: $scope.info.number,
         origin: $scope.info.origin,
         destination: $scope.info.destination,
-        license: {
-          'ODbL v1.0': $scope.licenseAgreement
-        }
+        accept: ['ContributorTerms'],
       },
       geometry: {
         type: 'MultiLineString',
@@ -124,10 +122,6 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
       });
   }
 
-  $scope.showLicense = function() {
-    $scope.showModalFrom('#license-info-content');
-  }
-
   $scope.$on('map-reset', function() {
     $scope.reset();
   });
@@ -135,7 +129,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
   $scope.reset = function() {
     $scope.info.reset();
     $scope.map.reset();
-    $scope.licenseAgreement = false;
+    $scope.termAgreement = false;
     $scope.modified = false;
     $scope.saved = false;
     $scope.checked = false;
@@ -160,7 +154,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
   $scope.$watch('info.number', updateModified);
   $scope.$watch('info.origin', updateModified);
   $scope.$watch('info.destination', updateModified);
-  $scope.$watch('licenseAgreement', updateModified);
+  $scope.$watch('termAgreement', updateModified);
   $scope.$watch('map.routes', updateModified, true);
 
 }]);

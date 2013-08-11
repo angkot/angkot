@@ -186,14 +186,14 @@
   width: 24%;
   text-align: center;
 }
-#data-form p.license-agreement {
+#data-form p.term-agreement {
   line-height: 26px;
   height: 26px;
 }
-#data-form p.license-agreement input {
+#data-form p.term-agreement input {
   vertical-align: middle;
 }
-#data-form p.license-agreement label {
+#data-form p.term-agreement label {
   cursor: pointer;
 }
 #data-form p.error {

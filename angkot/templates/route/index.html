@@ -145,12 +145,11 @@
   <input name="destination" type="text" placeholder="Depok, Kampung Melayu, ..." maxlength="256"
          ng-model="info.destination"/>
 
-  <p class="license-agreement">
-    <input type="checkbox" name="license-agreement" id="license-agreement"
-           ng-model="licenseAgreement" ng-class="{'error': checked && !licenseAgreement}"/>
-    <label for="license-agreement">menggunakan lisensi
-      <a href="" title="Open Database License (ODbL) v1.0"
-         ng-click="showLicense(); $event.stopPropagation();">ODbL v1.0</a></label>
+  <p class="term-agreement">
+    <input type="checkbox" name="term-agreement" id="term-agreement-data-form"
+           ng-model="termAgreement" ng-class="{'error': checked && !termAgreement}"/>
+    <label for="term-agreement-data-form">setuju dengan
+      <a href="" target="angkot-contribution-terms">ketentuan kontribusi data</a></label>
   </p>
   <div>
     <!--
@@ -166,7 +165,7 @@
       <strong ng-class="{'ok':info.province}">provinsi</strong>,
       <strong ng-class="{'ok':info.city}">nama kota</strong>,
       <strong ng-class="{'ok':info.number}">nomor angkutan</strong>, dan
-      <strong ng-class="{'ok':licenseAgreement}">persetujuan lisensi</strong>
+      <strong ng-class="{'ok':termAgreement}">persetujuan ketentuan kontribusi data</strong>
   </p>
   <p class="mapquest-nominatim">Nominatim Search Courtesy of<br/>
     <a href="http://www.mapquest.com/" target="_blank">MapQuest</a>
