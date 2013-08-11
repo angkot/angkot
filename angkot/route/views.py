@@ -98,3 +98,8 @@ def transportation_data(request, tid):
                 created=_format_date(t.created),
                 updated=_format_date(t.updated))
 
+@api
+def search_transportation(request):
+    print 'search', request.GET
+    return {}
+
