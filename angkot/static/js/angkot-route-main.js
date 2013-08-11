@@ -102,6 +102,10 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
     $scope.map.reset();
   });
 
+  $scope.newTransport = function() {
+    $scope.modal.useSelector('#new-transportation-modal');
+  }
+
   // panel
 
   $scope.showPanel = function(name) {

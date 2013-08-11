@@ -51,6 +51,41 @@
   </ul>
   </div>
 
+  <!-- actions -->
+  <div id="actions">
+  <p>
+    <button class="btn btn-green"
+            ng-click="newTransport()">Tambah Angkutan Baru</button>
+  </p>
+  <div style="display:none" id="new-transportation-modal">
+    <h2>Angkutan Baru</h2>
+    <div class="content">
+      <div class="compile new-transportation-form"
+           ng-controller="NewTransportationController">
+        <p>
+          <label>Provinsi</label>
+          <select name="province" ng-model="province" ng-options="p[0] as p[1] for p in provinces"
+                  ng-class="{'error': checked && !province}"></select>
+        </p>
+        <p>
+          <label>Kota</label>
+          <input name="city" type="text" placeholder="Jakarta, Bandung, ..." maxlength="256"
+                 ng-model="city" ng-class="{'error': checked && !city}"/>
+        </p>
+        <p>
+          <label>Perusahaan dan Nomor Angkutan</label>
+          <input name="company" type="text" placeholder="Kopaja, Mikrolet, ..." maxlength="256"
+                 ng-model="company"/><input name="number" type="text" maxlength="64"
+                                            ng-model="number" ng-class="{'error': checked && !number}"/>
+        </p>
+        <p class="action">
+          <button class="btn">Simpan</button>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- // actions -->
+
   <!-- transportation list -->
   <div class="content" id="transportation-list" ng-show="panel=='transportation-list'"
        ng-controller="TransportationListController" ng-init="init()">
@@ -160,6 +195,7 @@
 <script type="text/javascript" src="{% static "js/angkot-route.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-menu.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-main.js" %}"></script>
+<script type="text/javascript" src="{% static "js/angkot-route-newtransportation.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-transportationlist.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-dataform.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-submissionlist.js" %}"></script>

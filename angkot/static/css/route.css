@@ -235,6 +235,43 @@
   font-size: 12px;
 }
 
+/*= new transportation =*/
+
+.new-transportation-form p {
+  margin: 0px;
+}
+.new-transportation-form label {
+  display: block;
+}
+.new-transportation-form input[type="text"],
+.new-transportation-form select {
+  width: 100%;
+  margin: 2px 0 3px 0;
+  height: 30px;
+  font-size: 14px;
+  line-height: 30px;
+  border-radius: 2px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.new-transportation-form input[name="company"] {
+  width: 79%;
+  display: inline;
+  margin-right: 1%;
+}
+.new-transportation-form input[name="number"] {
+  width: 20%;
+  text-align: center;
+}
+.new-transportation-form p.action {
+  text-align: right;
+  margin-top: 20px;
+}
+.new-transportation-form label {
+  font-size: 14px;
+}
+
 /*= angkot map =*/
 
 .angkot-map-tooltip {
