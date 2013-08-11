@@ -102,7 +102,12 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
   }
 
   $scope.$on('map-reset', function() {
+    $scope.reset();
+  });
+
+  $scope.reset = function() {
     $scope.info.reset();
+    $scope.map.reset();
     $scope.licenseAgreement = false;
     $scope.modified = false;
     $scope.saved = false;
@@ -110,7 +115,7 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
     $scope.message = null;
     $scope.error = null;
     $scope.parentId = null;
-  });
+  }
 
   function updateModified() {
     $scope.modified = $scope.info.province !== '' ||
