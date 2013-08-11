@@ -42,6 +42,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
     $scope.map.editable = true;
     $scope.map.fitRoutesToBounds = true;
     $scope.map.routes = $scope.data.geojson.geometry.coordinates;
+    $scope.parentId = $scope.data.submission_id;
   }
 
   $scope.saveRouteCheck = function() {
