@@ -24,7 +24,7 @@ class OK(APIResponse):
 class Fail(APIResponse):
     def __init__(self, data=None, http_code=500,
                        error_code=500, error_msg="Internal server error"):
-        super(OK, self).__init__()
+        super(Fail, self).__init__()
 
         if data is None:
             data = {}
