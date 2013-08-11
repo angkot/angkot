@@ -102,7 +102,9 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
     $scope.map.reset();
   });
 
-  $scope.newTransport = function() {
+  // transportation
+
+  $scope.newTransportion = function() {
     $scope.modal.useSelector('#new-transportation-modal');
   }
 
