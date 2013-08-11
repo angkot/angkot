@@ -11,9 +11,7 @@ app.controller('TransportationListController', ['$scope', '$http', function($sco
 
   $scope.$watch('panel', function(value, old) {
     if (value !== 'transportation-list') return;
-    if ($scope.transportations === undefined) {
-      $scope.reload();
-    }
+    $scope.reload();
     $scope.map.editable = false;
   });
 
