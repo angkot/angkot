@@ -175,6 +175,8 @@ LOGGING = {
     }
 }
 
+ANGKOT_CONTRIBUTOR_TERMS_URL = ''
+
 local = os.path.join(base, 'localsettings.py')
 if os.path.exists(local):
     execfile(local)

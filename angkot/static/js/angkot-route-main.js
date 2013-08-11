@@ -49,6 +49,7 @@ app.controller('MainController', ['$scope', '$http', '$location', 'modalService'
     $scope.map.editable = false;
     $scope.showPanel('transportation-list');
     $scope.mapboxKey = jQuery('body').data('mapbox-key');
+    $scope.contributorTermsUrl = jQuery('body').data('url-contributor-terms');
     loadProvinces();
   }
 

@@ -12,6 +12,7 @@
 <link rel="stylesheet" type="text/css" href="{% static "css/route.css" %}"/>
 </head><body ng-controller="MainController" ng-init="init()"
              data-mapbox-key="{{ MAPBOX_KEY }}"
+             data-url-contributor-terms="{{ ANGKOT_CONTRIBUTOR_TERMS_URL }}"
              data-url-province-list="{% url "route_province_list" %}"
              data-url-submission-list="{% url "route_submission_list" %}"
              data-url-transportation-list="{% url "route_transportation_list" %}"
@@ -83,7 +84,7 @@
           <input type="checkbox" name="term-agreement" id="term-agreement"
                  ng-model="termAgreement" ng-class="{'error': checked && !termAgreement}"/>
           <label for="term-agreement">setuju dengan
-            <a href="" target="angkot-contribution-terms">ketentuan kontribusi data</a></label>
+            <a ng-href="((contributorTermsUrl))" target="angkot-contribution-terms">ketentuan kontribusi data</a></label>
         </p>
         <p ng-show="incomplete" class="incomplete error">
           Harap minimal isi
@@ -152,7 +153,7 @@
     <input type="checkbox" name="term-agreement" id="term-agreement-data-form"
            ng-model="termAgreement" ng-class="{'error': checked && !termAgreement}"/>
     <label for="term-agreement-data-form">setuju dengan
-      <a href="" target="angkot-contribution-terms">ketentuan kontribusi data</a></label>
+      <a ng-href="((contributorTermsUrl))" target="angkot-contribution-terms">ketentuan kontribusi data</a></label>
   </p>
   <div>
     <!--
