@@ -49,17 +49,30 @@ mod.directive('modal', ['modalService', '$compile', function(modalService, $comp
         }
       }
 
-      $scope.$watch('data.title', function(value) {
-        $scope.title = value;
+      $scope.$watch('data.visible', function(value, old) {
+        if (value === old) return;
+        $scope.clear();
+        if (value) {
+          $scope.reload();
+        }
       });
 
-      $scope.$watch('data.content', function(value) {
-        var html = $(value);
+      $scope.clear = function() {
+        var c = jQuery($element).find('.c');
+        c.find('> .title').html('');
+        c.find('> .content').html('');
+      }
+
+      $scope.reload = function() {
+        console.log($scope.data);
+        $scope.title = $scope.data.title;
+
+        var html = $($scope.data.content);
         if (html.hasClass('compile')) {
           html = $compile(html)($scope);
         }
         jQuery($element).find('> .c > .content').html(html);
-      });
+      };
     }]
   }
 
