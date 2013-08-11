@@ -1,6 +1,6 @@
 (function(app) {
 
-app.controller('TransportationListController', ['$scope', '$http', function($scope, $http) {
+app.controller('TransportationListController', ['$scope', '$http', '$location', function($scope, $http, $location) {
 
   $scope.provinces = undefined;
   $scope.transportations = undefined;
@@ -14,6 +14,7 @@ app.controller('TransportationListController', ['$scope', '$http', function($sco
     $scope.reload();
     $scope.map.editable = false;
     $scope.map.reset();
+    $location.path('/');
   });
 
   $scope.reload = function() {
