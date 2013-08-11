@@ -32,7 +32,7 @@ app.factory('transportationService', function() {
   }
 });
 
-app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService', 'transportationService', function($scope, $http, modalService, mapService, transportationService) {
+app.controller('MainController', ['$scope', '$http', '$location', 'modalService', 'mapService', 'transportationService', function($scope, $http, $location, modalService, mapService, transportationService) {
 
   $scope.panel = undefined;
   $scope.modal = modalService;
@@ -53,10 +53,6 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
   }
 
   $scope.onRouteChanged = function() {
-  }
-
-  $scope.onRouteEditClicked = function() {
-    $scope.$broadcast('route-edit-click');
   }
 
   $scope.search = function() {
@@ -106,6 +102,17 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
 
   $scope.newTransportion = function() {
     $scope.modal.useSelector('#new-transportation-modal');
+  }
+
+  $scope.editTransportation = function(tid) {
+    $scope.info.reset();
+    $scope.map.info = undefined;
+    $location.path('/'+tid);
+    $scope.showPanel('data-form');
+  }
+
+  $scope.onRouteEditClicked = function(e) {
+    $scope.$broadcast('route-edit-click');
   }
 
   // panel

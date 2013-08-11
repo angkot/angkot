@@ -56,12 +56,17 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
     $http.post(url, jQuery.param(data))
       .success(function(data, status) {
         $scope.loading--;
-        console.log('ok', status, data);
+        $scope.edit(data.id);
       })
       .error(function(data, status) {
         console.error('fail', status, data);
         $scope.loading--;
       });
+  }
+
+  $scope.edit = function(tid) {
+    $scope.modal.hide();
+    $scope.editTransportation(tid);
   }
 
   $scope.$watch('loading', function(value, old) {

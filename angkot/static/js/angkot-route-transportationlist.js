@@ -81,11 +81,8 @@ app.controller('TransportationListController', ['$scope', '$http', function($sco
 
   $scope.$on('route-edit-click', function() {
     if ($scope.panel !== 'transportation-list') return;
-    $scope.info.reset();
-    $scope.map.info = undefined;
-    $scope.info.update($scope.data.geojson.properties);
     $scope.$apply(function() {
-      $scope.showPanel('data-form');
+      $scope.editTransportation($scope.data.id);
     });
   });
 

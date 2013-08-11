@@ -13,6 +13,7 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
 
   $scope.$watch('panel', function(value, old) {
     if (value != 'data-form' || value === old) return;
+    $scope.reset();
     $scope.map.editable = true;
     $scope.map.info = undefined;
   });
