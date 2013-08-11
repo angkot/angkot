@@ -50,3 +50,28 @@ def to_geojson(obj):
         'geometry': geometry
     }
 
+def create_geojson_feature(**kwargs):
+    geometry = {
+        'type': 'MultiLineString',
+        'coordinates': []
+    }
+
+    fields = ['province', 'city', 'company', 'number',
+              'origin', 'destination']
+    properties = {
+        'accept': []
+    }
+
+    for f in fields:
+        if f in kwargs:
+            properties[f] = kwargs[f]
+
+    if kwargs.get('agreeToContributorTerms', False):
+        properties['accept'].append('ContributorTerms')
+
+    return {
+        'type': 'Feature',
+        'properties': properties,
+        'geometry': geometry
+    }
+

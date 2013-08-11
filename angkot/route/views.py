@@ -1,9 +1,14 @@
+import json
+
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.db import transaction
 
-from angkot.decorators import api, OK, Fail
+from angkot.decorators import api, OK, Fail, post_only
 from .models import Transportation, Submission, PROVINCES
 from .submission.data import process as processSubmission
+from .forms import NewTransportationForm
+from . import utils
 
 def _format_date(d):
     return d.strftime('%s')
@@ -99,7 +104,53 @@ def transportation_data(request, tid):
                 updated=_format_date(t.updated))
 
 @api
+@post_only
 def search_transportation(request):
-    print 'search', request.GET
-    return {}
+    f = NewTransportationForm(request.POST)
+    if not f.is_valid():
+        return Fail(http_code=400, error_code=400,
+                    error_msg='Request requires province, city, and number; ' \
+                              'and accept the contributor terms')
+
+    province = f.cleaned_data['province']
+    city = f.cleaned_data['city']
+    number = f.cleaned_data['number']
+
+    code = 200
+    submission_id = None
+    with transaction.commit_on_success():
+        s = Submission()
+        s.visitor_id = request.session['visitor-id']
+        s.ip_address = request.META['REMOTE_ADDR']
+        s.user_agent = request.META['HTTP_USER_AGENT']
+        s.raw_geojson = json.dumps(utils.create_geojson_feature(
+            province=province,
+            city=city,
+            number=number,
+            agreeToContributorTerms=True))
+        s.save()
+
+        items = Transportation.objects.filter(active=True, province=province,
+                                              city=city, number=number)
+
+        assert len(items) in [0, 1]
+        if len(items) > 0:
+            t = items[0]
+        else:
+            t = Transportation(active=True, province=province,
+                               city=city, number=number)
+            t.save()
+
+            s.transportation = t
+            s.save()
+
+            code = 201
+
+    data = dict(id=t.id,
+                province=t.province,
+                city=t.city,
+                number=t.number,
+                submission_id=s.submission_id)
+
+    return OK(data, code)
 

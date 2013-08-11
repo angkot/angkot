@@ -49,11 +49,17 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
       province: $scope.province,
       city: $scope.city,
       number: $scope.number,
+      agreeToContributorTerms: $scope.termAgreement,
     }
-    var url = jQuery('body').data('url-search-transportation') + '?' + jQuery.param(data);
+    var url = jQuery('body').data('url-search-transportation');
 
-    $http.get(url)
-      .success(function(data) {
+    $http.post(url, jQuery.param(data))
+      .success(function(data, status) {
+        $scope.loading--;
+        console.log('ok', status, data);
+      })
+      .error(function(data, status) {
+        console.error('fail', status, data);
         $scope.loading--;
       });
   }
