@@ -40,6 +40,7 @@ mod.factory('mapService', function() {
 
     reset: function() {
       this.routes = [];
+      this.info = undefined;
     },
   }
 
