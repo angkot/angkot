@@ -13,6 +13,7 @@ app.controller('TransportationListController', ['$scope', '$http', function($sco
     if (value !== 'transportation-list') return;
     $scope.reload();
     $scope.map.editable = false;
+    $scope.map.reset();
   });
 
   $scope.reload = function() {
