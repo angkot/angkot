@@ -240,8 +240,22 @@
 .new-transportation-form p {
   margin: 0px;
 }
+.new-transportation-form p.term-agreement {
+  margin-top: 10px;
+}
+.new-transportation-form p.error {
+  color: red;
+  margin-top: 10px;
+}
 .new-transportation-form label {
   display: block;
+}
+.new-transportation-form input[type="checkbox"] {
+  vertical-align: middle;
+}
+.new-transportation-form input + label {
+  display: inline;
+  cursor: pointer;
 }
 .new-transportation-form input[type="text"],
 .new-transportation-form select {
@@ -270,6 +284,13 @@
 }
 .new-transportation-form label {
   font-size: 14px;
+}
+.new-transportation-form p.incomplete strong {
+  text-decoration: underline;
+  font-weight: normal;
+}
+.new-transportation-form p.incomplete strong.ok {
+  text-decoration: none;
 }
 
 /*= angkot map =*/
