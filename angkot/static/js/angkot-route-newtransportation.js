@@ -51,7 +51,7 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
       number: $scope.number,
       agreeToContributorTerms: $scope.termAgreement,
     }
-    var url = jQuery('body').data('url-search-transportation');
+    var url = jQuery('body').data('url-new-transportation');
 
     $http.post(url, jQuery.param(data))
       .success(function(data, status) {

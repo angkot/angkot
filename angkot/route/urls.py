@@ -7,6 +7,5 @@ urlpatterns = patterns('angkot.route.views',
     url(r'^transportation-list.json$', 'transportation_list', name='route_transportation_list'),
     url(r'^transportation/(?P<tid>\d+)\.json$',
         'transportation_data', name='route_transportation_data'),
-    url(r'^search/$', 'search_transportation', name='route_search_transportation'),
 )
 

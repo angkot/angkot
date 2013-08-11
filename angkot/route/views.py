@@ -14,41 +14,58 @@ def _format_date(d):
     return d.strftime('%s')
 
 @api
-def _save_route(request):
-    import geojson
-    from shapely.geometry import asShape
+def _new_transportation(request):
+    f = NewTransportationForm(request.POST)
+    if not f.is_valid():
+        return Fail(http_code=400, error_code=400,
+                    error_msg='Request requires province, city, and number; ' \
+                              'and accept the contributor terms')
 
-    raw = request.POST['geojson']
-    print raw
-    parent_id = request.POST.get('parent_id', None)
-    try:
-        parent = Submission.objects.get(submission_id=parent_id)
-    except Submission.DoesNotExist:
-        parent = None
+    province = f.cleaned_data['province']
+    city = f.cleaned_data['city']
+    number = f.cleaned_data['number']
 
-    submission = Submission()
-    submission.parent = parent
-    submission.visitor_id = request.session['visitor-id']
-    submission.ip_address = request.META['REMOTE_ADDR']
-    submission.user_agent = request.META['HTTP_USER_AGENT']
-    submission.raw_geojson = raw
-    submission.save()
+    code = 200
+    submission_id = None
+    with transaction.commit_on_success():
+        s = Submission()
+        s.visitor_id = request.session['visitor-id']
+        s.ip_address = request.META['REMOTE_ADDR']
+        s.user_agent = request.META['HTTP_USER_AGENT']
+        s.raw_geojson = json.dumps(utils.create_geojson_feature(
+            province=province,
+            city=city,
+            number=number,
+            agreeToContributorTerms=True))
+        s.save()
 
-    processSubmission(submission)
-    submission.save()
+        items = Transportation.objects.filter(active=True, province=province,
+                                              city=city, number=number)
 
-    data = dict(submission_id=submission.submission_id)
-    if submission.parsed_ok:
-        res = OK(data, http_code=201)
-        res['Location'] = '/trayek/+%s/' % submission.submission_id
-    else:
-        res = Fail(data, http_code=400,
-                   error_code=400, error_msg='Invalid data')
-    return res
+        assert len(items) in [0, 1]
+        if len(items) > 0:
+            t = items[0]
+        else:
+            t = Transportation(active=True, province=province,
+                               city=city, number=number)
+            t.save()
+
+            s.transportation = t
+            s.save()
+
+            code = 201
+
+    data = dict(id=t.id,
+                province=t.province,
+                city=t.city,
+                number=t.number,
+                submission_id=s.submission_id)
+
+    return OK(data, code)
 
 def index(request):
     if request.method == 'POST':
-        return _save_route(request)
+        return _new_transportation(request)
     return render_to_response('route/index.html',
                               context_instance=RequestContext(request))
 
@@ -102,55 +119,4 @@ def transportation_data(request, tid):
                 geojson=t.to_geojson(),
                 created=_format_date(t.created),
                 updated=_format_date(t.updated))
-
-@api
-@post_only
-def search_transportation(request):
-    f = NewTransportationForm(request.POST)
-    if not f.is_valid():
-        return Fail(http_code=400, error_code=400,
-                    error_msg='Request requires province, city, and number; ' \
-                              'and accept the contributor terms')
-
-    province = f.cleaned_data['province']
-    city = f.cleaned_data['city']
-    number = f.cleaned_data['number']
-
-    code = 200
-    submission_id = None
-    with transaction.commit_on_success():
-        s = Submission()
-        s.visitor_id = request.session['visitor-id']
-        s.ip_address = request.META['REMOTE_ADDR']
-        s.user_agent = request.META['HTTP_USER_AGENT']
-        s.raw_geojson = json.dumps(utils.create_geojson_feature(
-            province=province,
-            city=city,
-            number=number,
-            agreeToContributorTerms=True))
-        s.save()
-
-        items = Transportation.objects.filter(active=True, province=province,
-                                              city=city, number=number)
-
-        assert len(items) in [0, 1]
-        if len(items) > 0:
-            t = items[0]
-        else:
-            t = Transportation(active=True, province=province,
-                               city=city, number=number)
-            t.save()
-
-            s.transportation = t
-            s.save()
-
-            code = 201
-
-    data = dict(id=t.id,
-                province=t.province,
-                city=t.city,
-                number=t.number,
-                submission_id=s.submission_id)
-
-    return OK(data, code)
 
