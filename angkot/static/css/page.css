@@ -128,7 +128,9 @@ input.error:focus {
   box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.6);
   padding: 30px;
 }
-.modal .content * {
+.modal .content p,
+.modal .content a,
+.modal .content strong {
   font-size: 14px;
   line-height: 24px;
 }
