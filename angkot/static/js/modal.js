@@ -15,8 +15,13 @@ mod.factory('modalService', function() {
     },
 
     showFromSelector: function(selector) {
-      var title = jQuery(selector).find('> h2').text();
-      var content = jQuery(selector).find('> .content').html();
+      var c = jQuery(selector);
+      if (c.length === 0) {
+        console.error('Modal content not found: ' + selector);
+        return;
+      }
+      var title = c.find('> h2').text();
+      var content = c.find('> .content').html();
       this.show(content, title);
     },
 
