@@ -206,6 +206,9 @@
 #data-form p.incomplete strong.ok {
   text-decoration: none;
 }
+#data-form div.action {
+  margin-bottom: 10px;
+}
 
 /*= submission-list =*/
 

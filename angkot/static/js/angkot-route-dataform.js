@@ -45,6 +45,15 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
     $scope.parentId = $scope.data.submission_id;
   }
 
+  $scope.goToListCheck = function() {
+    // TODO check modification state and show confirmation
+    $scope.goToList();
+  }
+
+  $scope.goToList = function() {
+    $scope.showPanel('transportation-list');
+  }
+
   $scope.saveRouteCheck = function() {
     $scope.error = null;
     $scope.message = null;
