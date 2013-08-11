@@ -49,6 +49,7 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
     $scope.map.editable = false;
     $scope.showPanel('transportation-list');
     $scope.mapboxKey = jQuery('body').data('mapbox-key');
+    loadProvinces();
   }
 
   $scope.onRouteChanged = function() {
@@ -105,6 +106,16 @@ app.controller('MainController', ['$scope', '$http', 'modalService', 'mapService
 
   $scope.showPanel = function(name) {
     $scope.panel = name;
+  }
+
+  // provinces
+
+  var loadProvinces = function() {
+    var url = jQuery('body').data('url-province-list');
+    $http.get(url)
+      .success(function(data) {
+        $scope.provinces = data.provinces;
+      });
   }
 
 }]);

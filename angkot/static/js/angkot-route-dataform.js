@@ -9,7 +9,6 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
   $scope.modified = false;
 
   $scope.init = function() {
-    loadProvinces();
   }
 
   $scope.$watch('panel', function(value, old) {
@@ -131,16 +130,6 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
   $scope.$watch('info.destination', updateModified);
   $scope.$watch('licenseAgreement', updateModified);
   $scope.$watch('map.routes', updateModified, true);
-
-  // provinces
-
-  var loadProvinces = function() {
-    var url = jQuery('body').data('url-province-list');
-    $http.get(url)
-      .success(function(data) {
-        $scope.provinces = data.provinces;
-      });
-  }
 
 }]);
 
