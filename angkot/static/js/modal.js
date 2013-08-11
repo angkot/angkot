@@ -7,10 +7,13 @@ mod.factory('modalService', function() {
     visible: false,
     title: undefined,
     content: undefined,
+    selector: undefined,
+    copy: true,
 
     show: function(content, title) {
       this.content = content;
       this.title = title;
+      this.copy = true;
       this.visible = true;
     },
 
@@ -23,6 +26,18 @@ mod.factory('modalService', function() {
       var title = c.find('> h2').text();
       var content = c.find('> .content').html();
       this.show(content, title);
+    },
+
+    useSelector: function(selector) {
+      var c = jQuery(selector);
+      if (c.length === 0) {
+        console.error('Modal content not found: ' + selector);
+        return;
+      }
+      this.title = c.find('> h2').text();
+      this.selector = selector;
+      this.copy = false;
+      this.visible = true;
     },
 
     hide: function() {
@@ -58,20 +73,37 @@ mod.directive('modal', ['modalService', '$compile', function(modalService, $comp
       });
 
       $scope.clear = function() {
-        var c = jQuery($element).find('.c');
-        c.find('> .title').html('');
-        c.find('> .content').html('');
+        if ($scope.selector) {
+          var content = jQuery($element).find('> .c > .content').children();
+          var c = jQuery($scope.selector);
+          content.detach();
+          c.find('> .content').append(content);
+        }
+        else {
+          var c = jQuery($element).find('.c');
+          c.find('> .title').html('');
+          c.find('> .content').html('');
+        }
+        $scope.selector = undefined;
       }
 
       $scope.reload = function() {
-        console.log($scope.data);
         $scope.title = $scope.data.title;
-
-        var html = $($scope.data.content);
-        if (html.hasClass('compile')) {
-          html = $compile(html)($scope);
+        if ($scope.data.copy) {
+          var html = $($scope.data.content);
+          if (html.hasClass('compile')) {
+            html = $compile(html)($scope);
+          }
+          jQuery($element).find('> .c > .content').html(html);
         }
-        jQuery($element).find('> .c > .content').html(html);
+        else {
+          $scope.selector = $scope.data.selector;
+          var c = jQuery($scope.selector);
+          var content = c.find('> .content').children();
+          content.detach();
+          var e = jQuery($element).find('> .c > .content').append(content);
+          e.show();
+        }
       };
     }]
   }
