@@ -33,7 +33,7 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
       valid = false;
     }
 
-    if (!$scope.info.city) {
+    if (valid && !$scope.info.city) {
       focus('city');
       valid = false;
     }
