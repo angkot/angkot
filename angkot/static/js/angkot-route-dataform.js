@@ -1,12 +1,13 @@
 (function(app) {
 
-app.controller('DataFormController', ['$scope', '$http', function($scope, $http) {
+app.controller('DataFormController', ['$scope', '$http', '$location', function($scope, $http, $location) {
 
   $scope.checked = false;
   $scope.valid = false;
   $scope.incomplete = false;
   $scope.saved = false;
   $scope.modified = false;
+  $scope.loading = 0;
 
   $scope.init = function() {
   }
@@ -16,7 +17,32 @@ app.controller('DataFormController', ['$scope', '$http', function($scope, $http)
     $scope.reset();
     $scope.map.editable = true;
     $scope.map.info = undefined;
+    $scope.load();
   });
+
+  $scope.load = function() {
+    var tid = parseInt($location.path().replace(/\//g, ''));
+    $scope.loading++;
+
+    var url = jQuery('body').data('url-transportation-data').replace('0', tid);
+    $http.get(url)
+      .success(function(data) {
+        $scope.data = data;
+        $scope.refresh();
+        $scope.loading--;
+      })
+      .error(function(data, status) {
+        console.error('load data error', url, status, data);
+        $scope.loading--;
+      });
+  }
+
+  $scope.refresh = function() {
+    $scope.info.update($scope.data.geojson.properties);
+    $scope.map.editable = true;
+    $scope.map.fitRoutesToBounds = true;
+    $scope.map.routes = $scope.data.geojson.geometry.coordinates;
+  }
 
   $scope.saveRouteCheck = function() {
     $scope.error = null;

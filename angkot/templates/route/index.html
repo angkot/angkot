@@ -124,6 +124,10 @@
 
   <!-- data form -->
   <div class="content" id="data-form" ng-show="panel=='data-form'" ng-controller="DataFormController" ng-init="init()">
+  <div class="loading" ng-show="loading">
+    <p>loading..</p>
+  </div>
+  <div ng-hide="loading">
   <label>Provinsi</label>
   <select name="province" ng-model="info.province" ng-options="p[0] as p[1] for p in provinces"
           ng-class="{'error': checked && !info.province}"></select>
@@ -165,6 +169,7 @@
   <p class="mapquest-nominatim">Nominatim Search Courtesy of<br/>
     <a href="http://www.mapquest.com/" target="_blank">MapQuest</a>
     <img src="//developer.mapquest.com/content/osm/mq_logo.png"></p>
+  </div>
   </div>
   <!-- // data form -->
 
