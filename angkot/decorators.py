@@ -92,3 +92,13 @@ def post_only(func):
 
     return _func
 
+def login_required(func):
+    from django.http import HttpResponseRedirect
+    from django.core.urlresolvers import reverse
+
+    def _func(request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect(reverse('account_login_page'))
+        return func(request, *args, **kwargs)
+    return _func
+

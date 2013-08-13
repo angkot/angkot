@@ -1,0 +1,28 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html><head>
+<title>Login</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<link rel="stylesheet" type="text/css" href="{% static "css/page.css" %}"/>
+<link rel="stylesheet" type="text/css" href="{% static "css/account.css" %}"/>
+</head><body class="logout">
+
+<div id="head">
+<h1>Peta Angkutan Umum</h1>
+</div>
+
+<div class="c">
+
+<p>Anda telah logout.</p>
+
+<p><a href="{% url "account_login_page" %}">Login</a></p>
+
+<div class="action">
+<p><a href="{% url "index" %}">&larr; halaman muka</a></p>
+</div>
+
+</div>
+
+</div></body></html>
+
+

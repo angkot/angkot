@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html><head>
+<title>Login</title>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<link rel="stylesheet" type="text/css" href="{% static "css/page.css" %}"/>
+<link rel="stylesheet" type="text/css" href="{% static "css/account.css" %}"/>
+</head><body class="index">
+
+<div id="head">
+<h1>Peta Angkutan Umum</h1>
+</div>
+
+<div class="c">
+
+<h2>Informasi Akun</h2>
+
+<ul class="detail">
+<li><span class="label">Username</span>
+    <span class="data">{{ user.username }}</span>
+</li>
+<li><span class="label">Nama</span>
+    <span class="data">{{ user.first_name }} {{ user.last_name }}</span>
+</li>
+<li><span class="label">Email</span>
+    <span class="data">{{ user.email }}</span>
+</li>
+</ul>
+
+<p><a href="{% url "account_logout_page" %}">Logout</a></p>
+
+<div class="action">
+<p><a href="{% url "index" %}">&larr; halaman utama</a></p>
+</div>
+
+</div>
+
+</div></body></html>
+
+
