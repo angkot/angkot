@@ -123,6 +123,8 @@
   height: 24px;
   line-height: 24px;
   border-radius: 2px;
+}
+.sidepanel input[type="text"] {
   padding: 0 5px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -268,6 +270,8 @@
   font-size: 14px;
   line-height: 30px;
   border-radius: 2px;
+}
+.new-transportation-form input[type="text"] {
   padding: 0 5px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
