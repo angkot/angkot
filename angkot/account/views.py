@@ -16,6 +16,11 @@ def login_page(request):
     return render_to_response('account/login.html',
                               context_instance=RequestContext(request))
 
+@login_required
+def login_success(request):
+    return render_to_response('account/login_success.html',
+                              context_instance=RequestContext(request))
+
 def logout_page(request):
     from django.contrib.auth import logout
 

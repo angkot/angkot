@@ -18,12 +18,33 @@
 <p>Silakan masuk dengan salah satu akun berikut.</p>
 
 <ul>
-<li><a href="{% url "socialauth_begin" "google-oauth2" %}"><img title="Google" src="{% static "img/google.png" %}"/></a></li>
-<li><a href="{% url "socialauth_begin" "facebook" %}"><img title="Facebook" src="{% static "img/facebook.png" %}"/></a></li>
-<li><a href="{% url "socialauth_begin" "twitter" %}"><img title="Twitter" src="{% static "img/twitter.png" %}"/></a></li>
+<li><a onclick="popup(this); return false" href="{% url "socialauth_begin" "google-oauth2" %}"><img title="Google" src="{% static "img/google.png" %}"/></a></li>
+<li><a onclick="popup(this); return false" href="{% url "socialauth_begin" "facebook" %}"><img title="Facebook" src="{% static "img/facebook.png" %}"/></a></li>
+<li><a onclick="popup(this); return false" href="{% url "socialauth_begin" "twitter" %}"><img title="Twitter" src="{% static "img/twitter.png" %}"/></a></li>
 </ul>
 
 </div>
 
-</div></body></html>
+</div>
+<script>
+var active = false;
+
+function login_success() {
+  location.href = "{% url "account_index" %}";
+}
+
+function popup(el) {
+  if (active) return;
+  active = true;
+  var p = window.open(
+            el.href, 'angkot-account-auth',
+            'width=500,height=500,menubar=no,toolbar=no,alwaysRaised');
+
+  p.onbeforeunload = function(e) {
+    var e = e || window.event;
+    active = false;
+  }
+}
+</script>
+</body></html>
 

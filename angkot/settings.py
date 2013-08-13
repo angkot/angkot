@@ -196,6 +196,7 @@ SOCIAL_AUTH_PIPELINE = (
 ANGKOT_CONTRIBUTOR_TERMS_URL = ''
 
 LOGIN_REDIRECT_URL = '/account/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/account/login/+ok/'
 
 local = os.path.join(base, 'localsettings.py')
 if os.path.exists(local):
