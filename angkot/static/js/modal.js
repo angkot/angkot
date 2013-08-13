@@ -8,16 +8,18 @@ mod.factory('modalService', function() {
     title: undefined,
     content: undefined,
     selector: undefined,
+    name: undefined,
     copy: true,
 
-    show: function(content, title) {
+    show: function(content, title, name) {
+      this.name = name || title;
       this.content = content;
       this.title = title;
       this.copy = true;
       this.visible = true;
     },
 
-    showFromSelector: function(selector) {
+    showFromSelector: function(selector, name) {
       var c = jQuery(selector);
       if (c.length === 0) {
         console.error('Modal content not found: ' + selector);
@@ -25,16 +27,17 @@ mod.factory('modalService', function() {
       }
       var title = c.find('> h2').text();
       var content = c.find('> .content').html();
-      this.show(content, title);
+      this.show(content, title, name);
     },
 
-    useSelector: function(selector) {
+    useSelector: function(selector, name) {
       var c = jQuery(selector);
       if (c.length === 0) {
         console.error('Modal content not found: ' + selector);
         return;
       }
       this.title = c.find('> h2').text();
+      this.name = name || this.title;
       this.selector = selector;
       this.copy = false;
       this.visible = true;
