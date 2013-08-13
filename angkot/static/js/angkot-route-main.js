@@ -132,6 +132,21 @@ app.controller('MainController', ['$scope', '$http', '$location', 'modalService'
       });
   }
 
+  // account
+
+  $scope.loginSuccess = function() {
+    $scope.$broadcast('login-success');
+  }
+
+  $scope.$on('login-success', function() {
+    var url = jQuery('body').data('url-account-info');
+    $http.get(url)
+      .success(function(data) {
+        $scope.user = data;
+        console.log('account info', data);
+      });
+  });
+
 }]);
 
 })(window.angkot.app);

@@ -77,6 +77,8 @@
   text-decoration: none;
   font-weight: 400;
   font-size: 20px;
+  min-width: 50px;
+  text-align: center;
 }
 #head .menu ul li a:hover {
   background: #eee;
@@ -298,6 +300,17 @@
 }
 .new-transportation-form p.incomplete strong.ok {
   text-decoration: none;
+}
+
+/*= login =*/
+
+.login-form ul {
+  margin-top: 25px;
+  text-align: center;
+}
+.login-form ul li {
+  display: inline;
+  margin-right: 20px;
 }
 
 /*= angkot map =*/

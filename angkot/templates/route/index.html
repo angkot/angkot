@@ -18,7 +18,8 @@
              data-url-transportation-list="{% url "route_transportation_list" %}"
              data-url-transportation-data="{% url "route_transportation_data" 0 %}"
              data-url-new-transportation="{% url "route_index" %}"
-             data-url-transportation-data-save="{% url "route_transportation_data_save"  0%}">
+             data-url-transportation-data-save="{% url "route_transportation_data_save" 0 %}"
+             data-url-account-info="{% url "account_info" %}">
 
 <div id="head">
   <h1>Peta Angkutan Umum</h1>
@@ -27,6 +28,8 @@
     <ul>
     <li><a href="" ng-click="showAbout()">Apa ini?</a></li>
     <li><a href="" ng-click="showContact()">Kontak</a></li>
+    <li ng-hide="user"><a href="" ng-click="showLogin()">Login</a></li>
+    <li ng-show="user"><a href="" ng-bind="user.first_name"></a></li>
     </ul>
   </div>
   <div class="search">
@@ -41,6 +44,21 @@
 
 <angkot-map id="map" mapbox-key="mapboxKey" map-data="map"
             onroutechange="onRouteChanged()" onrouteeditclick="onRouteEditClicked()"></angkot-map>
+
+<div style="display:none" id="login-content">
+  <h2>Login</h2>
+  <div class="content"><div class="compile login-form" ng-controller="LoginController">
+    <p>Silakan login dengan menggunakan salah satu akun berikut.</p>
+    <ul>
+    <li><a ng-click="popupLoginWindow($event); $event.preventDefault()"
+           href="{% url "socialauth_begin" "google-oauth2" %}"><img title="Google" src="{% static "img/google.png" %}"/></a></li>
+    <li><a ng-click="popupLoginWindow($event); $event.preventDefault()"
+           href="{% url "socialauth_begin" "facebook" %}"><img title="Facebook" src="{% static "img/facebook.png" %}"/></a></li>
+    <li><a ng-click="popupLoginWindow($event); $event.preventDefault()"
+           href="{% url "socialauth_begin" "twitter" %}"><img title="Twitter" src="{% static "img/twitter.png" %}"/></a></li>
+    </ul>
+  </div></div>
+</div>
 
 <div class="sidepanel" ng-cloak>
   <!--
@@ -219,6 +237,7 @@
 <script type="text/javascript" src="{% static "js/angkot-filter.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-menu.js" %}"></script>
+<script type="text/javascript" src="{% static "js/angkot-route-login.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-main.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-newtransportation.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-transportationlist.js" %}"></script>
