@@ -145,6 +145,7 @@ INSTALLED_APPS = (
     'social_auth',
     'south',
     'angkot.route',
+    'angkot.account',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -175,6 +176,22 @@ LOGGING = {
         },
     }
 }
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+SOCIAL_AUTH_PIPELINE = (
+     'social_auth.backends.pipeline.social.social_auth_user',
+     'angkot.account.user.get_username',
+     'social_auth.backends.pipeline.user.create_user',
+     'social_auth.backends.pipeline.social.associate_user',
+     'social_auth.backends.pipeline.social.load_extra_data',
+     'social_auth.backends.pipeline.user.update_user_details',
+)
 
 ANGKOT_CONTRIBUTOR_TERMS_URL = ''
 

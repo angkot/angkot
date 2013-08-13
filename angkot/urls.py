@@ -5,8 +5,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # url(r'^$', 'angkot.views.home', name='home'),
     url(r'^route/', include('angkot.route.urls')),
+    url(r'^account/', include('angkot.account.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', RedirectView.as_view(url='/route/', permanent=False)),
 )
+
