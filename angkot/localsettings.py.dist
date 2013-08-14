@@ -35,7 +35,7 @@
 
 ACCOUNT_USERNAME_PREFIX = 'user'
 ANGKOT_CONTRIBUTOR_TERMS_URL = ''
-
+ANGKOT_PRIVACY_POLICY_URL = ''
 
 # Authentication keys from providers
 

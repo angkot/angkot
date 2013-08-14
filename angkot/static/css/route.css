@@ -305,7 +305,7 @@
 /*= login =*/
 
 .login-form ul {
-  margin-top: 25px;
+  margin: 25px 0;
   text-align: center;
 }
 .login-form ul li {

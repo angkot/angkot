@@ -58,6 +58,10 @@
     <li><a ng-click="popupLoginWindow($event, loginSource); $event.preventDefault()"
            href="{% url "socialauth_begin" "twitter" %}?ao=route"><img title="Twitter" src="{% static "img/twitter.png" %}"/></a></li>
     </ul>
+    <p>Informasi pribadi Anda akan dilindungi sepenuhnya. Silakan baca juga
+        <a href="{{ ANGKOT_PRIVACY_POLICY_URL }}" target="angkot_privacy_policy">kebijakan privasi</a>
+        angkot.web.id.
+    </p>
   </div></div>
 </div>
 
