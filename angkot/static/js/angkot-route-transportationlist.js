@@ -82,7 +82,9 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
   $scope.$on('route-edit-click', function() {
     if ($scope.panel !== 'transportation-list') return;
     $scope.$apply(function() {
-      $scope.editTransportation($scope.data.id);
+      $scope.showLogin(function() {
+        $scope.editTransportation($scope.data.id);
+      });
     });
   });
 
