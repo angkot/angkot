@@ -32,7 +32,7 @@ app.factory('transportationService', function() {
   }
 });
 
-app.controller('MainController', ['$scope', '$http', '$location', 'modalService', 'mapService', 'transportationService', function($scope, $http, $location, modalService, mapService, transportationService) {
+app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'modalService', 'mapService', 'transportationService', function($scope, $http, $location, $timeout, modalService, mapService, transportationService) {
 
   $scope.panel = undefined;
   $scope.modal = modalService;
@@ -135,7 +135,15 @@ app.controller('MainController', ['$scope', '$http', '$location', 'modalService'
 
   // account and login
 
-  $scope.showLogin = function() {
+  $scope.loginCallback = undefined;
+
+  $scope.showLogin = function(callback) {
+    if ($scope.user) {
+      if (callback) callback();
+      return;
+    }
+
+    $scope.loginCallback = callback;
     $scope.modal.useSelector('#login-content', 'login');
   }
 
@@ -160,7 +168,12 @@ app.controller('MainController', ['$scope', '$http', '$location', 'modalService'
     $http.get(url)
       .success(function(data) {
         $scope.user = data;
+
+        var cb = $scope.loginCallback;
+        $scope.loginCallback = undefined;
         $scope.modal.hide();
+
+        if (cb) $timeout(cb, 0);
       });
   };
 
