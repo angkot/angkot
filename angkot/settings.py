@@ -202,6 +202,7 @@ SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = [
     'ao', # auth origin - where the auth starts
     'aos', # auth origin section - more detailed location
 ]
+FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'popup'}
 
 local = os.path.join(base, 'localsettings.py')
 if os.path.exists(local):
