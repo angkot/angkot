@@ -33,6 +33,7 @@ def _new_transportation(request):
         s.visitor_id = request.session['visitor-id']
         s.ip_address = request.META['REMOTE_ADDR']
         s.user_agent = request.META['HTTP_USER_AGENT']
+        s.user = request.user
         s.raw_geojson = json.dumps(utils.create_geojson_feature(
             province=province,
             city=city,
@@ -143,6 +144,7 @@ def transportation_data_save(request, tid):
     s.visitor_id = request.session['visitor-id']
     s.ip_address = request.META['REMOTE_ADDR']
     s.user_agent = request.META['HTTP_USER_AGENT']
+    s.user = request.user
     s.raw_geojson = raw
     s.save()
 
