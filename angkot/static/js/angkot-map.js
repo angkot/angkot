@@ -118,7 +118,7 @@ mod.directive('angkotMap', function() {
 
     var initMap = function() {
       var center = [0, 0]
-      map = L.mapbox.map($element[0], $scope.mapboxKey, {
+      map = L.map($element[0], {
           boxZoom: false,
           minZoom: 7,
           maxZoom: 19,
@@ -126,6 +126,14 @@ mod.directive('angkotMap', function() {
         }).setView(center, 1);
 
       map.addControl(new L.Control.Zoom({position: 'topright'}));
+
+      var bingAerial = new L.BingLayer($scope.bingMapsKey, {type:'Aerial'});
+
+      L.control.layers({
+        'OpenStreetMap': L.mapbox.tileLayer($scope.mapboxKey).addTo(map),
+        'Bing Satellite': bingAerial,
+      }).addTo(map);
+
     }
 
     var initInfoControl = function() {
@@ -190,6 +198,7 @@ mod.directive('angkotMap', function() {
     controller: controller,
     scope: {
       mapboxKey: '=',
+      bingMapsKey: '=',
       data: '=mapData',
       fireRouteChanged: '&onroutechange',
       fireRouteEditClicked: '&onrouteeditclick',

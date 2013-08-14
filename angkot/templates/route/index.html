@@ -12,6 +12,7 @@
 <link rel="stylesheet" type="text/css" href="{% static "css/route.css" %}"/>
 </head><body ng-controller="MainController" ng-init="init()"
              data-mapbox-key="{{ MAPBOX_KEY }}"
+             data-bing-maps-key="{{ BING_MAPS_KEY }}"
              data-url-contributor-terms="{{ ANGKOT_CONTRIBUTOR_TERMS_URL }}"
              data-url-province-list="{% url "route_province_list" %}"
              data-url-submission-list="{% url "route_submission_list" %}"
@@ -43,7 +44,7 @@
 
 <modal data="modal"></modal>
 
-<angkot-map id="map" mapbox-key="mapboxKey" map-data="map"
+<angkot-map id="map" mapbox-key="mapboxKey" bing-maps-key="bingMapsKey" map-data="map"
             onroutechange="onRouteChanged()" onrouteeditclick="onRouteEditClicked()"></angkot-map>
 
 <div style="display:none" id="login-content">
@@ -235,6 +236,7 @@
 <script type="text/javascript" src="{% static "js/Leaflet.Polyline.Editable.js" %}"></script>
 <script type="text/javascript" src="{% static "js/Leaflet.Angkot.js" %}"></script>
 <script type="text/javascript" src="{% static "js/Leaflet.Angkot.Route.js" %}"></script>
+<script type="text/javascript" src="{% static "js/Bing.js" %}"></script>
 
 <script type="text/javascript" src="{% static "js/modal.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-map.js" %}"></script>

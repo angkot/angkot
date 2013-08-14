@@ -50,6 +50,7 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
     $scope.map.editable = false;
     $scope.showPanel('transportation-list');
     $scope.mapboxKey = jQuery('body').data('mapbox-key');
+    $scope.bingMapsKey = jQuery('body').data('bing-maps-key');
     $scope.contributorTermsUrl = jQuery('body').data('url-contributor-terms');
     loadProvinces();
     loadUserData();
