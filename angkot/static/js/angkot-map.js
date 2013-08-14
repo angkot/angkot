@@ -121,7 +121,7 @@ mod.directive('angkotMap', function() {
       map = L.mapbox.map($element[0], $scope.mapboxKey, {
           boxZoom: false,
           minZoom: 7,
-          maxZoom: 17,
+          maxZoom: 19,
           zoomControl: false,
         }).setView(center, 1);
 
