@@ -33,7 +33,8 @@ L.BingLayer = L.TileLayer.extend({
 			s = this.options.subdomains[Math.abs((p.x + p.y) % subdomains.length)];
 		return this._url.replace('{subdomain}', s)
 				.replace('{quadkey}', this.tile2quad(p.x, p.y, z))
-				.replace('{culture}', this.options.culture);
+				.replace('{culture}', this.options.culture)
+				.replace('http://', '//');
 	},
 
 	loadMetadata: function() {
@@ -50,7 +51,7 @@ L.BingLayer = L.TileLayer.extend({
 			}
 			_this.initMetadata();
 		};
-		var url = "http://dev.virtualearth.net/REST/v1/Imagery/Metadata/" + this.options.type + "?include=ImageryProviders&jsonp=" + cbid + "&key=" + this._key;
+		var url = "//dev.virtualearth.net/REST/v1/Imagery/Metadata/" + this.options.type + "?include=ImageryProviders&jsonp=" + cbid + "&key=" + this._key;
 		var script = document.createElement("script");
 		script.type = "text/javascript";
 		script.src = url;
