@@ -18,9 +18,9 @@
 <p>Silakan masuk dengan salah satu akun berikut.</p>
 
 <ul>
-<li><a onclick="popup(this); return false" href="{% url "socialauth_begin" "google-oauth2" %}"><img title="Google" src="{% static "img/google.png" %}"/></a></li>
-<li><a onclick="popup(this); return false" href="{% url "socialauth_begin" "facebook" %}"><img title="Facebook" src="{% static "img/facebook.png" %}"/></a></li>
-<li><a onclick="popup(this); return false" href="{% url "socialauth_begin" "twitter" %}"><img title="Twitter" src="{% static "img/twitter.png" %}"/></a></li>
+<li><a onclick="popup(this); return false" href="{% url "socialauth_begin" "google-oauth2" %}?ao=login"><img title="Google" src="{% static "img/google.png" %}"/></a></li>
+<li><a onclick="popup(this); return false" href="{% url "socialauth_begin" "facebook" %}?ao=login"><img title="Facebook" src="{% static "img/facebook.png" %}"/></a></li>
+<li><a onclick="popup(this); return false" href="{% url "socialauth_begin" "twitter" %}?ao=login"><img title="Twitter" src="{% static "img/twitter.png" %}"/></a></li>
 </ul>
 
 </div>

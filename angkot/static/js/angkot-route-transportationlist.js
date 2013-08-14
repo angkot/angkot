@@ -84,7 +84,7 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
     $scope.$apply(function() {
       $scope.showLogin(function() {
         $scope.editTransportation($scope.data.id);
-      });
+      }, 'map-info');
     });
   });
 

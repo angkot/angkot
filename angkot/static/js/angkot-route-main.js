@@ -106,7 +106,7 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
   $scope.newTransportion = function() {
     $scope.showLogin(function() {
       $scope.modal.useSelector('#new-transportation-modal');
-    });
+    }, 'new-transportation');
   }
 
   $scope.editTransportation = function(tid) {
@@ -140,7 +140,7 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
 
   $scope.loginCallback = undefined;
 
-  $scope.showLogin = function(callback) {
+  $scope.showLogin = function(callback, source) {
     var callback = callback || function() {}
 
     if ($scope.user) {
@@ -153,14 +153,18 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
         callback();
       }
     }
+
+    source = source || 'other';
+    $scope.loginSource = source;
     $scope.modal.useSelector('#login-content', 'login');
   }
 
-  $scope.popupLoginWindow = function(e) {
+  $scope.popupLoginWindow = function(e, source) {
     // if ($scope.loggingIn) return; // FIXME!
     $scope.loggingIn = true;
+    source = source || 'other';
 
-    var url = e.currentTarget.href;
+    var url = e.currentTarget.href + '&aos=' + source;
 
     var opts = 'width=500,height=500,menubar=no,toolbar=no,alwaysRaised';
     var popup = window.open(url, 'angkot-account-auth', opts);

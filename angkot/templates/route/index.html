@@ -29,7 +29,7 @@
     <ul>
     <li><a href="" ng-click="showAbout()">Apa ini?</a></li>
     <li><a href="" ng-click="showContact()">Kontak</a></li>
-    <li ng-hide="user"><a href="" ng-click="showLogin()">Login</a></li>
+    <li ng-hide="user"><a href="" ng-click="showLogin(undefined, 'menu')">Login</a></li>
     <li ng-show="user"><a href="" ng-bind="user.first_name"></a></li>
     </ul>
   </div>
@@ -51,12 +51,12 @@
   <div class="content"><div class="compile login-form">
     <p>Silakan login dengan menggunakan salah satu akun berikut.</p>
     <ul>
-    <li><a ng-click="popupLoginWindow($event); $event.preventDefault()"
-           href="{% url "socialauth_begin" "google-oauth2" %}"><img title="Google" src="{% static "img/google.png" %}"/></a></li>
-    <li><a ng-click="popupLoginWindow($event); $event.preventDefault()"
-           href="{% url "socialauth_begin" "facebook" %}"><img title="Facebook" src="{% static "img/facebook.png" %}"/></a></li>
-    <li><a ng-click="popupLoginWindow($event); $event.preventDefault()"
-           href="{% url "socialauth_begin" "twitter" %}"><img title="Twitter" src="{% static "img/twitter.png" %}"/></a></li>
+    <li><a ng-click="popupLoginWindow($event, loginSource); $event.preventDefault()"
+           href="{% url "socialauth_begin" "google-oauth2" %}?ao=route"><img title="Google" src="{% static "img/google.png" %}"/></a></li>
+    <li><a ng-click="popupLoginWindow($event, loginSource); $event.preventDefault()"
+           href="{% url "socialauth_begin" "facebook" %}?ao=route"><img title="Facebook" src="{% static "img/facebook.png" %}"/></a></li>
+    <li><a ng-click="popupLoginWindow($event, loginSource); $event.preventDefault()"
+           href="{% url "socialauth_begin" "twitter" %}?ao=route"><img title="Twitter" src="{% static "img/twitter.png" %}"/></a></li>
     </ul>
   </div></div>
 </div>

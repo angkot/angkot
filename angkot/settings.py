@@ -198,6 +198,11 @@ ANGKOT_CONTRIBUTOR_TERMS_URL = ''
 LOGIN_REDIRECT_URL = '/account/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/account/login/+ok/'
 
+SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = [
+    'ao', # auth origin - where the auth starts
+    'aos', # auth origin section - more detailed location
+]
+
 local = os.path.join(base, 'localsettings.py')
 if os.path.exists(local):
     execfile(local)
