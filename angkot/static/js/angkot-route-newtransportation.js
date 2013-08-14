@@ -57,6 +57,14 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
     $http.post(url, jQuery.param(data))
       .success(function(data, status) {
         $scope.loading--;
+
+        $scope.company = undefined;
+        $scope.number= undefined;
+        $scope.termAgreement = false;
+        $scope.error = null;
+        $scope.incomplete = null;
+        $scope.checked = false;
+
         $scope.edit(data.id);
       })
       .error(function(data, status) {
