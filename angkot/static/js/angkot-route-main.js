@@ -150,7 +150,7 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
   }
 
   $scope.popupLoginWindow = function(e) {
-    if ($scope.loggingIn) return;
+    // if ($scope.loggingIn) return; // FIXME!
     $scope.loggingIn = true;
 
     var url = e.currentTarget.href;
