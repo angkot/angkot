@@ -167,16 +167,18 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
 
   $scope.loginSuccess = function() {
     var url = jQuery('body').data('url-account-info');
-    $http.get(url)
-      .success(function(data) {
-        $scope.user = data;
+    $timeout(function() {
+      $http.get(url)
+        .success(function(data) {
+          $scope.user = data;
 
-        var cb = $scope.loginCallback;
-        $scope.loginCallback = undefined;
-        $scope.modal.hide();
+          var cb = $scope.loginCallback;
+          $scope.loginCallback = undefined;
+          $scope.modal.hide();
 
-        if (cb) $timeout(cb, 0);
-      });
+          if (cb) $timeout(cb, 0);
+        });
+    });
   };
 
 }]);
