@@ -140,12 +140,18 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
   $scope.loginCallback = undefined;
 
   $scope.showLogin = function(callback) {
+    var callback = callback || function() {}
+
     if ($scope.user) {
-      if (callback) callback();
+      callback();
       return;
     }
 
-    $scope.loginCallback = callback;
+    $scope.loginCallback = function() {
+      if ($scope.user) {
+        callback();
+      }
+    }
     $scope.modal.useSelector('#login-content', 'login');
   }
 
@@ -165,19 +171,30 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
     }
   }
 
-  $scope.loginSuccess = function() {
+  var loadUserData = function(cb) {
     var url = jQuery('body').data('url-account-info');
     $timeout(function() {
       $http.get(url)
         .success(function(data) {
-          $scope.user = data;
+          if (data.authenticated === true) {
+            $scope.user = data;
+          }
+          else {
+            $scope.user = undefined;
+          }
 
-          var cb = $scope.loginCallback;
-          $scope.loginCallback = undefined;
-          $scope.modal.hide();
-
-          if (cb) $timeout(cb, 0);
+          if (cb) cb();
         });
+      });
+  }
+
+  $scope.loginSuccess = function() {
+    loadUserData(function() {
+      var cb = $scope.loginCallback;
+      $scope.loginCallback = undefined;
+      $scope.modal.hide();
+
+      if (cb) $timeout(cb, 0);
     });
   };
 
