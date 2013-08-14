@@ -103,7 +103,9 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
   // transportation
 
   $scope.newTransportion = function() {
-    $scope.modal.useSelector('#new-transportation-modal');
+    $scope.showLogin(function() {
+      $scope.modal.useSelector('#new-transportation-modal');
+    });
   }
 
   $scope.editTransportation = function(tid) {
