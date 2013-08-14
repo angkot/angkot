@@ -11,3 +11,9 @@ urlpatterns = patterns('',
     url(r'^$', RedirectView.as_view(url='/route/', permanent=False), name="index"),
 )
 
+# account shortcuts
+urlpatterns += patterns('',
+    url(r'^login/$', RedirectView.as_view(url='/account/login/', permanent=True)),
+    url(r'^logout/$', RedirectView.as_view(url='/account/logout/', permanent=True)),
+)
+
