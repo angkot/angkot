@@ -49,6 +49,7 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
       province: $scope.province,
       city: $scope.city,
       number: $scope.number,
+      company: $scope.company,
       agreeToContributorTerms: $scope.termAgreement,
     }
     var url = jQuery('body').data('url-new-transportation');

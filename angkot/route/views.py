@@ -25,6 +25,7 @@ def _new_transportation(request):
     province = f.cleaned_data['province']
     city = f.cleaned_data['city']
     number = f.cleaned_data['number']
+    company = f.cleaned_data['company']
 
     code = 200
     submission_id = None
@@ -38,6 +39,7 @@ def _new_transportation(request):
             province=province,
             city=city,
             number=number,
+            company=company,
             agreeToContributorTerms=True))
         s.save()
 
@@ -49,7 +51,7 @@ def _new_transportation(request):
             t = items[0]
         else:
             t = Transportation(active=True, province=province,
-                               city=city, number=number)
+                               city=city, number=number, company=company)
             t.save()
 
             s.transportation = t
@@ -61,6 +63,7 @@ def _new_transportation(request):
                 province=t.province,
                 city=t.city,
                 number=t.number,
+                company=t.company,
                 submission_id=s.submission_id)
 
     return OK(data, code)

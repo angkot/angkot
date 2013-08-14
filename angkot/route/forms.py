@@ -6,6 +6,7 @@ class NewTransportationForm(forms.Form):
     province = forms.ChoiceField(choices=PROVINCES)
     city = forms.CharField(max_length=256)
     number = forms.CharField(max_length=64)
+    company = forms.CharField(max_length=256, required=False)
     agreeToContributorTerms = forms.CharField()
 
     def clean_agreeToContributorTerms(self):
