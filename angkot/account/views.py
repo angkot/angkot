@@ -21,6 +21,15 @@ def login_success(request):
     return render_to_response('account/login_success.html',
                               context_instance=RequestContext(request))
 
+def login_fail(request):
+    e = request.GET.get('e', None)
+    b = request.GET.get('b', None)
+
+    data = dict(exc=request.GET.get('e', None),
+                backend=request.GET.get('b', None))
+    return render_to_response('account/login_fail.html', data,
+                              context_instance=RequestContext(request))
+
 def logout_page(request):
     from django.contrib.auth import logout
 

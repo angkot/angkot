@@ -105,6 +105,7 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'angkot.middleware.VisitorMiddleware',
+    'angkot.account.middleware.AngkotSocialAuthExceptionMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -196,6 +197,7 @@ SOCIAL_AUTH_PIPELINE = (
 ANGKOT_CONTRIBUTOR_TERMS_URL = ''
 
 LOGIN_REDIRECT_URL = '/account/'
+LOGIN_ERROR_URL = '/account/login/+fail/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/account/login/+ok/'
 
 SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = [

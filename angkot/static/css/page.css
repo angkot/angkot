@@ -69,6 +69,10 @@ input.error:focus {
   background: white;
 }
 
+strong {
+  font-weight: bold;
+}
+
 /*= buttons =*/
 
 .btn {

@@ -203,6 +203,9 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
     });
   };
 
+  $scope.loginFail = function() {
+  }
+
 }]);
 
 })(window.angkot.app);
@@ -212,6 +215,11 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
 window.login_success = function() {
   var body = jQuery('body')[0];
   angular.element(body).scope().loginSuccess();
+}
+
+window.login_fail = function() {
+  var body = jQuery('body')[0];
+  angular.element(body).scope().loginFail();
 }
 
 })(window);

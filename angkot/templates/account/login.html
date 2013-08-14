@@ -33,6 +33,10 @@ function login_success() {
   location.href = "{% url "account_index" %}";
 }
 
+function login_fail() {
+  active = false;
+}
+
 function popup(el) {
   if (active) return;
   active = true;
