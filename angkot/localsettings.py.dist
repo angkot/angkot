@@ -12,6 +12,7 @@
 # GOOGLE_ANALYTICS_ID = ''
 # GOOGLE_ANALYTICS_HOST = ''
 # MAPBOX_KEY = ''
+# BING_MAPS_KEY = ''
 
 # USERVOICE_CODE = '''
 # <!-- UserVoice JavaScript SDK (only needed once on a page) -->
