@@ -21,6 +21,7 @@
              data-url-transportation-data-save="{% url "route_transportation_data_save" 0 %}"
              data-url-account-info="{% url "account_info" %}">
 
+{% csrf_token %}
 <div id="head">
   <h1>Peta Angkutan Umum</h1>
   <div class="alpha"><a href="https://github.com/fajran/angkot" target="_blank">alpha!</a></div>
