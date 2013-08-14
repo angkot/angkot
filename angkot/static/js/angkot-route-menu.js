@@ -10,10 +10,6 @@ app.controller('MenuController', ['$scope', function($scope) {
     $scope.modal.showFromSelector('#contact-content');
   }
 
-  $scope.showLogin = function() {
-    $scope.modal.useSelector('#login-content', 'login');
-  }
-
 }]);
 
 })(window.angkot.app);

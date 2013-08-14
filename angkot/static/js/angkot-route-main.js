@@ -38,6 +38,7 @@ app.controller('MainController', ['$scope', '$http', '$location', 'modalService'
   $scope.modal = modalService;
   $scope.map = mapService;
   $scope.info = transportationService;
+  $scope.loggingIn = false;
 
   $scope.init = function() {
     $scope.map.view = {
@@ -132,22 +133,47 @@ app.controller('MainController', ['$scope', '$http', '$location', 'modalService'
       });
   }
 
-  // account
+  // account and login
 
-  $scope.loginSuccess = function() {
-    $scope.$broadcast('login-success');
+  $scope.showLogin = function() {
+    $scope.modal.useSelector('#login-content', 'login');
   }
 
-  $scope.$on('login-success', function() {
+  $scope.popupLoginWindow = function(e) {
+    if ($scope.loggingIn) return;
+    $scope.loggingIn = true;
+
+    var url = e.currentTarget.href;
+
+    var opts = 'width=500,height=500,menubar=no,toolbar=no,alwaysRaised';
+    var popup = window.open(url, 'angkot-account-auth', opts);
+
+    popup.onbeforeunload = function(e) {
+      $scope.$apply(function() {
+        $scope.loggingIn = false;
+      });
+    }
+  }
+
+  $scope.loginSuccess = function() {
     var url = jQuery('body').data('url-account-info');
     $http.get(url)
       .success(function(data) {
         $scope.user = data;
-        console.log('account info', data);
+        $scope.modal.hide();
       });
-  });
+  };
 
 }]);
 
 })(window.angkot.app);
+
+(function(window) {
+
+window.login_success = function() {
+  var body = jQuery('body')[0];
+  angular.element(body).scope().loginSuccess();
+}
+
+})(window);
 
