@@ -52,6 +52,7 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
     $scope.mapboxKey = jQuery('body').data('mapbox-key');
     $scope.contributorTermsUrl = jQuery('body').data('url-contributor-terms');
     loadProvinces();
+    loadUserData();
   }
 
   $scope.onRouteChanged = function() {
