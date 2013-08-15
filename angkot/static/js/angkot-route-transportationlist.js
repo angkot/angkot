@@ -14,6 +14,10 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
     $scope.map.editable = false;
     $scope.map.reset();
     $location.path('/');
+
+    if (value !== old) {
+      $scope.gaSendListPageview();
+    }
   });
 
   $scope.reload = function() {
@@ -68,11 +72,16 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
         $scope.map.fitRoutesToBounds = true;
         $scope.map.routes = data.geojson.geometry.coordinates;
 
-        $scope.gaSendPageview();
+        $scope.gaSendTransportationPageview();
       });
   }
 
-  $scope.gaSendPageview = function() {
+  $scope.gaSendListPageview = function() {
+    var page = window.location.pathname;
+    $scope.ga('send', 'pageview', {page: page});
+  }
+
+  $scope.gaSendTransportationPageview = function() {
     var id = $scope.data.id;
     var page = window.location.pathname + id + '/'
 
@@ -85,6 +94,8 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
   }
 
   $scope.$on('route-edit-click', function() {
+    $scope.ga('send', 'event', 'transportation', 'click-edit');
+
     if ($scope.panel !== 'transportation-list') return;
     $scope.$apply(function() {
       $scope.showLogin(function() {

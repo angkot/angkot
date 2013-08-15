@@ -105,6 +105,8 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
   // transportation
 
   $scope.newTransportion = function() {
+    $scope.ga('send', 'event', 'transportation', 'click-new');
+
     $scope.showLogin(function() {
       $scope.modal.useSelector('#new-transportation-modal');
     }, 'new-transportation');
@@ -171,6 +173,8 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
     source = source || 'other';
     $scope.loginSource = source;
     $scope.modal.useSelector('#login-content', 'login');
+
+    $scope.ga('send', 'event', 'login', 'show');
   }
 
   $scope.popupLoginWindow = function(e, source) {
@@ -208,6 +212,8 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
   }
 
   $scope.loginSuccess = function() {
+    $scope.ga('send', 'event', 'login', 'success');
+
     loadUserData(function() {
       var cb = $scope.loginCallback;
       $scope.loginCallback = undefined;
@@ -218,6 +224,7 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
   };
 
   $scope.loginFail = function() {
+    $scope.ga('send', 'event', 'login', 'fail');
   }
 
   // data

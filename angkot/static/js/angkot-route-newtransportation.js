@@ -79,7 +79,7 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
 
   $scope.gaSendSubmitNewEvent = function() {
     $scope.gaSubmitNewCount++;
-    $scope.ga('send', 'event', 'transportation', 'submit-new',
+    $scope.ga('send', 'event', 'transportation-new', 'submit',
               {eventValue: $scope.gaSubmitNewCount});
   }
 

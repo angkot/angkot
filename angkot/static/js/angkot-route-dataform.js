@@ -65,6 +65,8 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
   }
 
   $scope.goToList = function() {
+    $scope.ga('send', 'event', 'transportation-edit', 'back');
+
     $scope.showPanel('transportation-list');
   }
 
@@ -156,7 +158,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
     if (!$scope.gaSubmitEditCount[id]) $scope.gaSubmitEditCount[id] = 0;
     $scope.gaSubmitEditCount[id]++;
 
-    $scope.ga('send', 'event', 'transportation', 'submit-edit',
+    $scope.ga('send', 'event', 'transportation-edit', 'submit',
               ''+id, $scope.gaSubmitEditCount[id]);
   }
 
