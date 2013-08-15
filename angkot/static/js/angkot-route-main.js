@@ -130,11 +130,17 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
   // provinces
 
   var loadProvinces = function() {
-    var url = jQuery('body').data('url-province-list');
-    $http.get(url)
-      .success(function(data) {
-        $scope.provinces = data.provinces;
-      });
+    if (!window.angkot.data && !window.angkot.data.provinces) {
+      var url = jQuery('body').data('url-province-list');
+      $http.get(url)
+        .success(function(data) {
+          console.log('x', data);
+          $scope.provinces = data.provinces;
+        });
+    }
+    else {
+      $scope.provinces = window.angkot.data.provinces;
+    }
   }
 
   // analytics
