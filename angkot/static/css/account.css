@@ -1,0 +1,35 @@
+html, body {
+  min-width: 400px;
+  min-height: 300px;
+}
+
+.c {
+  padding: 20px;
+}
+
+div.action {
+  margin-top: 20px;
+}
+
+/*= login page =*/
+
+div.login {
+  margin: 50px auto 0 auto;
+  width: 300px;
+  text-align: center;
+}
+div.login ul {
+  margin: 20px 0;
+}
+div.login ul li {
+  display: inline;
+  margin: 0 10px;
+}
+
+/*= index =*/
+
+div.index li .label {
+  width: 100px;
+  display: inline-block;
+}
+
