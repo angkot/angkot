@@ -137,6 +137,13 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
       });
   }
 
+  // analytics
+
+  $scope.ga = function() {
+    if (!window.ga) return;
+    ga.apply(window.ga, arguments);
+  }
+
   // account and login
 
   $scope.loginCallback = undefined;
