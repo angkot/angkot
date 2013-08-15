@@ -133,6 +133,8 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
     var data = {geojson: JSON.stringify(geojson)};
     if ($scope.parentId) data['parent_id'] = $scope.parentId
 
+    $scope.gaSendSubmitEditEvent();
+
     $http.post(url, jQuery.param(data))
       .success(function(data) {
         $scope.message = 'Terima kasih atas partisipasi Anda!';
@@ -144,6 +146,18 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
         $scope.message = null;
         $scope.error = 'Gagal! code='+status;
       });
+  }
+
+  $scope.gaSubmitEditCount = {};
+
+  $scope.gaSendSubmitEditEvent = function() {
+    var id = $scope.data.id;
+
+    if (!$scope.gaSubmitEditCount[id]) $scope.gaSubmitEditCount[id] = 0;
+    $scope.gaSubmitEditCount[id]++;
+
+    $scope.ga('send', 'event', 'transportation', 'submit-edit',
+              ''+id, $scope.gaSubmitEditCount[id]);
   }
 
   $scope.$on('map-reset', function() {
