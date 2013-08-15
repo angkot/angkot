@@ -73,13 +73,42 @@ strong {
   font-weight: bold;
 }
 
+/*= head =*/
+
 #head {
-  padding-left: 10px;
-  box-shadow: 0 0px 5px 2px rgba(160, 160, 160, 0.8);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: white;
   height: 40px;
   max-height: 40px;
+  box-shadow: 0 0px 5px 2px rgba(160, 160, 160, 0.8);
+  z-index: 50;
   line-height: 40px;
 }
+#head h1 {
+  font-family: "Roboto Condensed", "Helvetica Neue", "Tahoma", sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 40px;
+  padding: 0 10px;
+  display: inline-block;
+  float: left;
+}
+#head .alpha {
+  float: left;
+  line-height: 24px;
+  margin-left: -5px;
+}
+#head .alpha a {
+  color: #e00;
+  text-decoration: none;
+}
+#head .alpha a:hover {
+  color: #f00;
+}
+
 
 /*= buttons =*/
 

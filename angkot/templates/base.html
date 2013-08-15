@@ -1,19 +1,21 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html><head>
+{% block tag-html %}<html>{% endblock %}<head>
 <title>{% block title %}Peta Angkutan Umum{% endblock %}</title>
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
 <link rel="stylesheet" type="text/css" href="{% static "css/page.css" %}"/>
 {% block extrastyles %}{% endblock %}
-</head><body>
+</head>{% block tag-body %}<body>{% endblock %}
 
 <div id="head">
-<h1>Peta Angkutan Umum</h1>
+  <h1>Peta Angkutan Umum</h1>
+  <div class="alpha"><a href="https://github.com/fajran/angkot" target="_blank">alpha!</a></div>
+  {% block extrahead %}{% endblock %}
 </div>
 
-<div class="c">
+<div class="c"><!-- content -->
 {% block content %}{% endblock %}
-</div>
+</div><!-- // content -->
 
 {% block extrascripts %}{% endblock %}
 {% if GOOGLE_ANALYTICS_ID %}
