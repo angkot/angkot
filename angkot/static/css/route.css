@@ -302,6 +302,12 @@
   text-decoration: none;
 }
 
+/*= transportation list =*/
+
+#transportation-list div.city {
+  margin-bottom: 10px;
+}
+
 /*= login =*/
 
 .login-form ul {
