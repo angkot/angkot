@@ -4,6 +4,7 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.db import transaction
 from django.core.urlresolvers import resolve
+from django.views.decorators.cache import cache_page
 
 from angkot.decorators import api, OK, Fail, post_only
 from .models import Transportation, Submission, PROVINCES
@@ -94,6 +95,13 @@ def submission_list(request):
 @api
 def province_list(request):
     return dict(provinces=PROVINCES)
+
+@cache_page(24 * 60 * 60)
+def province_list_js(request):
+    data = dict(provinces=json.dumps(PROVINCES))
+    return render_to_response('route/province-list.js', data,
+                              content_type='text/javascript',
+                              context_instance=RequestContext(request))
 
 @api
 def transportation_list(request):
