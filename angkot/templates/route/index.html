@@ -133,8 +133,8 @@
       <p>loading..</p>
     </div>
     <div ng-hide="loading">
-      <div class="province" ng-repeat="group in groups">
-        <h2 ng-bind="provinceName[group.province]"></h2>
+      <div class="city" ng-repeat="group in groups">
+        <h2 ng-bind="group.city"></h2>
         <ul>
         <li ng-repeat="item in group.transportations | orderBy:'_label'">
           <a href="" ng-click="showTransportation(item)">

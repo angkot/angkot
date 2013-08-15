@@ -28,22 +28,22 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
       });
   };
 
-  var groupByProvince = function(data) {
+  var groupByCity = function(data) {
     var groups = {};
     angular.forEach(data, function(item) {
-      if (!groups[item.province]) {
-        groups[item.province] = {
-          province: item.province,
+      if (!groups[item.city]) {
+        groups[item.city] = {
+          city: item.city,
           transportations: []
         }
       }
 
       item._label = (item.company ? item.company + ' ' : '') + item.number;
-      groups[item.province].transportations.push(item);
+      groups[item.city].transportations.push(item);
     });
 
     var res = [];
-    angular.forEach(groups, function(item, province) {
+    angular.forEach(groups, function(item, city) {
       res.push(item);
     });
 
@@ -63,7 +63,7 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
   });
 
   $scope.$watch('transportations', function(value) {
-    $scope.groups = groupByProvince(value);
+    $scope.groups = groupByCity(value);
   });
 
   $scope.showTransportation = function(t) {
