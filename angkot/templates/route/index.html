@@ -144,7 +144,8 @@
         <h2 ng-bind="group.city"></h2>
         <ul>
         <li ng-repeat="item in group.transportations | orderBy:'_label'">
-            <i class="icon-location-arrow" ng-class="{'invisible':!item.hasRoute}"></i>
+            <i class="icon-location-arrow" ng-class="{'invisible':!item.hasRoute}"
+               title="Rute angkutan tersedia"></i>
             <a href="" ng-click="showTransportation(item)">
             <span class="company" ng-bind="item.company"></span>
             <span class="number" ng-bind="item.number"></span>
