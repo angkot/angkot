@@ -68,6 +68,7 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
 
   $scope.showTransportation = function(t) {
     // TODO show loading
+    $location.path('/'+t.id+'/')
     var url = jQuery('body').data('url-transportation-data').replace('0', t.id);
     $http.get(url)
       .success(function(data) {
@@ -76,7 +77,21 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
         $scope.map.editable = false;
         $scope.map.fitRoutesToBounds = true;
         $scope.map.routes = data.geojson.geometry.coordinates;
+
+        $scope.gaSendPageview();
       });
+  }
+
+  $scope.gaSendPageview = function() {
+    var id = $scope.data.id;
+    var page = window.location.pathname + id + '/'
+
+    var p = $scope.data.geojson.properties;
+    var province = $scope.provinceName[p.province]
+    var name = (p.company || '') + ' ' + p.number;
+    var title = province + ' - ' + p.city + ' - ' + name;
+
+    $scope.ga('send', 'pageview', {page: page, title: title});
   }
 
   $scope.$on('route-edit-click', function() {
