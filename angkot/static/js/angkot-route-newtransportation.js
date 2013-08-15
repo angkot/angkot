@@ -54,6 +54,8 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
     }
     var url = jQuery('body').data('url-new-transportation');
 
+    $scope.gaSendSubmitNewEvent();
+
     $http.post(url, jQuery.param(data))
       .success(function(data, status) {
         $scope.loading--;
@@ -71,6 +73,14 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
         console.error('fail', status, data);
         $scope.loading--;
       });
+  }
+
+  $scope.gaSubmitNewCount = 0;
+
+  $scope.gaSendSubmitNewEvent = function() {
+    $scope.gaSubmitNewCount++;
+    $scope.ga('send', 'event', 'transportation', 'submit-new',
+              {eventValue: $scope.gaSubmitNewCount});
   }
 
   $scope.edit = function(tid) {
