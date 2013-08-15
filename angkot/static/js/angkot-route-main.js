@@ -113,7 +113,7 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
   $scope.editTransportation = function(tid) {
     $scope.info.reset();
     $scope.map.info = undefined;
-    $location.path('/'+tid);
+    $location.path('/'+tid+'/edit/');
     $scope.showPanel('data-form');
   }
 

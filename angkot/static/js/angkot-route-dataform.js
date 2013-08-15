@@ -30,11 +30,25 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
         $scope.data = data;
         $scope.refresh();
         $scope.loading--;
+
+        $scope.gaSendPageview();
       })
       .error(function(data, status) {
         console.error('load data error', url, status, data);
         $scope.loading--;
       });
+  }
+
+  $scope.gaSendPageview = function() {
+    var id = $scope.data.id;
+    var page = window.location.pathname + id + '/edit/';
+
+    var p = $scope.data.geojson.properties;
+    var province = $scope.provinceName[p.province]
+    var name = (p.company || '') + ' ' + p.number;
+    var title = 'Edit: ' + province + ' - ' + p.city + ' - ' + name;
+
+    $scope.ga('send', 'pageview', {page: page, title: title});
   }
 
   $scope.refresh = function() {
