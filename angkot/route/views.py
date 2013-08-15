@@ -32,7 +32,6 @@ def _new_transportation(request):
     submission_id = None
     with transaction.commit_on_success():
         s = Submission()
-        s.visitor_id = request.session['visitor-id']
         s.ip_address = request.META['REMOTE_ADDR']
         s.user_agent = request.META['HTTP_USER_AGENT']
         s.user = request.user
@@ -152,7 +151,6 @@ def transportation_data_save(request, tid):
 
     s = Submission()
     s.parent = parent
-    s.visitor_id = request.session['visitor-id']
     s.ip_address = request.META['REMOTE_ADDR']
     s.user_agent = request.META['HTTP_USER_AGENT']
     s.user = request.user
