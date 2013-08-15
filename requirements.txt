@@ -1,7 +1,7 @@
-Django
+Django>=1.5
 psycopg2
 django-uuidfield
-South
+South>=0.8
 geojson
 shapely
 django-social-auth
