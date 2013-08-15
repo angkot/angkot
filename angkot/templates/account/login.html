@@ -1,17 +1,9 @@
+{% extends "account/base.html" %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html><head>
-<title>Login</title>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
-<link rel="stylesheet" type="text/css" href="{% static "css/page.css" %}"/>
-<link rel="stylesheet" type="text/css" href="{% static "css/account.css" %}"/>
-</head><body class="login">
 
-<div id="head">
-<h1>Peta Angkutan Umum</h1>
-</div>
+{% block title %}Login{% endblock %}
 
-<div class="c">
+{% block content %}<div class="login">
 
 <h2>Login</h2>
 
@@ -26,7 +18,9 @@
 <p>Informasi pribadi Anda akan dilindungi sepenuhnya. Silakan baca juga <a href="{{ ANGKOT_PRIVACY_POLICY_URL }}" target="angkot_privacy_policy">kebijakan privasi</a>
 angkot.web.id.</p>
 
-</div>
+</div>{% endblock %}
+
+{% block extrascripts %}
 <script>
 var active = false;
 
@@ -51,5 +45,5 @@ function popup(el) {
   }
 }
 </script>
-</body></html>
+{% endblock %}
 

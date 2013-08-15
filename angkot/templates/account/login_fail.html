@@ -1,17 +1,9 @@
+{% extends "account/base.html" %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html><head>
-<title>Login</title>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
-<link rel="stylesheet" type="text/css" href="{% static "css/page.css" %}"/>
-<link rel="stylesheet" type="text/css" href="{% static "css/account.css" %}"/>
-</head><body class="logout">
 
-<div id="head">
-<h1>Peta Angkutan Umum</h1>
-</div>
+{% block title %}Login gagal{% endblock %}
 
-<div class="c">
+{% block content %}
 
 <p>Proses login <strong style="color:red">tidak berhasil</strong>.</p>
 
@@ -22,14 +14,15 @@
 </p>
 </div>
 
-</div>
+{% endblock %}
 
-</div>
-<script>
+{% block extrascripts %}
+<script type="text/javascript">
 if (window.opener) {
   if (window.opener.login_fail) {
     window.opener.login_fail();
   }
 }
-</script></body></html>
+</script>
+{% endblock %}
 

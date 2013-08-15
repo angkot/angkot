@@ -1,17 +1,9 @@
+{% extends "account/base.html" %}
 {% load staticfiles %}
-<!DOCTYPE html>
-<html><head>
-<title>Login</title>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
-<link rel="stylesheet" type="text/css" href="{% static "css/page.css" %}"/>
-<link rel="stylesheet" type="text/css" href="{% static "css/account.css" %}"/>
-</head><body class="logout">
 
-<div id="head">
-<h1>Peta Angkutan Umum</h1>
-</div>
+{% block title %}Logout{% endblock %}
 
-<div class="c">
+{% block content %}
 
 <p>Anda telah keluar.</p>
 
@@ -21,8 +13,5 @@
 <p><a href="{% url "index" %}">&larr; halaman muka</a></p>
 </div>
 
-</div>
-
-</div></body></html>
-
+{% endblock %}
 

@@ -73,6 +73,14 @@ strong {
   font-weight: bold;
 }
 
+#head {
+  padding-left: 10px;
+  box-shadow: 0 0px 5px 2px rgba(160, 160, 160, 0.8);
+  height: 40px;
+  max-height: 40px;
+  line-height: 40px;
+}
+
 /*= buttons =*/
 
 .btn {
