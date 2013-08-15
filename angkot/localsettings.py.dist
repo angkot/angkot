@@ -9,6 +9,7 @@
 #     }
 # }
 
+# GOOGLE_ANALYTICS_IGNORE = False
 # GOOGLE_ANALYTICS_ID = ''
 # GOOGLE_ANALYTICS_HOST = ''
 # MAPBOX_KEY = ''
