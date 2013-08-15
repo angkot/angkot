@@ -220,6 +220,17 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
   $scope.loginFail = function() {
   }
 
+  // data
+
+  $scope.$watch('provinces', function(value) {
+    if (!value) return;
+    var names = {};
+    angular.forEach(value, function(item) {
+      names[item[0]] = item[1];
+    })
+    $scope.provinceName = names;
+  });
+
 }]);
 
 })(window.angkot.app);

@@ -2,7 +2,6 @@
 
 app.controller('TransportationListController', ['$scope', '$http', '$location', function($scope, $http, $location) {
 
-  $scope.provinces = undefined;
   $scope.transportations = undefined;
   $scope.loading = 0;
 
@@ -22,7 +21,6 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
     var url = jQuery('body').data('url-transportation-list');
     $http.get(url)
       .success(function(data) {
-        $scope.provinces = data.provinces;
         $scope.transportations = data.transportations;
         $scope.loading--;
       });
@@ -53,14 +51,6 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
 
     return res;
   }
-
-  $scope.$watch('provinces', function(value) {
-    var names = {};
-    angular.forEach(value, function(item) {
-      names[item[0]] = item[1];
-    })
-    $scope.provinceName = names;
-  });
 
   $scope.$watch('transportations', function(value) {
     $scope.groups = groupByCity(value);
