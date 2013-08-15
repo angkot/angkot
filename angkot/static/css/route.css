@@ -276,6 +276,10 @@
 #transportation-list ul li i {
   float: left;
   margin-left: -13px;
+  color: #aaa;
+}
+#transportation-list ul li:hover i {
+  color: #444;
 }
 #transportation-list ul li,
 #transportation-list ul li i {
