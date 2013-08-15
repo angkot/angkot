@@ -273,6 +273,14 @@
 #transportation-list div.city {
   margin-bottom: 10px;
 }
+#transportation-list ul li i {
+  float: left;
+  margin-left: -13px;
+}
+#transportation-list ul li,
+#transportation-list ul li i {
+  line-height: 20px;
+}
 
 /*= login =*/
 

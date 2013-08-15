@@ -48,6 +48,10 @@ a:hover {
   text-decoration: underline;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 input,
 select {
   border: 1px solid #aaa;
