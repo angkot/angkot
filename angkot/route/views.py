@@ -114,7 +114,8 @@ def transportation_list(request):
                     origin=t.origin,
                     destination=t.destination,
                     created=_format_date(t.created),
-                    updated=_format_date(t.updated))
+                    updated=_format_date(t.updated),
+                    hasRoute=t.route is not None)
 
     items = Transportation.objects.filter(active=True)
     transportations = map(format_transportation, items)
