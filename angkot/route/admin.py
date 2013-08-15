@@ -7,7 +7,14 @@ class TransportationAdmin(admin.GeoModelAdmin):
                     'destination', 'active', 'updated')
 
 class SubmissionAdmin(admin.GeoModelAdmin):
-    list_display = ('submission_id', 'ip_address', 'parsed_ok',
+    def user(obj):
+        if obj.user is None:
+            return '(none)'
+        if obj.user.email is not None:
+            return '{} - {}'.format(obj.user.first_name, obj.user.email)
+        return obj.user.first_name
+
+    list_display = ('submission_id', 'ip_address', user, 'parsed_ok',
                     'created', 'province', 'city', 'company', 'number')
 
 admin.site.register(Transportation, TransportationAdmin)
