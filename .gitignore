@@ -2,3 +2,6 @@
 *.swp
 angkot/localsettings.py
 node_modules/
+dist/
+angkot/static/dist/
+
