@@ -1,4 +1,4 @@
 *.pyc
 *.swp
 angkot/localsettings.py
-
+node_modules/

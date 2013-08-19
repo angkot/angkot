@@ -1,0 +1,24 @@
+{
+  "author": "Fajran Iman Rusadi",
+  "name": "angkot",
+  "homepage": "https://angkot.web.id",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fajran/angkot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fajran/angkot/issues"
+  },
+  "licenses": [
+    {
+      "type": "AGPL 3.0",
+      "url": "https://raw.github.com/fajran/angkot/master/LICENSE.txt"
+    }
+  ],
+  "devDependencies": {
+    "grunt": "0.4.x",
+    "grunt-contrib-jshint": "0.4.x",
+    "grunt-contrib-watch": "0.4.x"
+  }
+}
+
