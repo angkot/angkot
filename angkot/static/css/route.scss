@@ -1,0 +1,372 @@
+/*= head =*/
+
+#head {
+  div.search {
+    height: 40px;
+    margin-left: 10px;
+    left: 320px;
+    top: 0px;
+    position: absolute;
+
+    input, button {
+      height: 26px;
+      border: 1px solid #ccc;
+      padding: 0 5px;
+      line-height: 26px;
+    }
+    input {
+      width: 200px;
+      border-radius: 2px 0 0 2px;
+    }
+    button {
+      padding: 0 10px;
+      height: 28px;
+      border-left: 0px;
+      margin-bottom: 4px;
+      border-radius: 0 2px 2px 0;
+      cursor: pointer;
+    }
+  }
+
+  .menu {
+    float: right;
+
+    ul li {
+      display: inline-block;
+
+      a {
+        height: 40px;
+        line-height: 40px;
+        display: inline-block;
+        padding: 0 10px;
+        font-family: "Roboto Condensed", "Tahoma", sans-serif;
+        color: black;
+        text-decoration: none;
+        font-weight: 400;
+        font-size: 20px;
+        min-width: 50px;
+        text-align: center;
+      }
+      a:hover {
+        background: #eee;
+      }
+    }
+  }
+}
+
+/*= map =*/
+
+#map {
+  position: absolute;
+  top: 40px;
+  left: 330px;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  z-index: 25;
+}
+
+/*= side panel =*/
+
+.sidepanel {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 300px;
+  height: auto;
+  z-index: 40;
+  padding: 15px;
+  background: white;
+  border-radius: 0 0 5px 0;
+  box-shadow: 0 0px 10px rgba(160, 160, 160, 0.75);
+  overflow: auto;
+  bottom: 0px;
+  border-radius: 0;
+  overflow-x: hidden;
+
+  h2 {
+    font-size: 16px;
+  }
+
+  input[type="text"], select {
+    width: 100%;
+    margin: 2px 0 3px 0;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 2px;
+  }
+  input[type="text"] {
+    padding: 0 5px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+
+  label {
+    color: #444;
+  }
+  hr {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+  }
+}
+.sidepanel > *:first-child,
+.sidepanel > .close + * {
+  margin-top: 0px;
+}
+.sidepanel > *:last-child {
+  margin-bottom: 0px;
+}
+
+.sidepanel {
+  .nav {
+    margin-top: -15px;
+    margin-left: -15px;
+    margin-bottom: 15px;
+    margin-right: -15px;
+    box-shadow: 0 0 5px 0 rgba(192, 192, 192, 0.8);
+
+    li {
+      display: inline-block;
+      background: white;
+      line-height: 28px;
+      height: 28px;
+      padding: 4px 10px 0 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    li.active {
+      background: #eee;
+      border-bottom: 2px solid #eee;
+    }
+    li:hover {
+      border-bottom: 2px solid #ccc;
+    }
+  }
+}
+
+.mapquest-nominatim {
+  margin-top: 100px;
+  color: #888;
+
+  img {
+    vertical-align: middle;
+  }
+}
+
+/*= route designer =*/
+
+#data-form {
+  input[name="company"] {
+    width: 74%;
+    display: inline;
+    margin-right: 2%;
+  }
+  input[name="number"] {
+    width: 24%;
+    text-align: center;
+  }
+
+  p.term-agreement {
+    line-height: 26px;
+    height: 26px;
+    input {
+      vertical-align: middle;
+    }
+    label {
+      cursor: pointer;
+    }
+  }
+
+  p.error {
+    color: red;
+  }
+  p.incomplete {
+    strong {
+      text-decoration: underline;
+      font-weight: normal;
+    }
+    strong.ok {
+      text-decoration: none;
+    }
+  }
+
+  div.action {
+    margin-bottom: 10px;
+  }
+}
+
+/*= submission-list =*/
+
+#submission-list {
+  .route {
+    border-bottom: 1px solid #ccc;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding: 5px 15px;
+    cursor: pointer;
+    border-left: 5px solid #fff;
+  }
+  .route.active {
+    background: #eee;
+    border-left: 5px solid #eee;
+  }
+  .route:hover {
+    border-left: 5px solid #ccc;
+  }
+  .route p {
+    margin: 0px;
+  }
+  .route p.action {
+    text-align: right;
+  }
+  .date {
+    color: #aaa;
+    font-size: 12px;
+  }
+}
+
+/*= new transportation =*/
+
+.new-transportation-form {
+  p {
+    margin: 0px;
+  }
+  p.term-agreement {
+    margin-top: 10px;
+  }
+  p.error {
+    color: red;
+    margin-top: 10px;
+  }
+  label {
+    display: block;
+  }
+  input[type="checkbox"] {
+    vertical-align: middle;
+  }
+  input + label {
+    display: inline;
+    cursor: pointer;
+  }
+  input[type="text"], select {
+    width: 100%;
+    margin: 2px 0 3px 0;
+    height: 30px;
+    font-size: 14px;
+    line-height: 30px;
+    border-radius: 2px;
+  }
+  input[type="text"] {
+    padding: 0 5px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+  input[name="company"] {
+    width: 79%;
+    display: inline;
+    margin-right: 1%;
+  }
+  input[name="number"] {
+    width: 20%;
+    text-align: center;
+  }
+  p.action {
+    text-align: right;
+    margin-top: 20px;
+  }
+  label {
+    font-size: 14px;
+  }
+  p.incomplete {
+    strong {
+      text-decoration: underline;
+      font-weight: normal;
+    }
+    strong.ok {
+      text-decoration: none;
+    }
+  }
+}
+
+/*= transportation list =*/
+
+#transportation-list {
+  div.city {
+    margin-bottom: 10px;
+  }
+  ul {
+    li i {
+      float: left;
+      margin-left: -13px;
+      color: #aaa;
+    }
+    li:hover i {
+      color: #444;
+    }
+    li, li i {
+      line-height: 20px;
+    }
+  }
+}
+
+/*= login =*/
+
+.login-form {
+  ul {
+    margin: 25px 0;
+    text-align: center;
+
+    li {
+      display: inline;
+      margin-right: 20px;
+    }
+  }
+}
+
+/*= angkot map =*/
+
+.angkot-map-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 30;
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: white;
+  font-size: 12px;
+}
+
+.leaflet-transportation-info {
+  border-radius: 2px;
+  padding: 10px;
+  background: white;
+  box-shadow: 0 0 5px 0 #888;
+  min-width: 150px;
+
+  p {
+    margin: 0 0 5px 0;
+  }
+  p.edit {
+    margin: 5px 0 0 0;
+    text-align: right;
+  }
+  p.t {
+    text-decoration: underline;
+  }
+  .empty {
+    cursor: pointer;
+    color: #888;
+    padding: 0 10px;
+    border-bottom: 1px dotted #ccc;
+    text-align: center;
+  }
+  span.empty {
+    display: inline-block;
+  }
+  .empty:hover {
+    background: LightYellow;
+  }
+}
+

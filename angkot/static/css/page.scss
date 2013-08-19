@@ -90,27 +90,28 @@ strong {
   box-shadow: 0 0px 5px 2px rgba(160, 160, 160, 0.8);
   z-index: 50;
   line-height: 40px;
-}
-#head h1 {
-  font-family: "Roboto Condensed", "Helvetica Neue", "Tahoma", sans-serif;
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 40px;
-  padding: 0 10px;
-  display: inline-block;
-  float: left;
-}
-#head .alpha {
-  float: left;
-  line-height: 24px;
-  margin-left: -5px;
-}
-#head .alpha a {
-  color: #e00;
-  text-decoration: none;
-}
-#head .alpha a:hover {
-  color: #f00;
+
+  h1 {
+    font-family: "Roboto Condensed", "Helvetica Neue", "Tahoma", sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 40px;
+    padding: 0 10px;
+    display: inline-block;
+    float: left;
+  }
+  .alpha {
+    float: left;
+    line-height: 24px;
+    margin-left: -5px;
+    a {
+      color: #e00;
+      text-decoration: none;
+    }
+    a:hover {
+      color: #f00;
+    }
+  }
 }
 
 
@@ -153,31 +154,35 @@ strong {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
-}
-.modal .close {
-  float: right;
-  font-size: 24px;
-  line-height: 16px;
-  margin-top: -10px;
-  margin-right: -10px;
-  color: #aaa;
-  cursor: pointer;
-}
-.modal .close:hover {
-  color: #444;
-}
-.modal .c {
-  background: white;
-  width: 450px;
-  margin: 50px auto 0 auto;
-  box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.6);
-  padding: 30px;
-}
-.modal .content p,
-.modal .content a,
-.modal .content strong {
-  font-size: 14px;
-  line-height: 24px;
+
+  .close {
+    float: right;
+    font-size: 24px;
+    line-height: 16px;
+    margin-top: -10px;
+    margin-right: -10px;
+    color: #aaa;
+    cursor: pointer;
+  }
+
+  .close:hover {
+    color: #444;
+  }
+
+  .c {
+    background: white;
+    width: 450px;
+    margin: 50px auto 0 auto;
+    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.6);
+    padding: 30px;
+  }
+
+  .content {
+    p, a, strong {
+      font-size: 14px;
+      line-height: 24px;
+    }
+  }
 }
 
 /*= leaflet =*/

@@ -51,15 +51,40 @@ module.exports = function(grunt) {
         }
       }
     },
+    sass: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: 'angkot/static/css',
+          src: ['*.scss'],
+          dest: 'dist/css',
+          ext: '.css'
+        }]
+      }
+    },
     watch: {
-      files: ['<%= jshint.files %>'],
-      tasks: ['jshint'/*, 'qunit'*/]
+      js: {
+        files: ['<%= jshint.files %>'],
+        tasks: ['jshint'/*, 'qunit'*/]
+      },
+      css: {
+        files: 'angkot/static/css/*.scss',
+        tasks: ['sass', 'copy:css']
+      }
     },
     copy: {
       js: {
         files: [
-          {src: 'dist/route.min.js', dest: 'angkot/static/dist/js/route.min.js'}
+          {src: 'dist/js/route.min.js', dest: 'angkot/static/dist/js/route.min.js'}
         ]
+      },
+      css: {
+        files: [{
+          expand: true,
+          cwd: 'dist/css',
+          src: '*.css',
+          dest: 'angkot/static/dist/css'
+        }]
       }
     }
   });
@@ -68,10 +93,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
   grunt.registerTask('test', ['jshint']);
 
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'copy']);
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'sass', 'copy']);
 
 };
