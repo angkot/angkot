@@ -25,7 +25,7 @@ module.exports = function(grunt) {
           'angkot/static/js/angkot-route-dataform.js',
           'angkot/static/js/angkot-route-submissionlist.js'
         ],
-        dest: 'dist/route.js'
+        dest: 'dist/js/route.js'
       }
     },
     uglify: {
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
           banner: '/*! <%= pkg.name %> - route - <%= grunt.template.today("isoDateTime") %> */\n'
         },
         files: {
-          'dist/route.min.js': ['<%= concat.route.dest %>']
+          'dist/js/route.min.js': ['<%= concat.route.dest %>']
         }
       },
     },
