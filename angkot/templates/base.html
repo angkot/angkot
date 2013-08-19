@@ -18,6 +18,9 @@
 </div><!-- // content -->
 
 {% block extrascripts %}{% endblock %}
+{% if debug %}
+<script src="http://localhost:35729/livereload.js"></script>
+{% endif %}
 {% if GOOGLE_ANALYTICS_ID %}
 <script type="text/javascript">
   {% if GOOGLE_ANALYTICS_IGNORE %}

@@ -70,6 +70,12 @@ module.exports = function(grunt) {
       css: {
         files: 'angkot/static/css/*.scss',
         tasks: ['sass', 'copy:css']
+      },
+      livereload: {
+        options: {
+          livereload: true,
+        },
+        files: ['angkot/static/dist/css/*.css'],
       }
     },
     copy: {
