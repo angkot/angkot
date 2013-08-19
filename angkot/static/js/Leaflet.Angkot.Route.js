@@ -153,7 +153,7 @@ L.Angkot.Route = L.LayerGroup.extend({
   },
 
   _onMapMouseOver: function(e) {
-    if (this._polylines.length == 0) {
+    if (this._polylines.length === 0) {
       this._tooltip.setContent('Klik untuk membuat rute');
     }
   },
@@ -188,7 +188,7 @@ L.Angkot.Route = L.LayerGroup.extend({
       weight: 3,
       opacity: 0.8,
     };
-    for (k in options) {
+    for (var k in options) {
       opts[k] = options[k];
     }
 

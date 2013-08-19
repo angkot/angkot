@@ -20,19 +20,19 @@ L.BingLayer = L.TileLayer.extend({
 		for (var i = z; i > 0; i--) {
 			var digit = 0;
 			var mask = 1 << (i - 1);
-			if ((x & mask) != 0) digit += 1;
-			if ((y & mask) != 0) digit += 2;
+			if ((x & mask) !== 0) digit += 1;
+			if ((y & mask) !== 0) digit += 2;
 			quad = quad + digit;
 		}
 		return quad;
 	},
 
 	getTileUrl: function(p, z) {
-		var z = this._getZoomForUrl();
+		var zoom = this._getZoomForUrl();
 		var subdomains = this.options.subdomains,
 			s = this.options.subdomains[Math.abs((p.x + p.y) % subdomains.length)];
 		return this._url.replace('{subdomain}', s)
-				.replace('{quadkey}', this.tile2quad(p.x, p.y, z))
+				.replace('{quadkey}', this.tile2quad(p.x, p.y, zoom))
 				.replace('{culture}', this.options.culture)
 				.replace('http://', '//');
 	},
@@ -82,7 +82,7 @@ L.BingLayer = L.TileLayer.extend({
 	},
 
 	_update: function() {
-		if (this._url == null || !this._map) return;
+		if (this._url === null || !this._map) return;
 		this._update_attribution();
 		L.TileLayer.prototype._update.apply(this, []);
 	},
@@ -113,6 +113,6 @@ L.BingLayer = L.TileLayer.extend({
 				p.active = false;
 			}
 		}
-        	L.TileLayer.prototype.onRemove.apply(this, [map]);
+		L.TileLayer.prototype.onRemove.apply(this, [map]);
 	}
 });

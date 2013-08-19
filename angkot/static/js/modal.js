@@ -46,7 +46,7 @@ mod.factory('modalService', function() {
     hide: function() {
       this.visible = false;
     },
-  }
+  };
 });
 
 mod.directive('modal', ['modalService', '$compile', function(modalService, $compile) {
@@ -65,7 +65,7 @@ mod.directive('modal', ['modalService', '$compile', function(modalService, $comp
         if ($scope.fireModalClosed) {
           $scope.fireModalClosed();
         }
-      }
+      };
 
       $scope.$watch('data.visible', function(value, old) {
         if (value === old) return;
@@ -76,19 +76,20 @@ mod.directive('modal', ['modalService', '$compile', function(modalService, $comp
       });
 
       $scope.clear = function() {
+        var c;
         if ($scope.selector) {
           var content = jQuery($element).find('> .c > .content').children();
-          var c = jQuery($scope.selector);
+          c = jQuery($scope.selector);
           content.detach();
           c.find('> .content').append(content);
         }
         else {
-          var c = jQuery($element).find('.c');
+          c = jQuery($element).find('.c');
           c.find('> .title').html('');
           c.find('> .content').html('');
         }
         $scope.selector = undefined;
-      }
+      };
 
       $scope.reload = function() {
         $scope.title = $scope.data.title;
@@ -109,7 +110,7 @@ mod.directive('modal', ['modalService', '$compile', function(modalService, $comp
         }
       };
     }]
-  }
+  };
 
 }]);
 

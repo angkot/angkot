@@ -1,6 +1,6 @@
 (function() {
 
-"use strict"
+"use strict";
 
 var mod = angular.module('angkotMap', []);
 
@@ -42,7 +42,7 @@ mod.factory('mapService', function() {
       this.routes = [];
       this.info = undefined;
     },
-  }
+  };
 
 });
 
@@ -56,7 +56,7 @@ mod.directive('angkotMap', function() {
       initMap();
       initInfoControl();
       initEditor();
-    }
+    };
 
     $scope.$watch('data.view', function(value) {
       var pos = value.center;
@@ -79,8 +79,8 @@ mod.directive('angkotMap', function() {
 
       var a = [bounds[0][1], bounds[0][0]];
       var b = [bounds[1][1], bounds[1][0]];
-      var b = new L.LatLngBounds([a, b]);
-      map.setMaxBounds(b);
+      var llb = new L.LatLngBounds([a, b]);
+      map.setMaxBounds(llb);
     });
 
     $scope.$watch('data.editable', function(value) {
@@ -117,7 +117,7 @@ mod.directive('angkotMap', function() {
     });
 
     var initMap = function() {
-      var center = [0, 0]
+      var center = [0, 0];
       map = L.map($element[0], {
           boxZoom: false,
           minZoom: 7,
@@ -133,15 +133,14 @@ mod.directive('angkotMap', function() {
         'OpenStreetMap': L.mapbox.tileLayer($scope.mapboxKey).addTo(map),
         'Bing Satellite': bingAerial,
       }).addTo(map);
-
-    }
+    };
 
     var initInfoControl = function() {
       info = new L.Control.TransportationInfo();
       info.on('edit-click', function() {
         $scope.fireRouteEditClicked();
       });
-    }
+    };
 
     var initEditor = function() {
       editor = new L.Angkot.Route({editable: false});
@@ -169,7 +168,7 @@ mod.directive('angkotMap', function() {
           $scope.fireRouteChanged();
         });
       });
-    }
+    };
 
     var toLngLat = function(path) {
       var res = [];
@@ -178,7 +177,7 @@ mod.directive('angkotMap', function() {
         res.push([p.lng, p.lat]);
       }
       return res;
-    }
+    };
 
     var toLatLng = function(path) {
       var res = [];
@@ -187,7 +186,7 @@ mod.directive('angkotMap', function() {
         res.push([p[1], p[0]]);
       }
       return res;
-    }
+    };
 
   }];
 

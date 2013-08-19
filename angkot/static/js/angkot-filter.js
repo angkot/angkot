@@ -1,6 +1,6 @@
-'use strict';
-
 (function() {
+
+"use strict";
 
 var mod = angular.module('angkotFilter', []);
 
@@ -10,7 +10,7 @@ mod.filter('lengthUnit', function() {
       return Math.round(value) + ' m';
     }
     return Math.round(value / 10) / 100 + ' km';
-  }
+  };
 });
 
 // From http://stackoverflow.com/a/17364716/252384
@@ -30,11 +30,11 @@ mod.directive('ngEnter', function() {
 
 mod.directive('eatClick', function() {
   return function(scope, element, attrs) {
-    $(element).click(function(event) {
+    jQuery(element).click(function(event) {
       event.stopPropagation();
     });
-  }
-})
+  };
+});
 
 })();
 

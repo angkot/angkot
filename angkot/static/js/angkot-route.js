@@ -1,18 +1,18 @@
-'use strict';
-
 window.angkot = window.angkot || {};
 
 (function(angkot) {
 
+"use strict";
+
 var app = angular.module('AngkotRoute', ['modal', 'angkotMap', 'angkotFilter']);
 
-app.config(function($interpolateProvider, $httpProvider) {
+app.config(['$interpolateProvider', '$httpProvider', function($interpolateProvider, $httpProvider) {
   $interpolateProvider.startSymbol('((');
   $interpolateProvider.endSymbol('))');
 
   function getCookie(name) {
     var cookieValue = null;
-    if (document.cookie && document.cookie != '') {
+    if (document.cookie && document.cookie !== '') {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
             var cookie = jQuery.trim(cookies[i]);
@@ -30,7 +30,7 @@ app.config(function($interpolateProvider, $httpProvider) {
   $httpProvider.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
   $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
-});
+}]);
 
 angkot.app = app;
 

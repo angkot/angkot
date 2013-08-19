@@ -1,12 +1,14 @@
 (function(app) {
 
+"use strict";
+
 app.controller('SubmissionListController', ['$scope', '$http', function($scope, $http) {
 
   $scope.submissions = undefined;
   $scope.loading = 0;
 
   $scope.init = function() {
-  }
+  };
 
   $scope.$watch('panel', function(value, old) {
     if (value !== 'submission-list') return;
@@ -28,15 +30,15 @@ app.controller('SubmissionListController', ['$scope', '$http', function($scope, 
         $scope.submissions = data.submissions;
         $scope.loading--;
       });
-  }
+  };
 
   $scope.showRoute = function(route) {
     $scope.map.routes = route.geojson.geometry.coordinates;
     $scope.active = route;
-  }
+  };
 
   $scope.editRoute = function(route) {
-  }
+  };
 
 }]);
 

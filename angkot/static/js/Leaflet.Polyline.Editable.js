@@ -124,14 +124,15 @@ L.Polyline.Editable = L.Polyline.Color.extend({
   },
 
   _resetHandles: function() {
-    for (var i=0; i<this._handles.length; i++) {
+    var i;
+    for (i=0; i<this._handles.length; i++) {
       this._handleGroup.removeLayer(this._handles[i]);
     }
     this._handles.splice(0, this._handles.length);
 
     if (!this.options.editable) return;
 
-    for (var i=0; i<this._latlngs.length; i++) {
+    for (i=0; i<this._latlngs.length; i++) {
       this._addHandle(this._latlngs[i]);
     }
   },
@@ -139,12 +140,12 @@ L.Polyline.Editable = L.Polyline.Color.extend({
   _addHandle: function(latlng) {
     var edge, vertex;
     if (this._handles.length > 0) {
-      var edge = this._createHandle('edge');
+      edge = this._createHandle('edge');
       edge.addTo(this._handleGroup);
       this._handles.push(edge);
     }
 
-    var vertex = this._createHandle('vertex');
+    vertex = this._createHandle('vertex');
     vertex.addTo(this._handleGroup);
     this._handles.push(vertex);
 
@@ -160,8 +161,8 @@ L.Polyline.Editable = L.Polyline.Color.extend({
     var index = this._handles.indexOf(h);
     if (!this._map || index<0) return;
 
-    var prev = this._latlngs[parseInt(index/2)];
-    var next = this._latlngs[parseInt(index/2)+1];
+    var prev = this._latlngs[parseInt(index/2, 10)];
+    var next = this._latlngs[parseInt(index/2, 10)+1];
     var mid = this._getMidLatLng(this._map, prev, next);
     h.setLatLng(mid);
   },
@@ -170,7 +171,7 @@ L.Polyline.Editable = L.Polyline.Color.extend({
     var opts = {
       type: type,
       color: this.options.color,
-    }
+    };
 
     var handle = new L.Marker.Handle([0,0], opts);
 
@@ -192,11 +193,11 @@ L.Polyline.Editable = L.Polyline.Color.extend({
     for (var i=0; i<this._handles.length; i++) {
       var h = this._handles[i];
       if (h.options.type === 'vertex') {
-        h.setLatLng(this._latlngs[parseInt(i/2)]);
+        h.setLatLng(this._latlngs[parseInt(i/2, 10)]);
       }
       else {
-        var prev = this._latlngs[parseInt(i/2)];
-        var next = this._latlngs[parseInt(i/2)+1];
+        var prev = this._latlngs[parseInt(i/2, 10)];
+        var next = this._latlngs[parseInt(i/2, 10)+1];
         var mid = this._getMidLatLng(map, prev, next);
         h.setLatLng(mid);
       }
@@ -239,13 +240,13 @@ L.Polyline.Editable = L.Polyline.Color.extend({
     var index = this._handles.indexOf(h);
 
     if (h.options.type === 'vertex') {
-      this._latlngs.splice(parseInt(index/2), 1, h._latlng);
+      this._latlngs.splice(parseInt(index/2, 10), 1, h._latlng);
       this._updateEdgeHandlePosition(this._handles[index-1]);
       this._updateEdgeHandlePosition(this._handles[index+1]);
       this.redraw();
     }
     else {
-      this._latlngs.splice(parseInt(index/2)+1, 0, h._latlng);
+      this._latlngs.splice(parseInt(index/2, 10)+1, 0, h._latlng);
       h.options.type = 'vertex';
       h._icon.className = h._icon.className.replace('leaflet-polyline-editable-handle-edge', 'leaflet-polyline-editable-handle-vertex');
 
@@ -268,7 +269,7 @@ L.Polyline.Editable = L.Polyline.Color.extend({
   _onHandleEvent: function(e) {
     var h = e.target;
 
-    var index = parseInt(this._handles.indexOf(h)/2);
+    var index = parseInt(this._handles.indexOf(h)/2, 10);
     if (h.options.type === 'vertex') {
       e.vertex = index;
     }

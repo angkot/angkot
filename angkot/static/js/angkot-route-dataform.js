@@ -10,7 +10,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
   $scope.loading = 0;
 
   $scope.init = function() {
-  }
+  };
 
   $scope.$watch('panel', function(value, old) {
     if (value != 'data-form' || value === old) return;
@@ -21,7 +21,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
   });
 
   $scope.load = function() {
-    var tid = parseInt($location.path().replace(/\//g, ''));
+    var tid = parseInt($location.path().replace(/\//g, ''), 10);
     $scope.loading++;
 
     var url = jQuery('body').data('url-transportation-data').replace('0', tid);
@@ -37,19 +37,19 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
         console.error('load data error', url, status, data);
         $scope.loading--;
       });
-  }
+  };
 
   $scope.gaSendPageview = function() {
     var id = $scope.data.id;
     var page = window.location.pathname + id + '/edit/';
 
     var p = $scope.data.geojson.properties;
-    var province = $scope.provinceName[p.province]
+    var province = $scope.provinceName[p.province];
     var name = (p.company || '') + ' ' + p.number;
     var title = 'Edit: ' + province + ' - ' + p.city + ' - ' + name;
 
     $scope.ga('send', 'pageview', {page: page, title: title});
-  }
+  };
 
   $scope.refresh = function() {
     $scope.info.update($scope.data.geojson.properties);
@@ -57,18 +57,18 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
     $scope.map.fitRoutesToBounds = true;
     $scope.map.routes = $scope.data.geojson.geometry.coordinates;
     $scope.parentId = $scope.data.submission_id;
-  }
+  };
 
   $scope.goToListCheck = function() {
     // TODO check modification state and show confirmation
     $scope.goToList();
-  }
+  };
 
   $scope.goToList = function() {
     $scope.ga('send', 'event', 'transportation-edit', 'back');
 
     $scope.showPanel('transportation-list');
-  }
+  };
 
   $scope.saveRouteCheck = function() {
     $scope.error = null;
@@ -79,7 +79,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
 
     var focus = function(name) {
       jQuery('#new-route input[name="'+name+'"]').focus();
-    }
+    };
 
     if (!$scope.info.province) {
       focus('province');
@@ -107,7 +107,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
     if (valid) {
       $scope.saveRoute();
     }
-  }
+  };
 
   $scope.saveRoute = function() {
     $scope.error = null;
@@ -128,12 +128,12 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
         type: 'MultiLineString',
         coordinates: $scope.map.routes,
       },
-    }
+    };
 
     var url = $('body').data('url-transportation-data-save').replace('0', $scope.data.id);
 
     var data = {geojson: JSON.stringify(geojson)};
-    if ($scope.parentId) data['parent_id'] = $scope.parentId
+    if ($scope.parentId) data.parent_id = $scope.parentId;
 
     $scope.gaSendSubmitEditEvent();
 
@@ -148,7 +148,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
         $scope.message = null;
         $scope.error = 'Gagal! code='+status;
       });
-  }
+  };
 
   $scope.gaSubmitEditCount = {};
 
@@ -160,7 +160,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
 
     $scope.ga('send', 'event', 'transportation-edit', 'submit',
               ''+id, $scope.gaSubmitEditCount[id]);
-  }
+  };
 
   $scope.$on('map-reset', function() {
     $scope.reset();
@@ -176,7 +176,7 @@ app.controller('DataFormController', ['$scope', '$http', '$location', function($
     $scope.message = null;
     $scope.error = null;
     $scope.parentId = null;
-  }
+  };
 
   function updateModified() {
     $scope.modified = $scope.info.province !== '' ||

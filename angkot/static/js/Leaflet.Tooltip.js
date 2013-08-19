@@ -55,7 +55,7 @@ L.Tooltip = L.Class.extend({
   },
 
   redraw: function() {
-    if (!this._container || !this._map || this._container.innerHTML == '' || !this._latlng) {
+    if (!this._container || !this._map || this._container.innerHTML === '' || !this._latlng) {
       this._container.style.display = 'none';
       return;
     }

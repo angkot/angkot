@@ -22,7 +22,7 @@ L.Control.TransportationInfo = L.Control.extend({
         .on(c, 'click', stop)
         .on(c, 'mousedown', stop)
         .on(c, 'dblclick', stop)
-        .on(c, 'click', L.DomEvent.preventDefault)
+        .on(c, 'click', L.DomEvent.preventDefault);
 
     var self = this;
     jQuery(c).find('> p.edit a').click(function() {
@@ -85,7 +85,7 @@ L.Control.TransportationInfo = L.Control.extend({
       number: 'nomor',
       origin: 'lokasi berangkat',
       destination: 'jurusan',
-    }
+    };
 
     var hover = function(e, label) {
       e.unbind('mouseover');
@@ -105,26 +105,26 @@ L.Control.TransportationInfo = L.Control.extend({
       e.click(function() {
         self.fireEditClick();
       });
-    }
+    };
 
     var set = function(n) {
       var e = c.find('.'+n);
       hover(e);
       e.removeClass('empty');
       e.text(info[n]);
-    }
+    };
 
     var empty = function(n) {
       var e = c.find('.'+n);
       hover(e, labels[n]);
       e.addClass('empty');
       e.text(labels[n]);
-    }
+    };
 
     var update = function(n) {
       if (info[n]) set(n);
       else empty(n);
-    }
+    };
 
     update('company');
     update('number');

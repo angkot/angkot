@@ -1,5 +1,7 @@
 (function(app) {
 
+"use strict";
+
 app.controller('NewTransportationController', ['$scope', '$http', function($scope, $http) {
 
   $scope.loading = 0;
@@ -12,7 +14,7 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
 
     var focus = function(name) {
       jQuery('.new-transportation-form input[name="'+name+'"]').focus();
-    }
+    };
 
     if (!$scope.province) {
       focus('province');
@@ -40,7 +42,7 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
     if (valid) {
       $scope.save();
     }
-  }
+  };
 
   $scope.save = function() {
     $scope.loading++;
@@ -51,7 +53,7 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
       number: $scope.number,
       company: $scope.company,
       agreeToContributorTerms: $scope.termAgreement,
-    }
+    };
     var url = jQuery('body').data('url-new-transportation');
 
     $scope.gaSendSubmitNewEvent();
@@ -73,7 +75,7 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
         console.error('fail', status, data);
         $scope.loading--;
       });
-  }
+  };
 
   $scope.gaSubmitNewCount = 0;
 
@@ -81,12 +83,12 @@ app.controller('NewTransportationController', ['$scope', '$http', function($scop
     $scope.gaSubmitNewCount++;
     $scope.ga('send', 'event', 'transportation-new', 'submit',
               {eventValue: $scope.gaSubmitNewCount});
-  }
+  };
 
   $scope.edit = function(tid) {
     $scope.modal.hide();
     $scope.editTransportation(tid);
-  }
+  };
 
   $scope.$watch('loading', function(value, old) {
     var btn = jQuery('.new-transportation-form button.btn.save');

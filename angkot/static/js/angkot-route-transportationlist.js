@@ -1,12 +1,14 @@
 (function(app) {
 
+"use strict";
+
 app.controller('TransportationListController', ['$scope', '$http', '$location', function($scope, $http, $location) {
 
   $scope.transportations = undefined;
   $scope.loading = 0;
 
   $scope.init = function() {
-  }
+  };
 
   $scope.$watch('panel', function(value, old) {
     if (value !== 'transportation-list') return;
@@ -37,7 +39,7 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
         groups[item.city] = {
           city: item.city,
           transportations: []
-        }
+        };
       }
 
       item._label = (item.company ? item.company + ' ' : '') + item.number;
@@ -54,7 +56,7 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
     });
 
     return res;
-  }
+  };
 
   $scope.$watch('transportations', function(value) {
     $scope.groups = groupByCity(value);
@@ -62,7 +64,7 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
 
   $scope.showTransportation = function(t) {
     // TODO show loading
-    $location.path('/'+t.id+'/')
+    $location.path('/'+t.id+'/');
     var url = jQuery('body').data('url-transportation-data').replace('0', t.id);
     $http.get(url)
       .success(function(data) {
@@ -74,24 +76,24 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
 
         $scope.gaSendTransportationPageview();
       });
-  }
+  };
 
   $scope.gaSendListPageview = function() {
     var page = window.location.pathname;
     $scope.ga('send', 'pageview', {page: page});
-  }
+  };
 
   $scope.gaSendTransportationPageview = function() {
     var id = $scope.data.id;
-    var page = window.location.pathname + id + '/'
+    var page = window.location.pathname + id + '/';
 
     var p = $scope.data.geojson.properties;
-    var province = $scope.provinceName[p.province]
+    var province = $scope.provinceName[p.province];
     var name = (p.company || '') + ' ' + p.number;
     var title = province + ' - ' + p.city + ' - ' + name;
 
     $scope.ga('send', 'pageview', {page: page, title: title});
-  }
+  };
 
   $scope.$on('route-edit-click', function() {
     $scope.ga('send', 'event', 'transportation', 'click-edit');

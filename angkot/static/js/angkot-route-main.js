@@ -1,5 +1,7 @@
 (function(app) {
 
+"use strict";
+
 var JAKARTA = [106.8294444, -6.1744444];
 var INDONESIA = [[143.0419921875, 8.189742344383703], [93.8671875, -11.867350911459308]];
 
@@ -29,7 +31,7 @@ app.factory('transportationService', function() {
       if (data.origin !== undefined) this.origin = data.origin;
       if (data.destination !== undefined) this.destination = data.destination;
     }
-  }
+  };
 });
 
 app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'modalService', 'mapService', 'transportationService', function($scope, $http, $location, $timeout, modalService, mapService, transportationService) {
@@ -44,7 +46,7 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
     $scope.map.view = {
       center: JAKARTA,
       zoom: 13,
-    }
+    };
     $scope.map.maxBounds = INDONESIA;
     $scope.map.fitRoutesToBounds = true;
     $scope.map.editable = false;
@@ -54,10 +56,10 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
     $scope.contributorTermsUrl = jQuery('body').data('url-contributor-terms');
     loadProvinces();
     loadUserData();
-  }
+  };
 
   $scope.onRouteChanged = function() {
-  }
+  };
 
   $scope.search = function() {
     var q = jQuery.trim($scope.searchQuery);
@@ -68,13 +70,13 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
       json_callback: 'JSON_CALLBACK',
       q: q,
       countrycodes: 'ID',
-    }
+    };
 
     var url = 'http://open.mapquestapi.com/nominatim/v1/search.php?' + jQuery.param(query);
 
     $http.jsonp(url)
       .success(function(data) {
-        if (data.length == 0) {
+        if (data.length === 0) {
           console.error('search not found');
         }
         else {
@@ -84,7 +86,7 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
           $scope.map.viewport = bbox;
         }
       });
-  }
+  };
 
   $scope.resetMapCheck = function() {
     var msg = 'Apakah Anda yakin untuk menghapus semua data yang sudah ' +
@@ -92,11 +94,11 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
     if (confirm(msg)) {
       $scope.resetMap();
     }
-  }
+  };
 
   $scope.resetMap = function() {
     $scope.$broadcast('map-reset');
-  }
+  };
 
   $scope.$on('map-reset', function() {
     $scope.map.reset();
@@ -110,24 +112,24 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
     $scope.showLogin(function() {
       $scope.modal.useSelector('#new-transportation-modal');
     }, 'new-transportation');
-  }
+  };
 
   $scope.editTransportation = function(tid) {
     $scope.info.reset();
     $scope.map.info = undefined;
     $location.path('/'+tid+'/edit/');
     $scope.showPanel('data-form');
-  }
+  };
 
   $scope.onRouteEditClicked = function(e) {
     $scope.$broadcast('route-edit-click');
-  }
+  };
 
   // panel
 
   $scope.showPanel = function(name) {
     $scope.panel = name;
-  }
+  };
 
   // provinces
 
@@ -143,21 +145,21 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
     else {
       $scope.provinces = window.angkot.data.provinces;
     }
-  }
+  };
 
   // analytics
 
   $scope.ga = function() {
     if (!window.ga) return;
     ga.apply(window.ga, arguments);
-  }
+  };
 
   // account and login
 
   $scope.loginCallback = undefined;
 
   $scope.showLogin = function(callback, source) {
-    var callback = callback || function() {}
+    callback = callback || function() {};
 
     if ($scope.user) {
       callback();
@@ -168,14 +170,14 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
       if ($scope.user) {
         callback();
       }
-    }
+    };
 
     source = source || 'other';
     $scope.loginSource = source;
     $scope.modal.useSelector('#login-content', 'login');
 
     $scope.ga('send', 'event', 'login', 'show');
-  }
+  };
 
   $scope.popupLoginWindow = function(e, source) {
     // if ($scope.loggingIn) return; // FIXME!
@@ -191,8 +193,8 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
       $scope.$apply(function() {
         $scope.loggingIn = false;
       });
-    }
-  }
+    };
+  };
 
   var loadUserData = function(cb) {
     var url = jQuery('body').data('url-account-info');
@@ -209,7 +211,7 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
           if (cb) cb();
         });
       });
-  }
+  };
 
   $scope.loginSuccess = function() {
     $scope.ga('send', 'event', 'login', 'success');
@@ -225,7 +227,7 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
 
   $scope.loginFail = function() {
     $scope.ga('send', 'event', 'login', 'fail');
-  }
+  };
 
   // data
 
@@ -234,7 +236,7 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
     var names = {};
     angular.forEach(value, function(item) {
       names[item[0]] = item[1];
-    })
+    });
     $scope.provinceName = names;
   });
 
@@ -244,15 +246,17 @@ app.controller('MainController', ['$scope', '$http', '$location', '$timeout', 'm
 
 (function(window) {
 
+"use strict";
+
 window.login_success = function() {
   var body = jQuery('body')[0];
   angular.element(body).scope().loginSuccess();
-}
+};
 
 window.login_fail = function() {
   var body = jQuery('body')[0];
   angular.element(body).scope().loginFail();
-}
+};
 
 })(window);
 
