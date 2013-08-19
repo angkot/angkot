@@ -37,7 +37,10 @@
     <li><a href="" ng-click="showAbout()">Apa ini?</a></li>
     <li><a href="" ng-click="showContact()">Kontak</a></li>
     <li ng-hide="user"><a href="" ng-click="showLogin()">Login</a></li>
-    <li ng-show="user"><a href="" ng-bind="user.first_name"></a></li>
+    <li ng-show="user">
+      <a ng-show="user.firstname" href="" ng-bind="user.first_name"></a>
+      <a ng-hide="user.firstname" href="" ng-bind="user.username"></a>
+    </li>
     </ul>
   </div>
   <div class="search">
