@@ -241,15 +241,14 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular-sanitize.min.js"></script>
 <script src='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
+<script type="text/javascript" src="{% url "route_province_list_js" %}"></script>
+{% if debug %}
 <script type="text/javascript" src="{% static "js/Leaflet.Tooltip.js" %}"></script>
 <script type="text/javascript" src="{% static "js/Leaflet.Control.TransportationInfo.js" %}"></script>
 <script type="text/javascript" src="{% static "js/Leaflet.Polyline.Editable.js" %}"></script>
 <script type="text/javascript" src="{% static "js/Leaflet.Angkot.js" %}"></script>
 <script type="text/javascript" src="{% static "js/Leaflet.Angkot.Route.js" %}"></script>
 <script type="text/javascript" src="{% static "js/Bing.js" %}"></script>
-
-<script type="text/javascript" src="{% url "route_province_list_js" %}"></script>
-
 <script type="text/javascript" src="{% static "js/modal.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-map.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-filter.js" %}"></script>
@@ -260,6 +259,9 @@
 <script type="text/javascript" src="{% static "js/angkot-route-transportationlist.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-dataform.js" %}"></script>
 <script type="text/javascript" src="{% static "js/angkot-route-submissionlist.js" %}"></script>
+{% else %}
+<script type="text/javascript" src="{% static "dist/js/route.min.js" %}"></script>
+{% endif %}
 {% if USERVOICE_CODE %}
 {{ USERVOICE_CODE | safe }}
 {% endif %}
