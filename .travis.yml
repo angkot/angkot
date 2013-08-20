@@ -1,0 +1,38 @@
+language: node_js
+node_js:
+- "0.10"
+before_install:
+- sudo apt-get update
+- sudo apt-get install -y --no-install-recommends postgresql-9.1-postgis postgresql-server-dev-9.1
+- sudo apt-get install -y --no-install-recommends libgeos-dev
+- sudo apt-get install -y --no-install-recommends python2.7 python-virtualenv
+- sudo apt-get install -y --no-install-recommends ruby1.9.1
+- sudo apt-get install -y --no-install-recommends curl
+- virtualenv ~/+env
+- source ~/+env/bin/activate
+- export GEM_HOME="$VIRTUAL_ENV/gems"
+- export GEM_PATH=""
+- export PATH=$PATH:"$GEM_HOME/bin"
+- # pip install nodeenv
+- # nodeenv -p
+- wget https://docs.djangoproject.com/en/dev/_downloads/create_template_postgis-debian.sh
+- chmod +x create_template_postgis-debian.sh
+- sudo -u postgres ./create_template_postgis-debian.sh
+- echo "CREATE USER angkot PASSWORD 'angkot';" | sudo -u postgres psql
+- echo "CREATE DATABASE angkot OWNER angkot TEMPLATE template_postgis ENCODING 'utf8'" | sudo -u postgres psql
+before_script:
+- gem install bundle
+- pip install -r requirements.txt
+- bundle install
+- npm install -g grunt-cli
+- npm install
+- cp .travis/localsettings.py angkot/localsettings.py
+- echo 'host all all 127.0.0.1/32 password' | sudo tee -a /etc/postgresql/9.1/main/pg_hba.conf
+- sudo service postgresql restart
+- grunt
+script:
+- python manage.py syncdb --noinput
+- python manage.py migrate --noinput
+- # python manage.py test
+- grunt test
+
