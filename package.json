@@ -17,10 +17,10 @@
   ],
   "devDependencies": {
     "grunt": "0.4.x",
-    "grunt-contrib-jshint": "0.4.x",
-    "grunt-contrib-watch": "0.4.x",
-    "grunt-contrib-concat": "0.4.x",
-    "grunt-contrib-uglify": "0.4.x",
+    "grunt-contrib-jshint": "0.6.x",
+    "grunt-contrib-watch": "0.5.x",
+    "grunt-contrib-concat": "0.3.x",
+    "grunt-contrib-uglify": "0.2.x",
     "grunt-contrib-sass": "0.4.x",
     "grunt-contrib-copy": "0.4.x"
   }
