@@ -78,17 +78,41 @@ module.exports = function(grunt) {
         files: ['angkot/static/dist/css/*.css'],
       }
     },
-    copy: {
+    compress: {
+      options: {
+        mode: 'gzip',
+      },
       js: {
-        files: [
-          {src: 'dist/js/route.min.js', dest: 'angkot/static/dist/js/route.min.js'}
-        ]
+        files: [{
+          expand: true,
+          cwd: 'dist/js',
+          src: ['*.js'],
+          dest: 'dist/js',
+        }]
       },
       css: {
         files: [{
           expand: true,
           cwd: 'dist/css',
-          src: '*.css',
+          src: ['*.css'],
+          dest: 'dist/css',
+        }]
+      },
+    },
+    copy: {
+      js: {
+        files: [{
+          expand: true,
+          cwd: 'dist/js',
+          src: ['*.js', '*.js.gz'],
+          dest: 'angkot/static/dist/js'
+        }]
+      },
+      css: {
+        files: [{
+          expand: true,
+          cwd: 'dist/css',
+          src: ['*.css', '*.css.gz'],
           dest: 'angkot/static/dist/css'
         }]
       }
@@ -101,9 +125,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-compress');
 
   grunt.registerTask('test', ['jshint']);
 
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'sass', 'copy']);
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'sass', 'compress', 'copy']);
 
 };
