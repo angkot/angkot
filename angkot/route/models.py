@@ -54,6 +54,8 @@ class Transportation(models.Model):
     destination = models.CharField(max_length=256, **optional)
     route = models.MultiLineStringField(**optional)
 
+    submission = models.ForeignKey('Submission', related_name='used_submission', **optional)
+
     # Internal
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)

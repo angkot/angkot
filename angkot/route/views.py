@@ -170,6 +170,7 @@ def transportation_data_save(request, tid):
         t.origin = s.origin
         t.destination = s.destination
         t.route = s.route
+        t.submission = s
         t.save()
 
     data = dict(submission_id=s.submission_id)
