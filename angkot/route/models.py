@@ -61,6 +61,9 @@ class Transportation(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return '{} {} - {}'.format(self.company, self.number, self.city)
+
     def to_geojson(self):
         from . import utils
         return utils.to_geojson(self)
@@ -96,6 +99,9 @@ class Submission(models.Model):
     active = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return '{} {} - {} - {}'.format(self.company, self.number, self.city, self.user)
 
     class Meta:
         ordering = ('-updated',)
