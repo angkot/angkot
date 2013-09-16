@@ -60,6 +60,9 @@ def _new_transportation(request):
 
             code = 201
 
+        s.transportation = t
+        s.save()
+
     data = dict(id=t.id,
                 province=t.province,
                 city=t.city,
