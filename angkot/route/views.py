@@ -41,6 +41,7 @@ def _new_transportation(request):
             number=number,
             company=company,
             agreeToContributorTerms=True))
+        s.source = 'web'
         s.save()
 
         items = Transportation.objects.filter(active=True, province=province,
@@ -156,6 +157,7 @@ def transportation_data_save(request, tid):
     s.user_agent = request.META['HTTP_USER_AGENT']
     s.user = request.user
     s.raw_geojson = raw
+    s.source = 'web'
     s.save()
 
     processSubmission(s)
