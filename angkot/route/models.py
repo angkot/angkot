@@ -74,8 +74,8 @@ class Submission(models.Model):
     # Meta
     submission_id = models.CharField(max_length=64, default=generate_id)
     user = models.ForeignKey(User, related_name='submitted_route', **optional)
-    ip_address = models.IPAddressField()
-    user_agent = models.CharField(max_length=1024)
+    ip_address = models.IPAddressField(**optional)
+    user_agent = models.CharField(max_length=1024, **optional)
     transportation = models.ForeignKey(Transportation, related_name='history', **optional)
 
     # Submitted data
