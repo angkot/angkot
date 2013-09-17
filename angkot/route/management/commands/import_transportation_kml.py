@@ -133,6 +133,7 @@ class Command(BaseCommand):
                                .format(number, city, pid))
 
         parent = None
+        source = 'import_transportation_kml'
         if len(items) > 0:
             t = items[0]
 
@@ -140,6 +141,7 @@ class Command(BaseCommand):
             if t.submission is not None:
                 parent = t.submission
                 geojson['geometry']['coordinates'] += t.route.coords
+                source = 'import_transportation_kml_merged'
 
         else:
             t = Transportation(active=False)
@@ -155,7 +157,7 @@ class Command(BaseCommand):
         s = Submission()
         s.user = user
         s.raw_geojson = json.dumps(geojson)
-        s.source = 'import_transportation_kml'
+        s.source = source
         s.parent = parent
         processSubmission(s)
 
