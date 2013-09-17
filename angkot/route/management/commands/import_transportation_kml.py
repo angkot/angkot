@@ -159,6 +159,7 @@ class Command(BaseCommand):
         s.raw_geojson = json.dumps(geojson)
         s.source = source
         s.parent = parent
+        s.raw_source = open(kml).read()
         processSubmission(s)
 
         with transaction.commit_on_success():
