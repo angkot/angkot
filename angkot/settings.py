@@ -105,6 +105,7 @@ MIDDLEWARE_CLASSES = (
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'angkot.account.middleware.AngkotSocialAuthExceptionMiddleware',
+    'angkot.middleware.ExceptionLoggerMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -158,7 +159,10 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'basic': {
-            'format': '%(asctime)s %(name)s %(levelname)s - %(uid)d/%(user)s - %(message)s'
+            'format': '%(asctime)s %(name)s %(levelname)s - %(uid)s/%(user)s - %(message)s'
+        },
+        'exception': {
+            'format': '%(asctime)s %(name)s %(levelname)s - %(uid)s/%(user)s - %(message)s'
         },
     },
     'filters': {
@@ -172,11 +176,17 @@ LOGGING = {
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
         },
-        'console':{
+        'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'basic',
         },
+        'exception': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'exception',
+        }
     },
     'loggers': {
         'django.request': {
@@ -187,6 +197,11 @@ LOGGING = {
         'angkot': {
             'handlers': ['console'],
             'level': 'INFO',
+        },
+        'angkot.middleware.ExceptionLoggerMiddleware': {
+            'handlers': ['exception'],
+            'level': 'ERROR',
+            'propagate': False,
         },
     }
 }
