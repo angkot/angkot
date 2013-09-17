@@ -68,7 +68,10 @@ class Command(BaseCommand):
             help='Destination'),
         make_option('--agree-to-contributor-terms',
             action='store_true', dest='agree_to_contributor_terms',
-            help='Use this option to agree to the contributor terms')
+            help='Use this option to agree to the contributor terms'),
+        make_option('--merge',
+            action='store_true', dest='merge',
+            help='Merge with existing transportation'),
         )
 
     required = ['uid', 'pid', 'city', 'company', 'number']
@@ -122,38 +125,50 @@ class Command(BaseCommand):
         geojson['geometry']['coordinates'] = coordinates
 
         # Check existing transportation
+        merge = kwargs.get('merge', False)
         items = Transportation.objects.filter(province=pid, city=city,
                                               number=number)
-        if len(items) > 0:
-            raise CommandError('Transportation {} in {}, {} already exists' \
+        if not merge and len(items) > 0:
+            raise CommandError('Transportation {} in {}, {} already exists. Use --merge to merge the routes.' \
                                .format(number, city, pid))
 
-        with transaction.commit_on_success():
-            s = Submission()
-            s.user = user
-            s.raw_geojson = json.dumps(geojson)
-            s.source = 'import_transportation_kml'
-            processSubmission(s)
-            s.save()
+        parent = None
+        if len(items) > 0:
+            t = items[0]
 
+            # Merge routes
+            if t.submission is not None:
+                parent = t.submission
+                geojson['geometry']['coordinates'] += t.route.coords
+
+        else:
             t = Transportation(active=False)
             t.province = pid
             t.city = city
             t.company = company
             t.number = number
-            t.submission = s
-            t.route = s.route
-
             if 'origin' in data:
                 t.origin = data['origin']
             if 'destination' in data:
                 t.destination = data['destination']
 
+        s = Submission()
+        s.user = user
+        s.raw_geojson = json.dumps(geojson)
+        s.source = 'import_transportation_kml'
+        s.parent = parent
+        processSubmission(s)
+
+        with transaction.commit_on_success():
+            s.save()
+
+            t.submission = s
+            t.route = s.route
             t.save()
 
             s.transportation = t
             s.save()
 
-        print 'Transportation is added {} {} - {}, {}'.format(
-            company, number, city, pid)
+        print 'Transportation is added {} {} - {}, {}. sid={} tid={}'.format(
+            company, number, city, pid, s.id, t.id)
 
