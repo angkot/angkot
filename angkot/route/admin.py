@@ -14,7 +14,7 @@ class SubmissionAdmin(admin.GeoModelAdmin):
             return '{} - {}'.format(obj.user.first_name, obj.user.email)
         return obj.user.first_name
 
-    list_display = ('submission_id', 'ip_address', user, 'parsed_ok',
+    list_display = ('submission_id', 'ip_address', user, 'parsed_ok', 'source',
                     'created', 'province', 'city', 'company', 'number')
 
 admin.site.register(Transportation, TransportationAdmin)
