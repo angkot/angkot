@@ -81,6 +81,7 @@ class Submission(models.Model):
     # Submitted data
     parent = models.ForeignKey('self', **optional)
     raw_geojson = models.TextField()
+    raw_source = models.TextField(**optional)
 
     # Parsed data
     province = models.CharField(max_length=5, choices=PROVINCES, **optional)
