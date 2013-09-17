@@ -7,7 +7,7 @@ from django.db import transaction
 from django.core.urlresolvers import resolve
 from django.views.decorators.cache import cache_page
 
-from angkot.decorators import api, OK, Fail, api_post_only
+from angkot.decorators import api, OK, Fail, api_post_only, api_login_required
 from angkot.utils import log_extra
 from .models import Transportation, Submission, PROVINCES
 from .submission.data import process as processSubmission
@@ -20,6 +20,7 @@ def _format_date(d):
     return d.strftime('%s')
 
 @api
+@api_login_required
 def _new_transportation(request):
     _e = log_extra(request)
 
@@ -149,6 +150,7 @@ def transportation_data(request, tid):
 
 @api
 @api_post_only
+@api_login_required
 def transportation_data_save(request, tid):
     _e = log_extra(request)
 
