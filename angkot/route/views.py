@@ -42,6 +42,7 @@ def _new_transportation(request):
             company=company,
             agreeToContributorTerms=True))
         s.source = 'web'
+        processSubmission(s)
         s.save()
 
         items = Transportation.objects.filter(active=True, province=province,
