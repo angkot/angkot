@@ -20,7 +20,6 @@ def generate_id():
     rnd = random.randint(0, 9999)
     t = time.time() - BEGINNING_OF_TIME
     t = int(t * 1000)
-    print t
 
     return convert_base(t, CHARS)
 
