@@ -102,3 +102,14 @@ def login_required(func):
         return func(request, *args, **kwargs)
     return _func
 
+def api_login_required(func):
+    from django.http import HttpResponseRedirect
+    from django.core.urlresolvers import reverse
+
+    def _func(request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            return Fail(http_code=401, error_code=401,
+                        error_msg='Unauthorized access')
+        return func(request, *args, **kwargs)
+    return _func
+
