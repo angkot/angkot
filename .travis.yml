@@ -23,6 +23,7 @@ before_install:
 before_script:
 - gem install bundle
 - pip install -r requirements.txt
+- pip install -r dev_requirements.txt
 - bundle install
 - npm install -g grunt-cli
 - npm install
@@ -31,8 +32,8 @@ before_script:
 - sudo service postgresql restart
 - grunt
 script:
+- export DJANGO_SETTINGS_MODULE=angkot.settings
 - python manage.py syncdb --noinput
 - python manage.py migrate --noinput
-- # python manage.py test
 - grunt test
 

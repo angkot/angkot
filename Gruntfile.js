@@ -116,9 +116,22 @@ module.exports = function(grunt) {
           dest: 'angkot/static/dist/css'
         }]
       }
-    }
+    },
+    shell: {
+      pytest: {
+        command: 'py.test',
+        options: {
+          stdout: true,
+          failOnError: true,
+          execOptions: {
+            env: process.env,
+          },
+        },
+      },
+    },
   });
 
+  grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
@@ -127,7 +140,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-compress');
 
-  grunt.registerTask('test', ['jshint']);
+  grunt.registerTask('pytest', ['shell:pytest']);
+
+  grunt.registerTask('test', ['jshint', 'pytest']);
 
   grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'sass', 'compress', 'copy']);
 
