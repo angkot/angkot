@@ -82,7 +82,7 @@ def api(func):
 
     return _func
 
-def post_only(func):
+def api_post_only(func):
     def _func(request, *args, **kwargs):
         if request.method != 'POST':
             return Fail(http_code=405, error_code=405,
