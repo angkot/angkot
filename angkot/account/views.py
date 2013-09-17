@@ -1,9 +1,13 @@
+import logging
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 from django.template import RequestContext
 
 from angkot.decorators import api, login_required
+
+log = logging.getLogger(__name__)
 
 @login_required
 def index(request):

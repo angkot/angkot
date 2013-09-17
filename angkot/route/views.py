@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -7,18 +8,24 @@ from django.core.urlresolvers import resolve
 from django.views.decorators.cache import cache_page
 
 from angkot.decorators import api, OK, Fail, post_only
+from angkot.utils import log_extra
 from .models import Transportation, Submission, PROVINCES
 from .submission.data import process as processSubmission
 from .forms import NewTransportationForm
 from . import utils
+
+log = logging.getLogger(__name__)
 
 def _format_date(d):
     return d.strftime('%s')
 
 @api
 def _new_transportation(request):
+    _e = log_extra(request)
+
     f = NewTransportationForm(request.POST)
     if not f.is_valid():
+        log.error('new transportation: incomplete data', extra=_e)
         return Fail(http_code=400, error_code=400,
                     error_msg='Request requires province, city, and number; ' \
                               'and accept the contributor terms')
@@ -63,6 +70,8 @@ def _new_transportation(request):
 
         s.transportation = t
         s.save()
+
+        log.info('new transportation: added: sid=%d tid=%d', s.id, t.id, extra=_e)
 
     data = dict(id=t.id,
                 province=t.province,
@@ -141,15 +150,25 @@ def transportation_data(request, tid):
 @api
 @post_only
 def transportation_data_save(request, tid):
+    _e = log_extra(request)
+
     import geojson
     from shapely.geometry import asShape
 
     tid = int(tid)
-    t = Transportation.objects.get(pk=tid)
+    try:
+        t = Transportation.objects.get(pk=tid)
+    except Transportation.DoesNotExist:
+        log.error('save transportation: invalid id: tid=%s', tid, extra=_e)
+        return Fail(http_code=404, error_code=404,
+                    error_msg='Unknown transportation id: {}'.format(tid))
 
     raw = request.POST['geojson']
-    print raw
     parent_id = request.POST.get('parent_id', None)
+
+    log.info('save transportation: received data: parent=%s geojson=%s',
+             parent_id, raw, extra=_e)
+
     try:
         parent = Submission.objects.get(submission_id=parent_id)
     except Submission.DoesNotExist:
@@ -178,6 +197,10 @@ def transportation_data_save(request, tid):
         t.route = s.route
         t.submission = s
         t.save()
+        log.info('save transportation: saved: sid=%d tid=%d', s.id, t.id, extra=_e)
+
+    else:
+        log.info('save transportation: invalid data: sid=%d', s.id, extra=_e)
 
     data = dict(submission_id=s.submission_id)
     if s.parsed_ok:
