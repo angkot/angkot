@@ -119,7 +119,7 @@ module.exports = function(grunt) {
     },
     shell: {
       pytest: {
-        command: 'py.test',
+        command: 'py.test angkot',
         options: {
           stdout: true,
           failOnError: true,
