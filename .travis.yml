@@ -17,7 +17,7 @@ before_install:
 - # nodeenv -p
 - wget https://docs.djangoproject.com/en/dev/_downloads/create_template_postgis-debian.sh
 - chmod +x create_template_postgis-debian.sh
-- sudo -u postgres ./create_template_postgis-debian.sh
+- sudo -u postgres ./create_template_postgis-debian.sh > /dev/null 2>&1
 - echo "CREATE USER angkot PASSWORD 'angkot';" | sudo -u postgres psql
 - echo "CREATE DATABASE angkot OWNER angkot TEMPLATE template_postgis ENCODING 'utf8'" | sudo -u postgres psql
 before_script:
