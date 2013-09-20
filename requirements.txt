@@ -6,3 +6,4 @@ geojson
 shapely
 django-social-auth==0.7.25
 pykml
+raven

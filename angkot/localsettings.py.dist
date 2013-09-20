@@ -1,3 +1,19 @@
+# Sentry config. Uncomment them if you use Sentry
+# RAVEN_CONFIG = {
+#     'dsn': '',
+# }
+# INSTALLED_APPS = INSTALLED_APPS + (
+#     'raven.contrib.django.raven_compat',
+# )
+# LOGGING['root'] = {
+#     'level': 'WARNING',
+#     'handlers': ['sentry'],
+# }
+# LOGGING['handlers']['sentry'] = {
+#     'level': 'DEBUG',
+#     'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+# }
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.contrib.gis.db.backends.postgis',
