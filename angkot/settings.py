@@ -159,9 +159,15 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'basic': {
+            'format': '%(asctime)s %(name)s %(levelname)s - %(message)s'
+        },
+        'basic-user': {
             'format': '%(asctime)s %(name)s %(levelname)s - %(uid)s/%(user)s - %(message)s'
         },
         'exception': {
+            'format': '%(asctime)s %(name)s %(levelname)s - %(message)s'
+        },
+        'exception-user': {
             'format': '%(asctime)s %(name)s %(levelname)s - %(uid)s/%(user)s - %(message)s'
         },
     },
@@ -181,12 +187,23 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'basic',
         },
+        'console-user': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'basic-user',
+        },
         'exception': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'logging.StreamHandler',
             'formatter': 'exception',
-        }
+        },
+        'exception-user': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'exception-user',
+        },
     },
     'loggers': {
         'django.request': {
@@ -195,7 +212,7 @@ LOGGING = {
             'propagate': True,
         },
         'angkot': {
-            'handlers': ['console'],
+            'handlers': ['console-user'],
             'level': 'INFO',
         },
         'angkot.middleware.ExceptionLoggerMiddleware': {
