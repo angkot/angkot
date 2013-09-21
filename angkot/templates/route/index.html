@@ -143,16 +143,16 @@
       <p>loading..</p>
     </div>
     <div ng-hide="loading">
-      <div class="city" ng-repeat="group in groups">
-        <h2 ng-bind="group.city"></h2>
-        <ul>
-        <li ng-repeat="item in group.transportations | orderBy:'_label'">
-            <i class="icon-location-arrow" ng-class="{'invisible':!item.hasRoute}"
-               title="Rute angkutan tersedia"></i>
-            <a href="" ng-click="showTransportation(item)">
-            <span class="company" ng-bind="item.company"></span>
-            <span class="number" ng-bind="item.number"></span>
-          </a>
+      <div class="city" ng-repeat="city in groups">
+        <h2 ng-bind="city.name"></h2>
+        <ul class="companies">
+        <li class="company" ng-repeat="company in city.companies">
+          <span class="company" ng-bind="company.name" ng-show="company.name"></span>
+          <ul class="transportations">
+          <li class="number" ng-repeat="t in company.items">
+            <a href="" ng-class="{route:t.hasRoute}" ng-click="showTransportation(t)" ng-bind="t.number"></a>
+          </li>
+          </ul>
         </li>
         </ul>
       </div>

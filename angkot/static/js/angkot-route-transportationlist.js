@@ -32,34 +32,65 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
       });
   };
 
-  var groupByCity = function(data) {
-    var groups = {};
-    angular.forEach(data, function(item) {
-      if (!groups[item.city]) {
-        groups[item.city] = {
-          city: item.city,
-          transportations: []
-        };
+  var groupTransportations = function(data) {
+    if (!data) return [];
+
+    var cmpNumber = function(a, b) {
+      return a.number.localeCompare(b.number);
+    };
+
+    // order by cities and companies
+    var items = data.slice();
+    items = items.sort(function(a, b) {
+      if (a.city != b.city) {
+        return a.city.localeCompare(b.city);
       }
-
-      item._label = (item.company ? item.company + ' ' : '') + item.number;
-      groups[item.city].transportations.push(item);
+      if (!a.company) return -1;
+      if (!b.company) return 1;
+      return a.company.localeCompare(b.company);
     });
 
-    var res = [];
-    angular.forEach(groups, function(item, city) {
-      res.push(item);
+    // Make a tree
+    var city = {name: undefined, _total: 0},
+        company = {name: undefined, items: []};
+    var h = [];
+    angular.forEach(items, function(item) {
+      if (item.city != city.name) {
+        company.items = company.items.sort(cmpNumber);
+        company = {
+          name: item.company,
+          items: [],
+        };
+        city = {
+          name: item.city,
+          companies: [company],
+          _total: 0,
+        };
+        h.push(city);
+      }
+      if (item.company != company.name) {
+        city._total += company.items.length;
+        company.items = company.items.sort(cmpNumber);
+        company = {
+          name: item.company,
+          items: []
+        };
+        city.companies.push(company);
+      }
+      company.items.push(item);
+    });
+    city._total += company.items.length;
+
+    // Sort city by the number of transportations
+    h = h.sort(function(a, b) {
+      return b._total - a._total;
     });
 
-    res = res.sort(function(a, b) {
-      return b.transportations.length - a.transportations.length;
-    });
-
-    return res;
+    return h;
   };
 
   $scope.$watch('transportations', function(value) {
-    $scope.groups = groupByCity(value);
+    $scope.groups = groupTransportations(value);
   });
 
   $scope.showTransportation = function(t) {

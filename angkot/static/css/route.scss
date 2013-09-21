@@ -295,19 +295,34 @@
 
 #transportation-list {
   div.city {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
   }
-  ul {
-    li i {
-      float: left;
-      margin-left: -13px;
-      color: #aaa;
+  div.city > ul {
+    span.company:after {
+      content: " \2013 ";
     }
-    li:hover i {
-      color: #444;
-    }
-    li, li i {
+    li.company {
       line-height: 20px;
+      margin-bottom: 3px;
+      border-bottom: 1px solid #fff;
+      ul.transportations {
+        display: inline;
+        li.number {
+          display: inline;
+          margin-right: 3px;
+          a.route {
+            border-bottom: 1px dotted red;
+          }
+        }
+      }
+    }
+    li.company:hover {
+      background: #eee;
+      margin-left: -3px;
+      margin-right: -3px;
+      padding-left: 3px;
+      padding-right: 3px;
+      border-bottom: 1px solid #ddd;
     }
   }
 }
