@@ -74,7 +74,7 @@ class Command(BaseCommand):
             help='Merge with existing transportation'),
         )
 
-    required = ['uid', 'pid', 'city', 'company', 'number']
+    required = ['uid', 'pid', 'city', 'number']
 
     def handle(self, *args, **kwargs):
         import json
