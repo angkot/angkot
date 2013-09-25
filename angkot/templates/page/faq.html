@@ -1,0 +1,38 @@
+{% extends "page/base.html" %}
+{% load staticfiles %}
+
+{% block tag-html %}<html>{% endblock %}
+
+{% block title %}Peta Angkutan Umum{% endblock %}
+
+{% block extrastyles %}
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
+<!--[if lte IE 8]>
+  <link href='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.ie.css' rel='stylesheet' />
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="{% static "dist/css/route.css" %}"/>
+{% endblock %}
+</head>
+{% block tag-body %}
+<body>
+{% csrf_token %}
+{% endblock %}
+{% block content %}
+<div class="page-content">
+<h1>Tanya Jawab</h1>
+<ul>
+	<li>
+		<strong>Apakah boleh mengirim rute yang tidak komplit dari awal sampai akhir?</strong>
+		<p>
+			Boleh.
+		</p>
+	</li>
+</ul>
+</div>
+{% endblock %}
+{% block extrascripts %}
+{% if USERVOICE_CODE %}
+{{ USERVOICE_CODE | safe }}
+{% endif %}
+{% endblock %}
+

@@ -36,6 +36,7 @@
     <ul>
     <li><a href="" ng-click="showAbout()">Apa ini?</a></li>
     <li><a href="" ng-click="showContact()">Kontak</a></li>
+    <li><a href="{% url "page_faq" %}">FAQ</a></li>
     <li ng-hide="user"><a href="" ng-click="showLogin()">Login</a></li>
     <li ng-show="user">
       <a ng-show="user.first_name" href="" ng-bind="user.first_name"></a>
