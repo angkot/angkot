@@ -143,7 +143,12 @@ def transportation_data(request, tid):
     tid = int(tid)
     t = Transportation.objects.get(pk=tid)
 
+    sid = None
+    if t.submission is not None:
+        sid = t.submission.submission_id
+
     return dict(id=t.id,
+                submission_id=sid,
                 geojson=t.to_geojson(),
                 created=_format_date(t.created),
                 updated=_format_date(t.updated))
