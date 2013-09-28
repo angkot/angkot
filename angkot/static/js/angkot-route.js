@@ -1,5 +1,3 @@
-window.angkot = window.angkot || {};
-
 (function(angkot) {
 
 "use strict";

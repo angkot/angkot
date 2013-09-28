@@ -15,6 +15,7 @@ module.exports = function(grunt) {
           'angkot/static/js/Leaflet.Angkot.Route.js',
           'angkot/static/js/Bing.js',
           'angkot/static/js/modal.js',
+          'angkot/static/js/angkot.js',
           'angkot/static/js/angkot-map.js',
           'angkot/static/js/angkot-filter.js',
           'angkot/static/js/angkot-route.js',
