@@ -23,6 +23,9 @@ class TransportationAdmin(admin.GeoModelAdmin):
     list_display = ('province', 'city', 'company', 'number', 'origin',
                     'destination', 'active', 'updated', submission, updater)
 
+    def save_model(self, request, obj, form, change):
+        obj.save_as_new_submission(request, 'admin_page')
+
 class SubmissionAdmin(admin.GeoModelAdmin):
     def user(obj):
         if obj.user is None:

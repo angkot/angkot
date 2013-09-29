@@ -45,6 +45,7 @@ def to_geojson(obj):
             'number': obj.number,
             'origin': obj.origin,
             'destination': obj.destination,
+            'accept': [],
         },
         'geometry': geometry
     }

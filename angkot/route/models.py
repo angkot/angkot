@@ -68,6 +68,31 @@ class Transportation(models.Model):
         from . import utils
         return utils.to_geojson(self)
 
+    def save_as_new_submission(self, request=None, extra_source=None):
+        import json
+        from .submission.data import process as processSubmission
+        from .utils import to_geojson
+
+        geojson = to_geojson(self)
+        geojson['properties']['accept'].append('ContributorTerms')
+
+        s = Submission()
+        if request is not None:
+            s.ip_address = request.META['REMOTE_ADDR']
+            s.user_agent = request.META['HTTP_USER_AGENT']
+            s.user = request.user
+        s.raw_geojson = json.dumps(geojson)
+        s.source = 'save_as_new_submission'
+        if extra_source is not None:
+            s.source = '{} {}'.format(s.source, extra_source)
+        s.parent = self.submission
+        processSubmission(s)
+        s.transportation = self
+        s.save()
+
+        self.submission = s
+        self.save()
+
 class Submission(models.Model):
     optional = dict(null=True, default=None, blank=True)
 
