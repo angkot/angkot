@@ -36,7 +36,7 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
     if (!data) return [];
 
     var cmpNumber = function(a, b) {
-      return a.number.localeCompare(b.number);
+      return angkot.utils.naturalSort(a.number, b.number);
     };
 
     // order by cities and companies
@@ -79,6 +79,7 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
       }
       company.items.push(item);
     });
+    company.items = company.items.sort(cmpNumber);
     city._total += company.items.length;
 
     // Sort city by the number of transportations
