@@ -75,7 +75,7 @@ module.exports = function(grunt) {
         options: {
           livereload: true,
         },
-        files: ['angkot/static/dist/css/*.css'],
+        files: ['angkot/static/dist-css/*.css'],
       }
     },
     compress: {
@@ -105,7 +105,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'dist/js',
           src: ['*.js', '*.js.gz'],
-          dest: 'angkot/static/dist/js'
+          dest: 'angkot/static/dist-js'
         }]
       },
       css: {
@@ -113,7 +113,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'dist/css',
           src: ['*.css', '*.css.gz'],
-          dest: 'angkot/static/dist/css'
+          dest: 'angkot/static/dist-css'
         }]
       }
     },
