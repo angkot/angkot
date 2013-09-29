@@ -11,6 +11,7 @@
 <!--[if lte IE 8]>
   <link href='//api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.ie.css' rel='stylesheet' />
 <![endif]-->
+<link rel="stylesheet" type="text/css" href="{% static "dist-css/Leaflet.Control.Locate.css" %}"/>
 <link rel="stylesheet" type="text/css" href="{% static "dist-css/route.css" %}"/>
 {% endblock %}
 
@@ -248,6 +249,7 @@
 {% if debug %}
 <script type="text/javascript" src="{% static "js/Leaflet.Tooltip.js" %}"></script>
 <script type="text/javascript" src="{% static "js/Leaflet.Control.TransportationInfo.js" %}"></script>
+<script type="text/javascript" src="{% static "js/Leaflet.Control.Locate.js" %}"></script>
 <script type="text/javascript" src="{% static "js/Leaflet.Polyline.Editable.js" %}"></script>
 <script type="text/javascript" src="{% static "js/Leaflet.Angkot.js" %}"></script>
 <script type="text/javascript" src="{% static "js/Leaflet.Angkot.Route.js" %}"></script>

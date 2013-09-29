@@ -56,6 +56,7 @@ mod.directive('angkotMap', function() {
       initMap();
       initInfoControl();
       initEditor();
+      initUserLocation();
     };
 
     $scope.$watch('data.view', function(value) {
@@ -168,6 +169,12 @@ mod.directive('angkotMap', function() {
           $scope.fireRouteChanged();
         });
       });
+    };
+
+    var initUserLocation = function(){
+      L.control.locate({
+        position: 'topright'
+      }).addTo(map);
     };
 
     var toLngLat = function(path) {

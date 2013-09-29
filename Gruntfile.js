@@ -116,6 +116,11 @@ module.exports = function(grunt) {
           cwd: 'dist/css',
           src: ['*.css', '*.css.gz'],
           dest: 'angkot/static/dist-css'
+        }, {
+          expand: true,
+          cwd: 'angkot/static/css',
+          src: ['*.css', '*.css.gz'],
+          dest: 'angkot/static/dist-css'
         }]
       }
     },
