@@ -197,8 +197,10 @@ def transportation_data_save(request, tid):
 
     if s.parsed_ok:
         # Update transportation
-        # province, city, and number are not updated from here
+        t.province = s.province
+        t.city = s.city
         t.company = s.company
+        t.number = s.number
         t.origin = s.origin
         t.destination = s.destination
         t.route = s.route
