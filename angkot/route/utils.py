@@ -75,3 +75,11 @@ def create_geojson_feature(**kwargs):
         'geometry': geometry
     }
 
+def capwords(s):
+    import string
+
+    r = []
+    for p in s.split():
+        r.append(string.capitalize(p[0]) + p[1:])
+    return ' '.join(r)
+

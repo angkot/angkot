@@ -11,19 +11,18 @@ class Command(BaseCommand):
     )
 
     def handle(self, *args, **kwargs):
-        import string
-
         from ...models import Transportation
+        from ...utils import capwords
 
         update = kwargs['update']
         if not update:
             print 'Running in preview mode. Use --update to apply changes'
 
         for t in Transportation.objects.all():
-            ci = string.capwords(t.city)
+            ci = capwords(t.city)
             co = None
             if t.company is not None:
-                co = string.capwords(t.company)
+                co = capwords(t.company)
 
             if ci != t.city or co != t.company:
                 if update:

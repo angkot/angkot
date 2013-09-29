@@ -1,6 +1,5 @@
 import json
 import logging
-import string
 
 from django.shortcuts import render_to_response
 from django.template import RequestContext
@@ -37,9 +36,9 @@ def _new_transportation(request):
     number = f.cleaned_data['number']
     company = f.cleaned_data['company']
 
-    city = string.capwords(city)
+    city = utils.capwords(city)
     if company is not None:
-        company = string.capwords(company)
+        company = utils.capwords(company)
 
     code = 200
     submission_id = None
@@ -198,9 +197,9 @@ def transportation_data_save(request, tid):
     processSubmission(s)
     if s.parsed_ok:
         s.transportation = t
-        s.city = string.capwords(s.city)
+        s.city = utils.capwords(s.city)
         if s.company is not None:
-            s.company = string.capwords(s.company)
+            s.company = utils.capwords(s.company)
     s.save()
 
     if s.parsed_ok:
