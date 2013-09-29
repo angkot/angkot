@@ -11,7 +11,7 @@ angkot.utils.naturalSort = function(a, b) {
           dre = /(^([\w ]+,?[\w ]+)?[\w ]+,?[\w ]+\d+:\d+(:\d+)?[\w ]?|^\d{1,4}[\/\-]\d{1,4}[\/\-]\d{1,4}|^\w+, \w+ \d+, \d{4})/,
           hre = /^0x[0-9a-f]+$/i,
           ore = /^0/,
-          i = function(s) { return naturalSort.insensitive && (''+s).toLowerCase() || ''+s },
+          i = function(s) { return naturalSort.insensitive && (''+s).toLowerCase() || ''+s; },
           // convert all to strings strip whitespace
           x = i(a).replace(sre, '') || '',
           y = i(b).replace(sre, '') || '',
@@ -19,8 +19,8 @@ angkot.utils.naturalSort = function(a, b) {
           xN = x.replace(re, '\0$1\0').replace(/\0$/,'').replace(/^\0/,'').split('\0'),
           yN = y.replace(re, '\0$1\0').replace(/\0$/,'').replace(/^\0/,'').split('\0'),
           // numeric, hex or date detection
-          xD = parseInt(x.match(hre)) || (xN.length != 1 && x.match(dre) && Date.parse(x)),
-          yD = parseInt(y.match(hre)) || xD && y.match(dre) && Date.parse(y) || null,
+          xD = parseInt(x.match(hre), 10) || (xN.length != 1 && x.match(dre) && Date.parse(x)),
+          yD = parseInt(y.match(hre), 10) || xD && y.match(dre) && Date.parse(y) || null,
           oFxNcL, oFyNcL;
       // first try and sort Hex codes or Dates
       if (yD)
