@@ -3,8 +3,25 @@ from django.contrib.gis import admin
 from .models import Transportation, Submission
 
 class TransportationAdmin(admin.GeoModelAdmin):
+    def updater(obj):
+        if obj.submission is None:
+            return '(unknown)'
+        user = obj.submission.user
+        if user is None:
+            return '(unknown)'
+        if user.email is not None:
+            return '{} - {}'.format(user.first_name, user.email)
+        return user.first_name
+
+    def submission(obj):
+        s = obj.submission
+        if s is None:
+            return '(unknown)'
+        return '<a href="../submission/{}/">{}</a>'.format(s.id, s.submission_id)
+    submission.allow_tags = True
+
     list_display = ('province', 'city', 'company', 'number', 'origin',
-                    'destination', 'active', 'updated')
+                    'destination', 'active', 'updated', submission, updater)
 
 class SubmissionAdmin(admin.GeoModelAdmin):
     def user(obj):
