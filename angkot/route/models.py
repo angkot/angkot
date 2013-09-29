@@ -105,6 +105,7 @@ class Submission(models.Model):
 
     # Submitted data
     parent = models.ForeignKey('self', **optional)
+    data_version = models.IntegerField(default=1)
     raw_geojson = models.TextField()
     raw_source = models.TextField(**optional)
 
