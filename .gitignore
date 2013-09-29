@@ -4,5 +4,7 @@ angkot/localsettings.py
 node_modules/
 dist/
 angkot/static/dist/
+angkot/static/dist-css/
+angkot/static/dist-js/
 .sass-cache/
 
