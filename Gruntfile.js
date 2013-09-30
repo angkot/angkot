@@ -10,6 +10,7 @@ module.exports = function(grunt) {
         src: [
           'angkot/static/js/Leaflet.Tooltip.js',
           'angkot/static/js/Leaflet.Control.TransportationInfo.js',
+          'angkot/static/js/Leaflet.Control.Locate.js',
           'angkot/static/js/Leaflet.Polyline.Editable.js',
           'angkot/static/js/Leaflet.Angkot.js',
           'angkot/static/js/Leaflet.Angkot.Route.js',
