@@ -56,7 +56,6 @@ mod.directive('angkotMap', function() {
       initMap();
       initInfoControl();
       initEditor();
-      initUserLocation();
     };
 
     $scope.$watch('data.view', function(value) {
@@ -130,6 +129,10 @@ mod.directive('angkotMap', function() {
 
       var bingAerial = new L.BingLayer($scope.bingMapsKey, {type:'Aerial'});
 
+      L.control.locate({
+        position: 'topright'
+      }).addTo(map);
+
       L.control.layers({
         'OpenStreetMap': L.mapbox.tileLayer($scope.mapboxKey).addTo(map),
         'Bing Satellite': bingAerial,
@@ -169,12 +172,6 @@ mod.directive('angkotMap', function() {
           $scope.fireRouteChanged();
         });
       });
-    };
-
-    var initUserLocation = function(){
-      L.control.locate({
-        position: 'topright'
-      }).addTo(map);
     };
 
     var toLngLat = function(path) {
