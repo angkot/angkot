@@ -274,7 +274,7 @@ SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = [
 ]
 FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'popup'}
 
-local = os.path.join(base, 'localsettings.py')
+local = os.environ.get('ANGKOT_LOCAL_SETTINGS', os.path.join(base, 'localsettings.py'))
 if os.path.exists(local):
     execfile(local)
 
