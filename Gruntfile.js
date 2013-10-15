@@ -1,5 +1,8 @@
 module.exports = function(grunt) {
 
+  pytest_env = process.env;
+  pytest_env.ANGKOT_LOCAL_SETTINGS = '.travis/localsettings.py';
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
@@ -132,7 +135,7 @@ module.exports = function(grunt) {
           stdout: true,
           failOnError: true,
           execOptions: {
-            env: process.env,
+            env: pytest_env
           },
         },
       },
