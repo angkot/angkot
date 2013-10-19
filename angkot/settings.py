@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     'angkot.route',
     'angkot.account',
     'angkot.page',
+    'angkot.osm',
 )
 
 # A sample logging configuration. The only tangible logging
