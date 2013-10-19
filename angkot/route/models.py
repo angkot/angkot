@@ -52,7 +52,7 @@ class Transportation(models.Model):
     number = models.CharField(max_length=64)
     origin = models.CharField(max_length=256, **optional)
     destination = models.CharField(max_length=256, **optional)
-    route = models.MultiLineStringField(**optional)
+    route = models.MultiLineStringField(srid=4326, **optional)
 
     submission = models.ForeignKey('Submission', related_name='used_submission', **optional)
 
@@ -116,7 +116,7 @@ class Submission(models.Model):
     number = models.CharField(max_length=64, **optional)
     origin = models.CharField(max_length=256, **optional)
     destination = models.CharField(max_length=256, **optional)
-    route = models.MultiLineStringField(**optional)
+    route = models.MultiLineStringField(srid=4326, **optional)
 
     parsed_ok = models.NullBooleanField(**optional)
     parsed_date = models.DateTimeField(**optional)
