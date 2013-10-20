@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+from django.conf import settings
 from django.contrib.gis.gdal import SpatialReference, CoordTransform
 from django.contrib.gis.geos import Point
 from django.contrib.gis.geos import Polygon
@@ -17,6 +18,8 @@ CT = CoordTransform(SpatialReference(4326),
 @api
 def data(request, zoom, x, y):
     zoom, x, y = map(int, [zoom, x, y])
+    if zoom < settings.OSM_QUERY_MIN_LEVEL:
+        raise Http404()
 
     c1 = num2deg(x, y, zoom)
     c2 = num2deg(x+1, y+1, zoom)
