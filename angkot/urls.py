@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^route/', include('angkot.route.urls')),
+    url(r'^osm/', include('angkot.osm.urls')),
     url(r'^account/', include('angkot.account.urls')),
     url(r'^page/', include('angkot.page.urls')),
     url(r'^admin/', include(admin.site.urls)),
