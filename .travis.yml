@@ -20,6 +20,7 @@ before_install:
 - sudo -u postgres ./create_template_postgis-debian.sh > /dev/null 2>&1
 - echo "CREATE USER angkot PASSWORD 'angkot';" | sudo -u postgres psql
 - echo "CREATE DATABASE angkot OWNER angkot TEMPLATE template_postgis ENCODING 'utf8'" | sudo -u postgres psql
+- echo "CREATE DATABASE test_angkot OWNER angkot TEMPLATE template_postgis ENCODING 'utf8'" | sudo -u postgres psql
 before_script:
 - gem install bundle
 - pip install -r requirements.txt
