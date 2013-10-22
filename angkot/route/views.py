@@ -145,7 +145,11 @@ def transportation_list(request):
 @api
 def transportation_data(request, tid):
     tid = int(tid)
-    t = Transportation.objects.get(pk=tid)
+    try:
+        t = Transportation.objects.get(pk=tid, active=True)
+    except Transportation.DoesNotExist:
+        return Fail(http_code=404, error_code=404,
+                    error_msg='Unknown transportation id: {}'.format(tid))
 
     sid = None
     if t.submission is not None:
