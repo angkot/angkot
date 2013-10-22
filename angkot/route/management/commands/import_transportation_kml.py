@@ -126,8 +126,10 @@ class Command(BaseCommand):
 
         # Check existing transportation
         merge = kwargs.get('merge', False)
-        items = Transportation.objects.filter(province=pid, city=city,
-                                              number=number)
+        filters = dict(province=pid, city=city, number=number)
+        if company is not None:
+            filters['company'] = company
+        items = Transportation.objects.filter(**filters)
         if not merge and len(items) > 0:
             raise CommandError('Transportation {} in {}, {} already exists. Use --merge to merge the routes.' \
                                .format(number, city, pid))
