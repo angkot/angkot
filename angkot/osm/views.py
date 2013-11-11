@@ -8,7 +8,7 @@ from django.http import HttpResponse, Http404
 from django.views.decorators.cache import cache_page
 
 from .utils import num2deg
-from .models import Node, SegmentNode
+from .models import Node, SegmentNode, Segment
 from angkot.decorators import api, OK
 
 CT = CoordTransform(SpatialReference(4326),
@@ -85,9 +85,13 @@ def data(request, zoom, x, y):
     for s in segments:
         segment_list[s.segment_id].append(s.node_id)
 
+    segment_highway = Segment.objects.filter(pk__in=segment_list.keys()) \
+                                     .values_list('pk', 'highway')
+
     data = dict(x=x, y=y, zoom=zoom,
                 bbox=[(x1,y1), (x2, y2)],
                 nodes=dict(ids=ids, osm_ids=osm_ids, latlngs=latlngs),
-                segments=segment_list)
+                segments=segment_list,
+                segments_highway=dict(segment_highway))
     return OK(data)
 
