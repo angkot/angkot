@@ -275,7 +275,7 @@ SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = [
 ]
 FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'popup'}
 
-OSM_QUERY_MIN_LEVEL = 15
+OSM_QUERY_MIN_LEVEL = 16
 
 local = os.environ.get('ANGKOT_LOCAL_SETTINGS', os.path.join(base, 'localsettings.py'))
 if os.path.exists(local):

@@ -14,6 +14,13 @@ from angkot.decorators import api, OK
 CT = CoordTransform(SpatialReference(4326),
                     SpatialReference(3857))
 
+def route_page(request):
+    from django.shortcuts import render_to_response
+    from django.template import RequestContext
+    print 'a'
+    return render_to_response('osm/route.html',
+                              context_instance=RequestContext(request))
+
 @cache_page(24 * 60 * 60)
 @api
 def data(request, zoom, x, y):
