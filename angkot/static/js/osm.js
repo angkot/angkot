@@ -254,13 +254,15 @@ L.OSMDataLayer = L.Class.extend({
         // collect nodes and segments
         var nodes = {},
             pos = {},
-            segments = {};
+            segments = {},
+            types = {};
         for (i in q) {
             key = q[i];
             var data = this._data[key],
                 ids = data.nodes.ids,
                 latlngs = data.nodes.latlngs,
-                segmentList = data.segments;
+                segmentList = data.segments,
+                segmentType = data.segments_highway;
             len = ids.length;
             for (var j=0; j<len; j++) {
                 id = ids[j];
@@ -274,6 +276,7 @@ L.OSMDataLayer = L.Class.extend({
             for (id in segmentList) {
                 if (segments[id]) continue;
                 segments[id] = segmentList[id];
+                types[id] = segmentType[id];
             }
         }
 
@@ -308,7 +311,7 @@ L.OSMDataLayer = L.Class.extend({
 
             var path = this._createElement('path');
             path.setAttribute('d', str);
-            path.setAttribute('class', 'way segment');
+            path.setAttribute('class', 'way segment way-' + types[id]);
             path.setAttribute('data-segment-id', id);
             this._container.appendChild(path);
 
