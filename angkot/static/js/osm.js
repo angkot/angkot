@@ -2,7 +2,7 @@ L.OSMDataLayer = L.Class.extend({
     includes: L.Mixin.Events,
 
     options: {
-        minZoom: 16,
+        minZoom: 17,
         maxZoom: 19,
         tileSize: 256,
         zoomOffset: 0,
