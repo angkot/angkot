@@ -22,6 +22,7 @@ L.OSMDataLayer = L.Class.extend({
         this._initContainer();
         if (this._container) {
             this._map._pathRoot.appendChild(this._container);
+            this._map._pathRoot.appendChild(this._nodeContainer);
         }
 
         map.on({
@@ -39,6 +40,7 @@ L.OSMDataLayer = L.Class.extend({
     },
 
     onRemove: function(map) {
+        this._container.parentNode.removeChild(this._nodeContainer);
         this._container.parentNode.removeChild(this._container);
 
         map.off({
@@ -58,6 +60,7 @@ L.OSMDataLayer = L.Class.extend({
         if (!this._container) {
             this._map._initPathRoot();
             this._container = this._createElement('g');
+            this._nodeContainer = this._createElement('g');
         }
     },
 
@@ -71,6 +74,9 @@ L.OSMDataLayer = L.Class.extend({
 
         while (this._container.lastChild) {
             this._container.removeChild(this._container.lastChild);
+        }
+        while (this._nodeContainer.lastChild) {
+            this._nodeContainer.removeChild(this._nodeContainer.lastChild);
         }
     },
 
@@ -234,7 +240,7 @@ L.OSMDataLayer = L.Class.extend({
             y1 = bounds.min.y,
             x2 = bounds.max.x,
             y2 = bounds.max.y;
-        var key, len, id, i;
+        var key, len, id, i, p;
 
         var q = [];
         for (var x=x1; x<=x2; x++) {
@@ -295,8 +301,8 @@ L.OSMDataLayer = L.Class.extend({
 
             var str = '';
             for (i=0; i<len; i++) {
-                var nodeId = segment[i],
-                    p = pos[nodeId];
+                var nodeId = segment[i];
+                p = pos[nodeId];
                 str += (i ? 'L' : 'M') + p.x + ' '  + p.y + ' ';
             }
 
@@ -311,6 +317,20 @@ L.OSMDataLayer = L.Class.extend({
         for (id in used) {
             if (used[id]) continue;
             paths[id].remove();
+        }
+
+        // get existing nodes
+        while (this._nodeContainer.lastChild) {
+            this._nodeContainer.removeChild(this._nodeContainer.lastChild);
+        }
+        for (id in pos) {
+            p = pos[id];
+            var circle = this._createElement('circle');
+            circle.setAttribute('cx', p.x);
+            circle.setAttribute('cy', p.y);
+            circle.setAttribute('r', 3);
+            circle.setAttribute('class', 'way node');
+            this._nodeContainer.appendChild(circle);
         }
     },
 });
