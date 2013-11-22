@@ -311,6 +311,9 @@ L.OSMDataLayer = L.Class.extend({
             path.setAttribute('class', 'way segment');
             path.setAttribute('data-segment-id', id);
             this._container.appendChild(path);
+
+            L.DomEvent.addListener(path, 'mouseenter', this._onSegmentMouseEnter, this);
+            L.DomEvent.addListener(path, 'mouseout', this._onSegmentMouseOut, this);
         }
 
         // remove unused segments
@@ -346,6 +349,9 @@ L.OSMDataLayer = L.Class.extend({
             circle.setAttribute('class', 'way node');
             circle.setAttribute('data-node-id', id);
             this._nodeContainer.appendChild(circle);
+
+            L.DomEvent.addListener(circle, 'mouseenter', this._onNodeMouseEnter, this);
+            L.DomEvent.addListener(circle, 'mouseout', this._onNodeMouseOut, this);
         }
 
         // remove unused nodes
@@ -353,5 +359,17 @@ L.OSMDataLayer = L.Class.extend({
             if (used[id]) continue;
             dots[id].remove();
         }
+    },
+
+    _onSegmentMouseEnter: function(e) {
+    },
+
+    _onSegmentMouseOut: function(e) {
+    },
+
+    _onNodeMouseEnter: function(e) {
+    },
+
+    _onNodeMouseOut: function(e) {
     },
 });
