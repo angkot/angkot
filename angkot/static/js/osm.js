@@ -240,7 +240,7 @@ L.OSMDataLayer = L.Class.extend({
             y1 = bounds.min.y,
             x2 = bounds.max.x,
             y2 = bounds.max.y;
-        var key, len, id, i, p;
+        var key, len, id, i, p, ch;
 
         var q = [];
         for (var x=x1; x<=x2; x++) {
@@ -281,7 +281,7 @@ L.OSMDataLayer = L.Class.extend({
         var paths = {},
             used = {};
         for (i=0; i<this._container.childElementCount; i++) {
-            var ch = this._container.childNodes[i];
+            ch = this._container.childNodes[i];
             var segmentId = ch.getAttribute('data-segment-id');
             if (segmentId !== null) {
                 paths[segmentId] = ch;
@@ -320,17 +320,38 @@ L.OSMDataLayer = L.Class.extend({
         }
 
         // get existing nodes
-        while (this._nodeContainer.lastChild) {
-            this._nodeContainer.removeChild(this._nodeContainer.lastChild);
+        var dots = {};
+        used = {};
+        for (i=0; i<this._nodeContainer.childElementCount; i++) {
+            ch = this._nodeContainer.childNodes[i];
+            id = ch.getAttribute('data-node-id');
+            if (id !== null) {
+                dots[id] = ch;
+                used[id] = false;
+            }
         }
+
+        // add new nodes
         for (id in pos) {
+            if (dots[id]) {
+                used[id] = true;
+                continue;
+            }
+
             p = pos[id];
             var circle = this._createElement('circle');
             circle.setAttribute('cx', p.x);
             circle.setAttribute('cy', p.y);
             circle.setAttribute('r', 3);
             circle.setAttribute('class', 'way node');
+            circle.setAttribute('data-node-id', id);
             this._nodeContainer.appendChild(circle);
+        }
+
+        // remove unused nodes
+        for (id in used) {
+            if (used[id]) continue;
+            dots[id].remove();
         }
     },
 });
