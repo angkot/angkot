@@ -70,6 +70,11 @@ L.OSMDataLayer = L.Class.extend({
 
         this._data = {};
 
+        this.nodes = {};
+        this.pos = {};
+        this.segments = {};
+        this.segmentTypes = {};
+
         this._tileUrl = {};
 
         while (this._container.lastChild) {
@@ -240,7 +245,7 @@ L.OSMDataLayer = L.Class.extend({
             y1 = bounds.min.y,
             x2 = bounds.max.x,
             y2 = bounds.max.y;
-        var key, len, id, i, p, ch;
+        var key, len, id, i, j, p, ch;
 
         var q = [];
         for (var x=x1; x<=x2; x++) {
@@ -255,7 +260,8 @@ L.OSMDataLayer = L.Class.extend({
         var nodes = {},
             pos = {},
             segments = {},
-            types = {};
+            segmentTypes = {},
+            sidList = {};
         for (i in q) {
             key = q[i];
             var data = this._data[key],
@@ -267,16 +273,35 @@ L.OSMDataLayer = L.Class.extend({
             for (var j=0; j<len; j++) {
                 id = ids[j];
                 if (nodes[id]) continue;
+                if (this.nodes[id]) {
+                    nodes[id] = this.nodes[id];
+                    pos[id] = this.pos[id];
+                    continue;
+                }
 
                 var latlng = latlngs[j];
                 nodes[id] = L.latLng(latlng[0], latlng[1]);
                 pos[id] = this._map.latLngToLayerPoint(nodes[id]);
+                this.nodes[id] = nodes[id];
+                this.pos[id] = pos[id];
             }
 
             for (id in segmentList) {
                 if (segments[id]) continue;
                 segments[id] = segmentList[id];
-                types[id] = segmentType[id];
+                segmentTypes[id] = segmentType[id];
+
+                if (!this.segments[id]) {
+                    this.segments[id] = segments[id];
+                    this.segmentTypes[id] = segmentTypes[id];
+                }
+
+                var segment = segments[id];
+                for (j in segment) {
+                    var nid = segment[j];
+                    sidList[nid] = sidList[nid] || [];
+                    sidList[nid].push(id);
+                }
             }
         }
 
@@ -311,12 +336,13 @@ L.OSMDataLayer = L.Class.extend({
 
             var path = this._createElement('path');
             path.setAttribute('d', str);
-            path.setAttribute('class', 'way segment way-' + types[id]);
-            path.setAttribute('data-segment-id', id);
+            path.setAttribute('class', 'way segment way-' + segmentTypes[id]);
+            path.dataset.segmentId = id;
             this._container.appendChild(path);
 
             L.DomEvent.addListener(path, 'mouseenter', this._onSegmentMouseEnter, this);
             L.DomEvent.addListener(path, 'mouseout', this._onSegmentMouseOut, this);
+            L.DomEvent.addListener(path, 'click', this._onSegmentClick, this);
         }
 
         // remove unused segments
@@ -350,11 +376,13 @@ L.OSMDataLayer = L.Class.extend({
             circle.setAttribute('cy', p.y);
             circle.setAttribute('r', 3);
             circle.setAttribute('class', 'way node');
-            circle.setAttribute('data-node-id', id);
+            circle.dataset.nodeId = id;
+            circle.dataset.segmentIdList = sidList[id];
             this._nodeContainer.appendChild(circle);
 
             L.DomEvent.addListener(circle, 'mouseenter', this._onNodeMouseEnter, this);
             L.DomEvent.addListener(circle, 'mouseout', this._onNodeMouseOut, this);
+            L.DomEvent.addListener(circle, 'click', this._onNodeClick, this);
         }
 
         // remove unused nodes
@@ -365,14 +393,40 @@ L.OSMDataLayer = L.Class.extend({
     },
 
     _onSegmentMouseEnter: function(e) {
+        var t = e.target,
+            sid = t.getAttribute('data-segment-id');
+
+        t.classList.add('hover');
     },
 
     _onSegmentMouseOut: function(e) {
+        var t = e.target,
+            sid = t.getAttribute('data-segment-id');
+
+        t.classList.remove('hover');
+    },
+
+    _onSegmentClick: function(e) {
+        console.log('segment click', e.target.dataset.segmentId);
     },
 
     _onNodeMouseEnter: function(e) {
+        var t = e.target,
+            nid = t.getAttribute('data-node-id');
+
+        t.classList.add('hover');
+        console.log('node enter', e.target.dataset.nodeId);
     },
 
     _onNodeMouseOut: function(e) {
+        var t = e.target,
+            nid = t.getAttribute('data-node-id');
+
+        t.classList.remove('hover');
+        console.log('node out', e.target.dataset.nodeId, e.target.dataset.segmentIdList);
+    },
+
+    _onNodeClick: function(e) {
+        console.log('node click', e.target.dataset.nodeId);
     },
 });
