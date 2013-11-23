@@ -59,6 +59,13 @@ function start() {
   var url = 'http://localhost:8000/osm/data/{z}/{x}/{y}.json';
   var osm = new L.OSMDataLayer(url);
   map.addLayer(osm);
+
+  osm.on('osm:segment:mouseenter', function(e) {
+    e.e.target.classList.add('hover');
+  });
+  osm.on('osm:segment:mouseout', function(e) {
+    e.e.target.classList.remove('hover');
+  });
 }
 
 $(document).ready(function() {

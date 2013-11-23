@@ -394,39 +394,43 @@ L.OSMDataLayer = L.Class.extend({
 
     _onSegmentMouseEnter: function(e) {
         var t = e.target,
-            sid = t.getAttribute('data-segment-id');
+            sid = t.dataset.segmentId;
 
-        t.classList.add('hover');
+        this.fire('osm:segment:mouseenter', {segmentId: sid, e: e});
     },
 
     _onSegmentMouseOut: function(e) {
         var t = e.target,
-            sid = t.getAttribute('data-segment-id');
+            sid = t.dataset.segmentId;
 
-        t.classList.remove('hover');
+        this.fire('osm:segment:mouseout', {segmentId: sid, e: e});
     },
 
     _onSegmentClick: function(e) {
-        console.log('segment click', e.target.dataset.segmentId);
+        var t = e.target,
+            sid = t.dataset.segmentId;
+
+        this.fire('osm:segment:click', {segmentId: sid, e: e});
     },
 
     _onNodeMouseEnter: function(e) {
         var t = e.target,
-            nid = t.getAttribute('data-node-id');
+            nid = t.dataset.nodeId;
 
-        t.classList.add('hover');
-        console.log('node enter', e.target.dataset.nodeId);
+        this.fire('osm:node:mouseenter', {nodeId: nid, e: e});
     },
 
     _onNodeMouseOut: function(e) {
         var t = e.target,
-            nid = t.getAttribute('data-node-id');
+            nid = t.dataset.nodeId;
 
-        t.classList.remove('hover');
-        console.log('node out', e.target.dataset.nodeId, e.target.dataset.segmentIdList);
+        this.fire('osm:node:mouseout', {nodeId: nid, e: e});
     },
 
     _onNodeClick: function(e) {
-        console.log('node click', e.target.dataset.nodeId);
+        var t = e.target,
+            nid = t.dataset.nodeId;
+
+        this.fire('osm:node:click', {nodeId: nid, e: e});
     },
 });
