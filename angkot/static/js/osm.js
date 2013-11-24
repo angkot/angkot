@@ -72,8 +72,8 @@ L.OSMDataLayer = L.Class.extend({
 
         this.nodes = {};
         this.pos = {};
-        this.segments = {};
-        this.segmentTypes = {};
+        this.ways = {};
+        this.wayTypes = {};
 
         this._tileUrl = {};
 
@@ -256,19 +256,19 @@ L.OSMDataLayer = L.Class.extend({
             }
         }
 
-        // collect nodes and segments
+        // collect nodes and ways
         var nodes = {},
             pos = {},
-            segments = {},
-            segmentTypes = {},
+            ways = {},
+            wayTypes = {},
             sidList = {};
         for (i in q) {
             key = q[i];
             var data = this._data[key],
                 ids = data.nodes.ids,
                 latlngs = data.nodes.latlngs,
-                segmentList = data.segments,
-                segmentType = data.segments_highway;
+                wayList = data.ways,
+                wayType = data.ways_highway;
             len = ids.length;
             for (var j=0; j<len; j++) {
                 id = ids[j];
@@ -286,66 +286,66 @@ L.OSMDataLayer = L.Class.extend({
                 this.pos[id] = pos[id];
             }
 
-            for (id in segmentList) {
-                if (segments[id]) continue;
-                segments[id] = segmentList[id];
-                segmentTypes[id] = segmentType[id];
+            for (id in wayList) {
+                if (ways[id]) continue;
+                ways[id] = wayList[id];
+                wayTypes[id] = wayType[id];
 
-                if (!this.segments[id]) {
-                    this.segments[id] = segments[id];
-                    this.segmentTypes[id] = segmentTypes[id];
+                if (!this.ways[id]) {
+                    this.ways[id] = ways[id];
+                    this.wayTypes[id] = wayTypes[id];
                 }
 
-                var segment = segments[id];
-                for (j in segment) {
-                    var nid = segment[j];
+                var way = ways[id];
+                for (j in way) {
+                    var nid = way[j];
                     sidList[nid] = sidList[nid] || [];
                     sidList[nid].push(id);
                 }
             }
         }
 
-        // get existing segments
+        // get existing ways
         var paths = {},
             used = {};
         for (i=0; i<this._container.childElementCount; i++) {
             ch = this._container.childNodes[i];
-            var segmentId = ch.getAttribute('data-segment-id');
-            if (segmentId !== null) {
-                paths[segmentId] = ch;
-                used[segmentId] = false;
+            var wayId = ch.getAttribute('data-way-id');
+            if (wayId !== null) {
+                paths[wayId] = ch;
+                used[wayId] = false;
             }
         }
 
-        // add new segments
-        for (id in segments) {
+        // add new ways
+        for (id in ways) {
             if (paths[id]) {
                 used[id] = true;
                 continue;
             }
 
-            var segment = segments[id];
-            len = segment.length;
+            var way = ways[id];
+            len = way.length;
 
             var str = '';
             for (i=0; i<len; i++) {
-                var nodeId = segment[i];
+                var nodeId = way[i];
                 p = pos[nodeId];
                 str += (i ? 'L' : 'M') + p.x + ' '  + p.y + ' ';
             }
 
             var path = this._createElement('path');
             path.setAttribute('d', str);
-            path.setAttribute('class', 'way segment way-' + segmentTypes[id]);
-            path.dataset.segmentId = id;
+            path.setAttribute('class', 'way way-' + wayTypes[id]);
+            path.dataset.wayId = id;
             this._container.appendChild(path);
 
-            L.DomEvent.addListener(path, 'mouseenter', this._onSegmentMouseEnter, this);
-            L.DomEvent.addListener(path, 'mouseout', this._onSegmentMouseOut, this);
-            L.DomEvent.addListener(path, 'click', this._onSegmentClick, this);
+            L.DomEvent.addListener(path, 'mouseenter', this._onWayMouseEnter, this);
+            L.DomEvent.addListener(path, 'mouseout', this._onWayMouseOut, this);
+            L.DomEvent.addListener(path, 'click', this._onWayClick, this);
         }
 
-        // remove unused segments
+        // remove unused ways
         for (id in used) {
             if (used[id]) continue;
             paths[id].remove();
@@ -377,7 +377,7 @@ L.OSMDataLayer = L.Class.extend({
             circle.setAttribute('r', 3);
             circle.setAttribute('class', 'way node');
             circle.dataset.nodeId = id;
-            circle.dataset.segmentIdList = sidList[id];
+            circle.dataset.wayIdList = sidList[id];
             this._nodeContainer.appendChild(circle);
 
             L.DomEvent.addListener(circle, 'mouseenter', this._onNodeMouseEnter, this);
@@ -392,27 +392,27 @@ L.OSMDataLayer = L.Class.extend({
         }
     },
 
-    _onSegmentMouseEnter: function(e) {
+    _onWayMouseEnter: function(e) {
         var t = e.target,
-            sid = t.dataset.segmentId;
+            sid = t.dataset.wayId;
 
-        this.fire('osm:segment:mouseenter', {segmentId: sid, e: e});
+        this.fire('osm:way:mouseenter', {wayId: sid, e: e});
         L.DomEvent.stopPropagation(e);
     },
 
-    _onSegmentMouseOut: function(e) {
+    _onWayMouseOut: function(e) {
         var t = e.target,
-            sid = t.dataset.segmentId;
+            sid = t.dataset.wayId;
 
-        this.fire('osm:segment:mouseout', {segmentId: sid, e: e});
+        this.fire('osm:way:mouseout', {wayId: sid, e: e});
         L.DomEvent.stopPropagation(e);
     },
 
-    _onSegmentClick: function(e) {
+    _onWayClick: function(e) {
         var t = e.target,
-            sid = t.dataset.segmentId;
+            sid = t.dataset.wayId;
 
-        this.fire('osm:segment:click', {segmentId: sid, e: e});
+        this.fire('osm:way:click', {wayId: sid, e: e});
         L.DomEvent.stopPropagation(e);
     },
 

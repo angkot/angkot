@@ -8,7 +8,7 @@ from django.http import HttpResponse, Http404
 from django.views.decorators.cache import cache_page
 
 from .utils import num2deg
-from .models import Node, SegmentNode, Segment
+from .models import Node, Way, WayNode
 from angkot.decorators import api, OK
 
 CT = CoordTransform(SpatialReference(4326),
@@ -45,15 +45,15 @@ def data(request, zoom, x, y):
                 FROM osm_node
                 WHERE ST_Contains(ST_GeomFromText('%s', 4326), coord)
             ),
-            segments AS (
-                SELECT DISTINCT segment_id
-                FROM osm_segmentnode
+            ways AS (
+                SELECT DISTINCT way_id
+                FROM osm_waynode
                 WHERE node_id IN (SELECT id FROM selected_nodes)
             ),
             nodes AS (
                 SELECT DISTINCT node_id
-                FROM osm_segmentnode
-                WHERE segment_id IN (SELECT segment_id FROM segments)
+                FROM osm_waynode
+                WHERE way_id IN (SELECT way_id FROM ways)
             )
         SELECT id, osm_id, coord
         FROM osm_node
@@ -68,17 +68,17 @@ def data(request, zoom, x, y):
                 FROM osm_node
                 WHERE ST_Contains(ST_GeomFromText('%s', 4326), coord)
             ),
-            segments AS (
-                SELECT DISTINCT segment_id
-                FROM osm_segmentnode
+            ways AS (
+                SELECT DISTINCT way_id
+                FROM osm_waynode
                 WHERE node_id IN (SELECT id FROM selected_nodes)
             )
-        SELECT id, segment_id, node_id
-        FROM osm_segmentnode
-        WHERE segment_id IN (SELECT segment_id FROM segments)
-        ORDER BY segment_id, index
+        SELECT id, way_id, node_id
+        FROM osm_waynode
+        WHERE way_id IN (SELECT way_id FROM ways)
+        ORDER BY way_id, index
     ''' % geom
-    segments = SegmentNode.objects.raw(sql)
+    ways = WayNode.objects.raw(sql)
 
     ids = []
     osm_ids = []
@@ -88,17 +88,17 @@ def data(request, zoom, x, y):
         osm_ids.append(node.osm_id)
         latlngs.append((node.coord.y, node.coord.x))
 
-    segment_list = defaultdict(list)
-    for s in segments:
-        segment_list[s.segment_id].append(s.node_id)
+    way_list = defaultdict(list)
+    for s in ways:
+        way_list[s.way_id].append(s.node_id)
 
-    segment_highway = Segment.objects.filter(pk__in=segment_list.keys()) \
+    way_highway = Way.objects.filter(pk__in=way_list.keys()) \
                                      .values_list('pk', 'highway')
 
     data = dict(x=x, y=y, zoom=zoom,
                 bbox=[(x1,y1), (x2, y2)],
                 nodes=dict(ids=ids, osm_ids=osm_ids, latlngs=latlngs),
-                segments=segment_list,
-                segments_highway=dict(segment_highway))
+                ways=way_list,
+                ways_highway=dict(way_highway))
     return OK(data)
 

@@ -3,21 +3,21 @@
 <style>
 html, body { margin: 0px; padding: 0px; width: 100%; height: 100%; }
 #map { width: 100%; height: 100%; margin: auto; padding: 0px; }
-path.way.segment {
+path.way {
     fill: none;
     stroke: #e06d5f;
     stroke-width: 2;
 }
-path.way.segment.way-primary {
+path.way.way-primary {
     stroke: #e06d5f;
     stroke-width: 3;
 }
-path.way.segment.way-motorway {
+path.way.way-motorway {
     stroke: #58a9ed;
     stroke-width: 5;
 }
 
-path.way.segment.hover {
+path.way.hover {
     stroke-width: 8;
     stroke: rgba(255, 0, 0, 0.5);
 }
@@ -60,10 +60,10 @@ function start() {
   var osm = new L.OSMDataLayer(url);
   map.addLayer(osm);
 
-  osm.on('osm:segment:mouseenter', function(e) {
+  osm.on('osm:way:mouseenter', function(e) {
     e.e.target.classList.add('hover');
   });
-  osm.on('osm:segment:mouseout', function(e) {
+  osm.on('osm:way:mouseout', function(e) {
     e.e.target.classList.remove('hover');
   });
 }
