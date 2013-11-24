@@ -397,6 +397,7 @@ L.OSMDataLayer = L.Class.extend({
             sid = t.dataset.segmentId;
 
         this.fire('osm:segment:mouseenter', {segmentId: sid, e: e});
+        L.DomEvent.stopPropagation(e);
     },
 
     _onSegmentMouseOut: function(e) {
@@ -404,6 +405,7 @@ L.OSMDataLayer = L.Class.extend({
             sid = t.dataset.segmentId;
 
         this.fire('osm:segment:mouseout', {segmentId: sid, e: e});
+        L.DomEvent.stopPropagation(e);
     },
 
     _onSegmentClick: function(e) {
@@ -411,6 +413,7 @@ L.OSMDataLayer = L.Class.extend({
             sid = t.dataset.segmentId;
 
         this.fire('osm:segment:click', {segmentId: sid, e: e});
+        L.DomEvent.stopPropagation(e);
     },
 
     _onNodeMouseEnter: function(e) {
@@ -418,6 +421,7 @@ L.OSMDataLayer = L.Class.extend({
             nid = t.dataset.nodeId;
 
         this.fire('osm:node:mouseenter', {nodeId: nid, e: e});
+        L.DomEvent.stopPropagation(e);
     },
 
     _onNodeMouseOut: function(e) {
@@ -425,6 +429,7 @@ L.OSMDataLayer = L.Class.extend({
             nid = t.dataset.nodeId;
 
         this.fire('osm:node:mouseout', {nodeId: nid, e: e});
+        L.DomEvent.stopPropagation(e);
     },
 
     _onNodeClick: function(e) {
@@ -432,5 +437,6 @@ L.OSMDataLayer = L.Class.extend({
             nid = t.dataset.nodeId;
 
         this.fire('osm:node:click', {nodeId: nid, e: e});
+        L.DomEvent.stopPropagation(e);
     },
 });
