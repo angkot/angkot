@@ -1,56 +1,64 @@
 <!DOCTYPE html>
-<html><head>
-<style>
-html, body { margin: 0px; padding: 0px; width: 100%; height: 100%; }
-#map { width: 100%; height: 100%; margin: auto; padding: 0px; }
-path.way {
-    fill: none;
-    stroke: #e06d5f;
-    stroke-width: 2;
-}
-path.way.way-primary {
-    stroke: #e06d5f;
-    stroke-width: 3;
-}
-path.way.way-motorway {
-    stroke: #58a9ed;
-    stroke-width: 5;
-}
-
-path.way.hover {
-    stroke-width: 8;
-    stroke: rgba(255, 0, 0, 0.5);
-}
-
-
-circle.way.node {
-    fill: white;
-    stroke: rgba(255, 0, 0, 0.75);
-    stroke-width: 1;
-}
-circle.way.node.hover {
-    fill: rgba(255, 0, 0, 0.75);
-    stroke-width: 5;
-}
-</style>
+<html ng-app="angkot-route-drawing"><head>
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"/>
 <link href='//api.tiles.mapbox.com/mapbox.js/v1.4.0/mapbox.css' rel='stylesheet' />
-</head><body>
+<link href='/static/css/osm.css' rel='stylesheet' />
+</head><body ng-controller="EditorController" ng-init="init()">
 
+<div id="side">
+  <div class="rlist"
+       ng-show="activeSubmission"
+       ng-controller="SubmissionController" ng-init="init()">
+    <p><span ng-bind="provinceNames[meta.province]"></span>,
+       <span ng-bind="meta.city"></span>
+    </p>
+    <p><span ng-bind="meta.company"></span> <span ng-bind="meta.number"></span></p>
+    <p>Routes: <span ng-bind="paths.length"></span></p>
+    <ul>
+    <li ng-repeat="(key, path) in paths">
+      <input type="checkbox" ng-model="visible[key]"/>
+      <span ng-bind="'Route ' + key"></span>
+      &rarr; <span ng-bind="path.length + ' points'"></span>
+    </li>
+    </ul>
+  </div>
+
+  <hr/>
+
+  <div class="slist"
+       ng-controller="SubmissionListController" ng-init="init()">
+    <div ng-repeat="cityKey in cityKeyList">
+      <h2 ng-bind="dataTree[cityKey].city"></h2>
+      <ul>
+        <li ng-repeat="company in dataTree[cityKey].companyNames">
+          <span ng-show="company"><span ng-bind="company"></span> &ndash;</span>
+          <span class="t"
+                ng-repeat="id in dataTree[cityKey].companies[company].items">
+            <a href=""
+               ng-bind="data[id].number"
+               ng-click="show(id)"></a>
+          </span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
 <div id="map"></div>
 
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular-sanitize.min.js"></script>
 <script src='//api.tiles.mapbox.com/mapbox.js/v1.4.0/mapbox.js'></script>
 <script src='/static/js/osm.js'></script>
+<script src='/static/js/route-drawing.js'></script>
 <script>
 
 var map,
     JAKARTA = [-6.292606, 106.838694],
     CX = JAKARTA[1],
     CY = JAKARTA[0],
-    MapBoxId = 'examples.map-zr0njcqy';
+    MapBoxId = '{{ MAPBOX_KEY }}';
 
 function start() {
   map = L.mapbox.map('map', MapBoxId);
@@ -58,7 +66,6 @@ function start() {
 
   var url = 'http://localhost:8000/osm/data/{z}/{x}/{y}.json';
   var osm = new L.OSMDataLayer(url);
-  map.addLayer(osm);
 
   osm.on('osm:way:mouseenter', function(e) {
     e.e.target.classList.add('hover');
@@ -66,6 +73,17 @@ function start() {
   osm.on('osm:way:mouseout', function(e) {
     e.e.target.classList.remove('hover');
   });
+  osm.on('osm:node:mouseenter', function(e) {
+    e.e.target.setAttribute('r', 5);
+  });
+  osm.on('osm:node:mouseout', function(e) {
+    e.e.target.setAttribute('r', 3);
+  });
+
+  var draw = new L.RouteDrawingLayer(osm);
+
+  map.addLayer(draw);
+  map.addLayer(osm);
 }
 
 $(document).ready(function() {

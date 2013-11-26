@@ -1,3 +1,226 @@
+(function(window) {
+
+"use strict";
+
+var app = angular.module('angkot-route-drawing', []);
+
+app.factory('MapService', function() {
+  var data = {
+    map: undefined,
+    routes: undefined,
+    layers: {},
+    visible: {},
+  };
+
+  var clearRoutes = function() {
+    for (var i in data.layers) {
+      var layer = data.layers[i];
+      data.map.removeLayer(layer);
+    }
+    data.layers = {};
+    data.visible = {};
+  }
+
+  var showRoute = function(index) {
+    if (!data.routes[index]) return;
+    if (data.visible[index]) return;
+
+    if (!data.layers[index]) {
+      var latlngs = [],
+          route = data.routes[index],
+          len = route.length;
+
+      // Swap (x, y) -> (lat, lng)
+      for (var i=0; i<len; i++) {
+        latlngs.push(L.latLng(route[i][1], route[i][0]));
+      }
+      console.log(latlngs.length);
+      var layer = L.polyline(latlngs, {color: '#F8F', opacity: 0.9, weight: 3});
+      data.layers[index] = layer;
+    }
+
+    data.layers[index].addTo(data.map);
+    data.map.fitBounds(data.layers[index].getBounds());
+    data.visible[index] = true;
+  }
+
+  var hideRoute = function(index) {
+    if (!data.routes[index]) return;
+    if (!data.visible[index]) return;
+    if (!data.layers[index]) return;
+
+    data.map.removeLayer(data.layers[index]);
+    data.visible[index] = false;
+  }
+
+  return {
+    setRoutes: function(routes) {
+      if (!data.map) data.map = window.map; // FIXME
+      clearRoutes();
+      data.routes = routes;
+    },
+
+    showRoute: function(index) {
+      showRoute(index);
+    },
+
+    hideRoute: function(index) {
+      hideRoute(index);
+    },
+  }
+});
+
+app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
+
+  $scope.data = {};
+
+  $scope.routeList = {};
+
+  $scope.init = function() {
+    $http.get('/route/transportation-list.json')
+      .success(function(data) {
+        $scope.raw = data;
+        $scope.provinces = data.provinces;
+
+        var names = {};
+        angular.forEach(data.provinces, function(item) {
+          this[item[0]] = item[1];
+        }, names);
+        $scope.provinceNames = names;
+      });
+  }
+
+  $scope.setActiveSubmission = function(id) {
+    if (!$scope.data[id]) {
+      $scope.loadSubmission(id);
+    }
+    else {
+      $scope.showSubmission(id);
+    }
+  }
+
+  $scope.loadSubmission = function(id) {
+    var url = '/route/transportation/' + id + '.json';
+    $http.get(url)
+      .success(function(data) {
+        console.log(id, data);
+        $scope.data[id] = data;
+        $scope.showSubmission(id);
+      });
+  }
+
+  $scope.showSubmission = function(id) {
+    $scope.activeSubmission = $scope.data[id];
+  }
+
+}]);
+
+app.controller('SubmissionController', ['$scope', 'MapService', function($scope, MapService) {
+
+  $scope.visible = {};
+
+  $scope.$watch('activeSubmission', function() {
+    if (!$scope.activeSubmission) return;
+
+    var s = $scope.activeSubmission,
+        g = s.geojson;
+    $scope.geojson = g;
+    $scope.meta = g.properties;
+    $scope.paths = g.geometry.coordinates;
+    $scope.visible = {};
+
+    MapService.setRoutes($scope.paths);
+  });
+
+  $scope.$watch('visible', function(a, b) {
+    var keys = {};
+    for (var k in a) { keys[k] = k; }
+    for (var k in b) { keys[k] = k; }
+    for (var k in keys) {
+      if (a[k] && b[k]) continue;
+      if (!a[k] && !b[k]) continue;
+      if (a[k] && !b[k]) MapService.showRoute(k);
+      else MapService.hideRoute(k);
+    }
+  }, true);
+}]);
+
+app.controller('SubmissionListController', ['$scope', '$http', function($scope, $http) {
+
+  $scope.init = function() {
+  }
+
+  $scope.$watch('raw', function() {
+    if (!$scope.raw) return;
+
+    var raw = $scope.raw,
+        transportations = raw.transportations;
+
+    // group by city and company
+    var cities = {},
+        data = {};
+    angular.forEach(transportations, function(t) {
+      var cities = this[0],
+          data = this[1];
+
+      // city group
+      var company = t.company || '';
+      var key = t.province + '|' + t.city;
+      t._cityKey = key;
+
+      cities[key] = cities[key] || {
+        key: key,
+        province: t.province,
+        city: t.city,
+        count: 0,
+        companies: {}
+      };
+      cities[key].count += 1;
+
+      // company group
+      var c = cities[key].companies;
+      c[company] = c[company] || {
+        company: t.company,
+        items: []
+      }
+      c[company].items.push(t.id);
+
+      // data by id
+      data[t.id] = t;
+
+    }, [cities, data]);
+
+    // get city keys and sort company names
+    var cityList = [];
+    angular.forEach(cities, function(item, cityKey) {
+      this.push(cityKey);
+
+      var companies = [];
+      for (var company in item.companies) {
+        companies.push(company);
+      }
+      companies.sort();
+      item.companyNames = companies;
+    }, cityList);
+
+    // sort cities
+    cityList.sort(function(a, b) {
+      return cities[b].count - cities[a].count;
+    });
+
+    $scope.data = data;
+    $scope.dataTree = cities;
+    $scope.cityKeyList = cityList;
+  });
+
+  $scope.show = function(id) {
+    $scope.setActiveSubmission(id);
+  }
+
+}]);
+
+})(window);
+
 L.OSMDataLayer = L.Class.extend({
     includes: L.Mixin.Events,
 
@@ -336,7 +559,7 @@ L.OSMDataLayer = L.Class.extend({
 
             var path = this._createElement('path');
             path.setAttribute('d', str);
-            path.setAttribute('class', 'way way-' + wayTypes[id]);
+            path.setAttribute('class', 'osm way way-' + wayTypes[id]);
             path.dataset.wayId = id;
             this._container.appendChild(path);
 
@@ -375,7 +598,7 @@ L.OSMDataLayer = L.Class.extend({
             circle.setAttribute('cx', p.x);
             circle.setAttribute('cy', p.y);
             circle.setAttribute('r', 3);
-            circle.setAttribute('class', 'way node');
+            circle.setAttribute('class', 'osm node');
             circle.dataset.nodeId = id;
             circle.dataset.wayIdList = sidList[id];
             this._nodeContainer.appendChild(circle);
