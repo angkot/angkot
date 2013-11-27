@@ -221,6 +221,22 @@ app.controller('SubmissionListController', ['$scope', '$http', function($scope, 
 
 })(window);
 
+L.Polyline.Styled = L.Polyline.extend({
+  _initEvents: function () {
+    L.Polyline.prototype._initEvents.apply(this, arguments);
+
+    if (this._path) {
+      var classes = this.options.styleClass || [];
+      if (typeof classes === "string") {
+        classes = [classes];
+      }
+      for (var i=0; i<classes.length; i++) {
+        this._path.classList.add(classes[i]);
+      }
+    }
+  },
+});
+
 L.OSMDataLayer = L.Class.extend({
     includes: L.Mixin.Events,
 
