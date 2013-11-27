@@ -59,6 +59,11 @@ html, body {
 
 /*= OSM SVG =*/
 
+path.route {
+  stroke: #0FF;
+  stroke-width: 2;
+}
+
 path.osm.way {
     fill: none;
     stroke: #e06d5f;

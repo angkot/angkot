@@ -35,7 +35,7 @@ app.factory('MapService', function() {
         latlngs.push(L.latLng(route[i][1], route[i][0]));
       }
       console.log(latlngs.length);
-      var layer = L.polyline(latlngs, {color: '#F8F', opacity: 0.9, weight: 3});
+      var layer = new L.Polyline.Styled(latlngs, {styleClass: 'route'});
       data.layers[index] = layer;
     }
 
