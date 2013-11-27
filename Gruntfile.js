@@ -29,7 +29,9 @@ module.exports = function(grunt) {
           'angkot/static/js/angkot-route-newtransportation.js',
           'angkot/static/js/angkot-route-transportationlist.js',
           'angkot/static/js/angkot-route-dataform.js',
-          'angkot/static/js/angkot-route-submissionlist.js'
+          'angkot/static/js/angkot-route-submissionlist.js',
+          'angkot/static/js/osm.js',
+          'angkot/static/js/route-finder.js',
         ],
         dest: 'dist/js/route.js'
       }
@@ -43,6 +45,11 @@ module.exports = function(grunt) {
           'dist/js/route.min.js': ['<%= concat.route.dest %>']
         }
       },
+    },
+    typescript: {
+      base: {
+        src: ['angkot/static/js/*.ts']
+      }
     },
     jshint: {
       files: ['gruntfile.js', 'angkot/static/js/*.js'],
@@ -150,11 +157,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-typescript');
 
   grunt.registerTask('pytest', ['shell:pytest']);
 
   grunt.registerTask('test', ['jshint', 'pytest']);
 
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'sass', 'compress', 'copy']);
+  grunt.registerTask('default', ['typescript', 'jshint', 'concat', 'uglify', 'sass', 'compress', 'copy']);
 
 };
