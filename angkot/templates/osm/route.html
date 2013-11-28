@@ -50,6 +50,7 @@
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js"></script>
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular-sanitize.min.js"></script>
 <script src='//api.tiles.mapbox.com/mapbox.js/v1.4.0/mapbox.js'></script>
+<script src='/static/js/route-finder.js'></script>
 <script src='/static/js/osm.js'></script>
 <script src='/static/js/route-drawing.js'></script>
 <script>
@@ -58,11 +59,14 @@ var map,
     JAKARTA = [-6.292606, 106.838694],
     CX = JAKARTA[1],
     CY = JAKARTA[0],
-    MapBoxId = '{{ MAPBOX_KEY }}';
+    MapBoxId = '{{ MAPBOX_KEY }}',
+    finder;
 
 function start() {
   map = L.mapbox.map('map', MapBoxId);
   map.setView(L.latLng(CY, CX), 15);
+
+  var a, b;
 
   var url = 'http://localhost:8000/osm/data/{z}/{x}/{y}.json';
   var osm = new L.OSMDataLayer(url);
@@ -79,11 +83,50 @@ function start() {
   osm.on('osm:node:mouseout', function(e) {
     e.e.target.setAttribute('r', 3);
   });
+  osm.on('osm:node:click', function(e) {
+    if (a === undefined) {
+      a = e.nodeId;
+      return
+    }
 
-  var draw = new L.RouteDrawingLayer(osm);
+    if (b !== undefined) a = b;
+    b = e.nodeId;
 
-  map.addLayer(draw);
+    resetNodes();
+    var path = finder.findRoute(a, b);
+    selectNodes(path);
+  });
+
   map.addLayer(osm);
+
+  finder = new RouteFinder();
+
+  osm.on('osm:way:reset', function() {
+    finder.reset();
+  });
+  osm.on('osm:way:add', function(e) {
+    finder.addWay(e.wayId, e.way, e.pos);
+  });
+  osm.on('osm:way:remove', function(e) {
+    finder.removeWay(e.wayId);
+  });
+}
+
+function selectNodes(nodeList) {
+  for (var i=0; i<nodeList.length; i++) {
+    var id = nodeList[i];
+    var circle = document.querySelectorAll('circle[data-node-id="'+id+'"]');
+    if (circle.length == 0) continue;
+    var c = circle[0];
+    c.classList.add('selected');
+  }
+}
+
+function resetNodes() {
+  var items = document.querySelectorAll('circle');
+  for (var i=0; i<items.length; i++) {
+    items[i].classList.remove('selected');
+  }
 }
 
 $(document).ready(function() {
