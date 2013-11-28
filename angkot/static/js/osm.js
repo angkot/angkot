@@ -320,6 +320,8 @@ L.OSMDataLayer = L.Class.extend({
         while (this._nodeContainer.lastChild) {
             this._nodeContainer.removeChild(this._nodeContainer.lastChild);
         }
+
+        this.fire('osm:way:reset');
     },
 
     _update: function() {
@@ -482,7 +484,7 @@ L.OSMDataLayer = L.Class.extend({
             y1 = bounds.min.y,
             x2 = bounds.max.x,
             y2 = bounds.max.y;
-        var key, len, id, i, j, p, ch;
+        var key, len, id, i, j, p, ch, way;
 
         var q = [];
         for (var x=x1; x<=x2; x++) {
@@ -533,7 +535,7 @@ L.OSMDataLayer = L.Class.extend({
                     this.wayTypes[id] = wayTypes[id];
                 }
 
-                var way = ways[id];
+                way = ways[id];
                 for (j in way) {
                     var nid = way[j];
                     sidList[nid] = sidList[nid] || [];
@@ -555,13 +557,16 @@ L.OSMDataLayer = L.Class.extend({
         }
 
         // add new ways
+        var newWays = [];
         for (id in ways) {
             if (paths[id]) {
                 used[id] = true;
                 continue;
             }
 
-            var way = ways[id];
+            newWays.push(id);
+
+            way = ways[id];
             len = way.length;
 
             var str = '';
@@ -583,9 +588,23 @@ L.OSMDataLayer = L.Class.extend({
         }
 
         // remove unused ways
+        var removedWays = [];
         for (id in used) {
             if (used[id]) continue;
+            removedWays.push(id);
             paths[id].remove();
+        }
+
+        // notify new and removed ways
+        for (i=0; i<newWays.length; i++) {
+          this.fire('osm:way:add', {
+            wayId: newWays[i],
+            way: ways[newWays[i]],
+            pos: pos,
+          });
+        }
+        for (i=0; i<removedWays.length; i++) {
+          this.fire('osm:way:remove', {wayId: removedWays[i]});
         }
 
         // get existing nodes
