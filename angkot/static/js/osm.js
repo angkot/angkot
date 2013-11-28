@@ -19,7 +19,7 @@ app.factory('MapService', function() {
     }
     data.layers = {};
     data.visible = {};
-  }
+  };
 
   var showRoute = function(index) {
     if (!data.routes[index]) return;
@@ -42,7 +42,7 @@ app.factory('MapService', function() {
     data.layers[index].addTo(data.map);
     data.map.fitBounds(data.layers[index].getBounds());
     data.visible[index] = true;
-  }
+  };
 
   var hideRoute = function(index) {
     if (!data.routes[index]) return;
@@ -51,7 +51,7 @@ app.factory('MapService', function() {
 
     data.map.removeLayer(data.layers[index]);
     data.visible[index] = false;
-  }
+  };
 
   return {
     setRoutes: function(routes) {
@@ -67,7 +67,7 @@ app.factory('MapService', function() {
     hideRoute: function(index) {
       hideRoute(index);
     },
-  }
+  };
 });
 
 app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
@@ -88,7 +88,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
         }, names);
         $scope.provinceNames = names;
       });
-  }
+  };
 
   $scope.setActiveSubmission = function(id) {
     if (!$scope.data[id]) {
@@ -97,7 +97,7 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
     else {
       $scope.showSubmission(id);
     }
-  }
+  };
 
   $scope.loadSubmission = function(id) {
     var url = '/route/transportation/' + id + '.json';
@@ -107,12 +107,11 @@ app.controller('EditorController', ['$scope', '$http', function($scope, $http) {
         $scope.data[id] = data;
         $scope.showSubmission(id);
       });
-  }
+  };
 
   $scope.showSubmission = function(id) {
     $scope.activeSubmission = $scope.data[id];
-  }
-
+  };
 }]);
 
 app.controller('SubmissionController', ['$scope', 'MapService', function($scope, MapService) {
@@ -133,10 +132,10 @@ app.controller('SubmissionController', ['$scope', 'MapService', function($scope,
   });
 
   $scope.$watch('visible', function(a, b) {
-    var keys = {};
-    for (var k in a) { keys[k] = k; }
-    for (var k in b) { keys[k] = k; }
-    for (var k in keys) {
+    var k, keys = {};
+    for (k in a) { keys[k] = k; }
+    for (k in b) { keys[k] = k; }
+    for (k in keys) {
       if (a[k] && b[k]) continue;
       if (!a[k] && !b[k]) continue;
       if (a[k] && !b[k]) MapService.showRoute(k);
@@ -148,7 +147,7 @@ app.controller('SubmissionController', ['$scope', 'MapService', function($scope,
 app.controller('SubmissionListController', ['$scope', '$http', function($scope, $http) {
 
   $scope.init = function() {
-  }
+  };
 
   $scope.$watch('raw', function() {
     if (!$scope.raw) return;
@@ -182,7 +181,7 @@ app.controller('SubmissionListController', ['$scope', '$http', function($scope, 
       c[company] = c[company] || {
         company: t.company,
         items: []
-      }
+      };
       c[company].items.push(t.id);
 
       // data by id
@@ -215,8 +214,7 @@ app.controller('SubmissionListController', ['$scope', '$http', function($scope, 
 
   $scope.show = function(id) {
     $scope.setActiveSubmission(id);
-  }
-
+  };
 }]);
 
 })(window);
@@ -509,7 +507,7 @@ L.OSMDataLayer = L.Class.extend({
                 wayList = data.ways,
                 wayType = data.ways_highway;
             len = ids.length;
-            for (var j=0; j<len; j++) {
+            for (j=0; j<len; j++) {
                 id = ids[j];
                 if (nodes[id]) continue;
                 if (this.nodes[id]) {
