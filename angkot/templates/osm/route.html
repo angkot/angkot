@@ -61,16 +61,53 @@ var map,
     CX = JAKARTA[1],
     CY = JAKARTA[0],
     MapBoxId = '{{ MAPBOX_KEY }}',
-    finder;
+    finder,
+    osm;
 
 function start() {
   map = L.mapbox.map('map', MapBoxId);
   map.setView(L.latLng(CY, CX), 15);
 
   var a, b;
+  var lastNode = undefined;
+  var nextNode = undefined;
 
   var url = 'http://localhost:8000/osm/data/{z}/{x}/{y}.json';
-  var osm = new L.OSMDataLayer(url);
+  osm = new L.OSMDataLayer(url);
+
+  var layerPath = L.polyline([], {color: 'blue', opacity: 0.8});
+  layerPath.addTo(map);
+  var layerShow = L.polyline([], {color: 'yellow', opacity: 0.75, weight: 10});
+  layerShow.addTo(map);
+
+  var addPath = function(path) {
+    var latlngs = layerPath.getLatLngs();
+    for (var i=0; i<path.length; i++) {
+      latlngs.push(osm.nodes[path[i]]);
+    }
+    layerPath.setLatLngs(latlngs);
+  }
+
+  var showPath = function(path) {
+    var latlngs = layerShow.getLatLngs();
+    latlngs.splice(0, latlngs.length);
+    for (var i=0; i<path.length; i++) {
+      latlngs.push(osm.nodes[path[i]]);
+    }
+    layerShow.setLatLngs(latlngs);
+  }
+
+  var showNextPath = _.debounce(function() {
+    if (nextNode === undefined) return;
+    var path = finder.findRoute(lastNode, nextNode);
+    console.log('show', lastNode, nextNode, path);
+    showPath(path);
+  }, 250);
+
+  var clearShowPath = _.debounce(function() {
+    if (nextNode !== undefined) return;
+    showPath([]);
+  }, 1000);
 
   osm.on('osm:way:mouseenter', function(e) {
     e.e.target.classList.add('hover');
@@ -80,22 +117,28 @@ function start() {
   });
   osm.on('osm:node:mouseenter', function(e) {
     e.e.target.setAttribute('r', 5);
+    nextNode = e.nodeId;
+    showNextPath();
   });
   osm.on('osm:node:mouseout', function(e) {
     e.e.target.setAttribute('r', 3);
+    nextNode = undefined;
+    clearShowPath();
   });
+
   osm.on('osm:node:click', function(e) {
-    if (a === undefined) {
-      a = e.nodeId;
-      return
+    if (lastNode === undefined) {
+      lastNode = e.nodeId;
+      return;
     }
 
-    if (b !== undefined) a = b;
-    b = e.nodeId;
-
-    resetNodes();
-    var path = finder.findRoute(a, b);
-    selectNodes(path);
+    var currNode = e.nodeId;
+    var path = finder.findRoute(lastNode, currNode);
+    console.log('add', lastNode, currNode, path);
+    addPath(path);
+    lastNode = currNode;
+    nextPath = undefined;
+    showPath([]);
   });
 
   map.addLayer(osm);
