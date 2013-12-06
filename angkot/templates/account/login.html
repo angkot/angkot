@@ -10,9 +10,9 @@
 <p>Silakan masuk dengan salah satu akun berikut.</p>
 
 <ul>
-<li><a onclick="popup(this); return false" href="{% url "socialauth_begin" "google-oauth2" %}?ao=login"><img title="Google" src="{% static "img/google.png" %}"/></a></li>
-<li><a onclick="popup(this); return false" href="{% url "socialauth_begin" "facebook" %}?ao=login"><img title="Facebook" src="{% static "img/facebook.png" %}"/></a></li>
-<li><a onclick="popup(this); return false" href="{% url "socialauth_begin" "twitter" %}?ao=login"><img title="Twitter" src="{% static "img/twitter.png" %}"/></a></li>
+<li><a onclick="popup(this); return false" href="{% url "social:begin" "google-oauth2" %}?ao=login"><img title="Google" src="{% static "img/google.png" %}"/></a></li>
+<li><a onclick="popup(this); return false" href="{% url "social:begin" "facebook" %}?ao=login"><img title="Facebook" src="{% static "img/facebook.png" %}"/></a></li>
+<li><a onclick="popup(this); return false" href="{% url "social:begin" "twitter" %}?ao=login"><img title="Twitter" src="{% static "img/twitter.png" %}"/></a></li>
 </ul>
 
 <p>Informasi pribadi Anda akan dilindungi sepenuhnya. Silakan baca juga <a href="{{ ANGKOT_PRIVACY_POLICY_URL }}" target="angkot_privacy_policy">kebijakan privasi</a>

@@ -17,12 +17,12 @@ def test_misc():
            or '*' in settings.ALLOWED_HOSTS
 
 def test_oauth_keys():
-    assert settings.GOOGLE_OAUTH2_CLIENT_ID == 'google-oauth2-client-id'
-    assert settings.GOOGLE_OAUTH2_CLIENT_SECRET == 'google-oauth2-client-secret'
+    assert settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY == 'google-oauth2-client-id'
+    assert settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET == 'google-oauth2-client-secret'
 
-    assert settings.FACEBOOK_APP_ID == 'facebook-app-id'
-    assert settings.FACEBOOK_API_SECRET == 'facebook-api-secret'
+    assert settings.SOCIAL_AUTH_FACEBOOK_KEY == 'facebook-app-id'
+    assert settings.SOCIAL_AUTH_FACEBOOK_SECRET == 'facebook-api-secret'
 
-    assert settings.TWITTER_CONSUMER_KEY == 'twitter-consumer-key'
-    assert settings.TWITTER_CONSUMER_SECRET == 'twitter-consumer-secret'
+    assert settings.SOCIAL_AUTH_TWITTER_KEY == 'twitter-consumer-key'
+    assert settings.SOCIAL_AUTH_TWITTER_SECRET == 'twitter-consumer-secret'
 

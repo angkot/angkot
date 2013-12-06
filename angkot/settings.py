@@ -143,7 +143,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'django.contrib.gis',
-    'social_auth',
+    'social.apps.django_app.default',
     'south',
     'angkot.route',
     'angkot.account',
@@ -246,19 +246,22 @@ CACHES = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.twitter.TwitterBackend',
-    'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social.backends.twitter.TwitterOAuth',
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
 SOCIAL_AUTH_PIPELINE = (
-     'social_auth.backends.pipeline.social.social_auth_user',
+     'social.pipeline.social_auth.social_details',
+     'social.pipeline.social_auth.social_uid',
+     'social.pipeline.social_auth.auth_allowed',
+     'social.pipeline.social_auth.social_user',
      'angkot.account.user.get_username',
-     'social_auth.backends.pipeline.user.create_user',
-     'social_auth.backends.pipeline.social.associate_user',
-     'social_auth.backends.pipeline.social.load_extra_data',
-     'social_auth.backends.pipeline.user.update_user_details',
+     'social.pipeline.user.create_user',
+     'social.pipeline.social_auth.associate_user',
+     'social.pipeline.social_auth.load_extra_data',
+     'social.pipeline.user.user_details'
 )
 
 ANGKOT_CONTRIBUTOR_TERMS_URL = ''
@@ -272,7 +275,7 @@ SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = [
     'ao', # auth origin - where the auth starts
     'aos', # auth origin section - more detailed location
 ]
-FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'popup'}
+SOCIAL_AUTH_FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'popup'}
 
 local = os.environ.get('ANGKOT_LOCAL_SETTINGS', os.path.join(base, 'localsettings.py'))
 if os.path.exists(local):

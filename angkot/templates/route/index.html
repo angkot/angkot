@@ -65,11 +65,11 @@
     <p>Silakan login dengan menggunakan salah satu akun berikut.</p>
     <ul>
     <li><a ng-click="popupLoginWindow($event, loginSource); $event.preventDefault()"
-           href="{% url "socialauth_begin" "google-oauth2" %}?ao=route"><img title="Google" src="{% static "img/google.png" %}"/></a></li>
+           href="{% url "social:begin" "google-oauth2" %}?ao=route"><img title="Google" src="{% static "img/google.png" %}"/></a></li>
     <li><a ng-click="popupLoginWindow($event, loginSource); $event.preventDefault()"
-           href="{% url "socialauth_begin" "facebook" %}?ao=route"><img title="Facebook" src="{% static "img/facebook.png" %}"/></a></li>
+           href="{% url "social:begin" "facebook" %}?ao=route"><img title="Facebook" src="{% static "img/facebook.png" %}"/></a></li>
     <li><a ng-click="popupLoginWindow($event, loginSource); $event.preventDefault()"
-           href="{% url "socialauth_begin" "twitter" %}?ao=route"><img title="Twitter" src="{% static "img/twitter.png" %}"/></a></li>
+           href="{% url "social:begin" "twitter" %}?ao=route"><img title="Twitter" src="{% static "img/twitter.png" %}"/></a></li>
     </ul>
     <p>Informasi pribadi Anda akan dilindungi sepenuhnya. Silakan baca juga
         <a href="{{ ANGKOT_PRIVACY_POLICY_URL }}" target="angkot_privacy_policy">kebijakan privasi</a>

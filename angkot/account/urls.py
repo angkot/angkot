@@ -10,6 +10,6 @@ urlpatterns = patterns('angkot.account.views',
 )
 
 urlpatterns += patterns('',
-    url(r'', include('social_auth.urls')),
+    url('', include('social.apps.django_app.urls', namespace='social'))
 )
 

@@ -3,6 +3,6 @@ psycopg2
 django-uuidfield
 South>=0.8
 geojson
-django-social-auth==0.7.25
+python-social-auth
 pykml
 raven
