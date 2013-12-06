@@ -167,9 +167,6 @@ def transportation_data(request, tid):
 def transportation_data_save(request, tid):
     _e = log_extra(request)
 
-    import geojson
-    from shapely.geometry import asShape
-
     tid = int(tid)
     try:
         t = Transportation.objects.get(pk=tid)

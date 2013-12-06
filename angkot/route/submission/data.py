@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import geojson
-from shapely.geometry import asShape
+from django.contrib.gis.geos import GEOSGeometry
 
 _max_length = None
 
@@ -55,8 +55,7 @@ def parseData(submission):
 
     # Fill route
     if len(data.geometry.coordinates):
-        geometry = asShape(data.geometry)
-        submission.route = geometry.wkt
+        submission.route = GEOSGeometry(geojson.dumps(data.geometry))
     else:
         submission.route = None
 

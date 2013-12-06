@@ -25,11 +25,9 @@ def generate_id():
 
 def to_geojson(obj):
     import geojson
-    from shapely.geometry import asMultiLineString
 
     if obj.route is not None:
-        p = asMultiLineString(obj.route)
-        geometry = geojson.loads(geojson.dumps(p))
+        geometry = geojson.loads(obj.route.geojson)
     else:
         geometry = {
             'type': 'MultiLineString',
