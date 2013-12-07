@@ -1,4 +1,4 @@
-Django>=1.5
+Django>=1.6,<1.7
 psycopg2
 South>=0.8
 geojson
