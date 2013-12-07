@@ -13,7 +13,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('submission_id', self.gf('django.db.models.fields.CharField')(default='WPtVHE', max_length=64)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(default=None, related_name='submitted_route', null=True, blank=True, to=orm['auth.User'])),
-            ('visitor_id', self.gf('uuidfield.fields.UUIDField')(max_length=32)),
+            ('visitor_id', self.gf('django.db.models.fields.CharField')(max_length=32)),
             ('ip_address', self.gf('django.db.models.fields.IPAddressField')(max_length=15)),
             ('user_agent', self.gf('django.db.models.fields.CharField')(max_length=1024)),
             ('parent', self.gf('django.db.models.fields.related.ForeignKey')(default=None, to=orm['route.Submission'], null=True, blank=True)),
@@ -95,7 +95,7 @@ class Migration(SchemaMigration):
             'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'submitted_route'", 'null': 'True', 'blank': 'True', 'to': u"orm['auth.User']"}),
             'user_agent': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
-            'visitor_id': ('uuidfield.fields.UUIDField', [], {'max_length': '32'})
+            'visitor_id': ('django.db.models.fields.CharField', [], {'max_length': '32'})
         }
     }
 

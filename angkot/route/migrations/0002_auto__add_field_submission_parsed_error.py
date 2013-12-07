@@ -77,7 +77,7 @@ class Migration(SchemaMigration):
             'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'related_name': "'submitted_route'", 'null': 'True', 'blank': 'True', 'to': u"orm['auth.User']"}),
             'user_agent': ('django.db.models.fields.CharField', [], {'max_length': '1024'}),
-            'visitor_id': ('uuidfield.fields.UUIDField', [], {'max_length': '32'})
+            'visitor_id': ('django.db.models.fields.CharField', [], {'max_length': '32'})
         }
     }
 
