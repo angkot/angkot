@@ -14,38 +14,13 @@ def _get_max_lengths(field_map):
 
     return res
 
-def normalize(prop):
-    '''Convert old format to the new one'''
-
-    global _max_length
-
-    field_map = dict(city='kota',
-                     company='perusahaan',
-                     number='nomor',
-                     origin='berangkat',
-                     destination='jurusan')
-    for new, old in list(field_map.items()):
-        if old in prop:
-            prop[new] = prop[old]
-
-    # Cut values that are too long
-    if _max_length is None:
-        _max_length = _get_max_lengths(field_map)
-
-    for field in field_map:
-        max_length = _max_length[field]
-        if field in prop and prop[field] is not None:
-            prop[field] = prop[field][:max_length]
-
-    return prop
-
 def parseData(submission):
     # Parse
     doc = submission.raw_geojson
     data = geojson.loads(doc, object_hook=geojson.GeoJSON.to_instance)
 
     # Fill properties
-    prop = normalize(data.properties)
+    prop = data.properties
     fields = ['province', 'city', 'company', 'number', 'origin', 'destination']
     for field in fields:
         if field in prop:
