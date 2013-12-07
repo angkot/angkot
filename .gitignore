@@ -1,5 +1,6 @@
 *.pyc
 *.swp
+*.bak
 angkot/localsettings.py
 node_modules/
 dist/

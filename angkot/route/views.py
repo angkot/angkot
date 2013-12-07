@@ -137,7 +137,7 @@ def transportation_list(request):
                     hasRoute=t.route is not None)
 
     items = Transportation.objects.filter(active=True)
-    transportations = map(format_transportation, items)
+    transportations = list(map(format_transportation, items))
 
     return dict(provinces=PROVINCES,
                 transportations=transportations)

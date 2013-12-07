@@ -24,7 +24,7 @@ def normalize(prop):
                      number='nomor',
                      origin='berangkat',
                      destination='jurusan')
-    for new, old in field_map.items():
+    for new, old in list(field_map.items()):
         if old in prop:
             prop[new] = prop[old]
 
@@ -72,7 +72,7 @@ def process(submission):
         validateData(submission)
         submission.parsed_ok = True
         submission.parsed_error = None
-    except StandardError, e:
+    except Exception as e:
         submission.parsed_error = str(e)
         submission.parsed_ok = False
 

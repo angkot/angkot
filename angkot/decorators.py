@@ -76,7 +76,7 @@ def api(func):
 
         data = json.dumps(data)
         res = HttpResponse(data, status=code, content_type='text/plain')
-        for key, value in headers.items():
+        for key, value in list(headers.items()):
             res[key] = value
         return res
 

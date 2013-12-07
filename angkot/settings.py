@@ -279,5 +279,5 @@ SOCIAL_AUTH_FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'popup'}
 
 local = os.environ.get('ANGKOT_LOCAL_SETTINGS', os.path.join(base, 'localsettings.py'))
 if os.path.exists(local):
-    execfile(local)
+    exec(compile(open(local).read(), local, 'exec'))
 

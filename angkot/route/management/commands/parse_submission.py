@@ -30,23 +30,23 @@ class Command(BaseCommand):
 
         try:
             data.process(submission)
-            print 'Parsing    OK'
+            print('Parsing    OK')
 
             fields = ['city', 'company', 'number', 'origin', 'destination']
             for field in fields:
-                print '- {:12}: {}'.format(field, getattr(submission, field))
+                print('- {:12}: {}'.format(field, getattr(submission, field)))
 
-        except StandardError, e:
+        except Exception as e:
             raise CommandError('Unable to parse submission: {}'.format(e))
 
         if submission.parsed_ok:
-            print 'Validation OK'
+            print('Validation OK')
         else:
-            print 'Validation FAIL'
+            print('Validation FAIL')
 
         if options['dry-run']:
-            print 'Submission NOT updated: dry-run mode'
+            print('Submission NOT updated: dry-run mode')
         else:
             submission.save()
-            print 'Submission UPDATED'
+            print('Submission UPDATED')
 

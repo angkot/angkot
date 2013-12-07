@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
         update = kwargs['update']
         if not update:
-            print 'Running in preview mode. Use --update to apply changes'
+            print('Running in preview mode. Use --update to apply changes')
 
         for t in Transportation.objects.all():
             ci = capwords(t.city)
@@ -29,5 +29,5 @@ class Command(BaseCommand):
                     t.city = ci
                     t.company = co
                     t.save()
-                print '-', t
+                print('-', t)
 

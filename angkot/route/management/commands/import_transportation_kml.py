@@ -174,6 +174,6 @@ class Command(BaseCommand):
             s.transportation = t
             s.save()
 
-        print 'Transportation is added {} {} - {}, {}. sid={} tid={}'.format(
-            company, number, city, pid, s.id, t.id)
+        print('Transportation is added {} {} - {}, {}. sid={} tid={}'.format(
+            company, number, city, pid, s.id, t.id))
 
