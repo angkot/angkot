@@ -12,7 +12,7 @@ def get_username(strategy, details, user=None, *args, **kwargs):
 
     username = None
     while username is None or storage.user.user_exists(username=username):
-        username = prefix + uuid4().get_hex()[:uuid_length]
+        username = prefix + uuid4().hex[:uuid_length]
         username = username[:max_length]
 
     return {'username': username}
