@@ -36,7 +36,7 @@ def find_tracks(el):
 def extract_tracks(f):
     from pykml import parser
 
-    root = parser.fromstring(f.read())
+    root = parser.parse(f)
     tracks = find_tracks(root.Document.Placemark)
 
     return tracks
