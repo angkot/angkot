@@ -246,7 +246,7 @@ CACHES = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'social.backends.twitter.TwitterOAuth',
+    'angkot.account.backends.TwitterOAuth',
     'social.backends.facebook.FacebookOAuth2',
     'social.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
