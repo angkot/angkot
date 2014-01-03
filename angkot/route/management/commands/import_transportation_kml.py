@@ -16,7 +16,7 @@ def get_user(uid):
 
 def get_track(t):
     return [
-        map(float, c.text.split())[:2]
+        list(map(float, c.text.split()))[:2]
         for c in t.iterchildren()
         if c.tag == '{http://www.google.com/kml/ext/2.2}coord'
     ]
@@ -36,7 +36,8 @@ def find_tracks(el):
 def extract_tracks(f):
     from pykml import parser
 
-    root = parser.parse(f)
+    doc = parser.parse(f)
+    root = doc.getroot()
     tracks = find_tracks(root.Document.Placemark)
 
     return tracks
