@@ -24,9 +24,10 @@ app.config(['$interpolateProvider', '$httpProvider', function($interpolateProvid
     return cookieValue;
   }
 
-  // From: http://thomas.rabaix.net/blog/2013/05/csrf-token-security-with-angularjs
-  $httpProvider.defaults.headers.common['X-CSRFToken'] = getCookie('csrftoken');
   $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+  // Source: http://stackoverflow.com/a/18156756
+  $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+  $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 }]);
 
