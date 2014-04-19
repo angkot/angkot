@@ -130,6 +130,14 @@ mod.directive('angkotMap', function() {
       var mapboxLayer = L.mapbox.tileLayer($scope.mapboxKey);
       var bingAerial = new L.BingLayer($scope.bingMapsKey, {type:'Aerial'});
 
+      // Special for angkot.web.id: use a proxy :)
+      if ($scope.mapboxKey.indexOf('angkot.') === 0) {
+        mapboxLayer =L.tileLayer('https://mt{s}.angkot.net/v3/{key}/{z}/{x}/{y}.png', {
+          key: $scope.mapboxKey,
+          subdomains: '1234',
+        });
+      }
+
       L.control.locate({
         position: 'topright'
       }).addTo(map);
