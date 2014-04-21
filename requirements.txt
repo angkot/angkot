@@ -5,3 +5,7 @@ geojson
 python-social-auth
 pykml
 raven
+
+django-hstore
+django-ipware
+

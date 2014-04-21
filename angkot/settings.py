@@ -144,7 +144,10 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'django.contrib.gis',
     'social.apps.django_app.default',
+
     'south',
+    'django_hstore',
+
     'angkot.route',
     'angkot.account',
     'angkot.page',
