@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^account/', include('angkot.account.urls')),
     url(r'^page/', include('angkot.page.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^_/wapi/line/', include('angkot.line.webapi.urls')),
     url(r'^$', RedirectView.as_view(url='/route/', permanent=False), name="index"),
 )
 
