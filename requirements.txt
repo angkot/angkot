@@ -8,4 +8,5 @@ raven
 
 django-hstore
 django-ipware
+django-reversion
 
