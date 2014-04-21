@@ -3,6 +3,7 @@ from django.contrib.gis.db import models
 from django.utils.translation import ugettext as _
 
 from django_hstore import hstore
+from djorm_pgarray.fields import ArrayField
 
 SRID = 4326
 
@@ -112,6 +113,8 @@ class Route(models.Model):
     name = models.CharField(max_length=1024,
                             help_text=_('Nama rute'), **OPT)
     path = models.MultiLineStringField(srid=SRID, **OPT)
+    locations = ArrayField(dbtype="varchar", max_length=1024,
+                           help_text=_('Daerah yang dilewati rute'))
     ordering = models.IntegerField(default=0)
 
     # Author

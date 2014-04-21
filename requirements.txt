@@ -9,4 +9,5 @@ raven
 django-hstore
 django-ipware
 django-reversion
+djorm-ext-pgarray==0.10
 
