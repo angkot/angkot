@@ -79,7 +79,7 @@ class Author(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return "{} ({})".format(self.user, self.ip_address)
 
 class Line(models.Model):
@@ -106,6 +106,13 @@ class Line(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        info = [self.province, self.city]
+        info = list(filter(lambda x: x is not None, info))
+        if len(info) > 0:
+            return '{} ({})'.format(self.label, ', '.join(info))
+        return self.label
+
 class Route(models.Model):
     line = models.ForeignKey(Line)
 
@@ -124,4 +131,7 @@ class Route(models.Model):
     enabled = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
 
