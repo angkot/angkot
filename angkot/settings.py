@@ -282,6 +282,10 @@ SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = [
 ]
 SOCIAL_AUTH_FACEBOOK_AUTH_EXTRA_ARGUMENTS = {'display': 'popup'}
 
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 local = os.environ.get('ANGKOT_LOCAL_SETTINGS', os.path.join(base, 'localsettings.py'))
 if os.path.exists(local):
     exec(compile(open(local).read(), local, 'exec'))
