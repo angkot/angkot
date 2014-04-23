@@ -31,8 +31,8 @@ class BaseAuthoredAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     author_link.short_description = 'Author'
 
 class LineAdmin(BaseAuthoredAdmin):
-    list_display = ('label', 'name', 'mode', 'province', 'city', 'updated',
-                    'author_link', 'id')
+    list_display = ('label', 'enabled', 'name', 'mode', 'province', 'city',
+                    'updated', 'author_link', 'id')
 
     fieldsets = (
         (None, {
@@ -59,8 +59,12 @@ class RouteAdmin(BaseAuthoredAdmin):
             locations.append('&hellip;')
         return mark_safe(' &rarr; '.join(locations))
 
-    list_display = ('line', 'name', locations_list, 'ordering',
-                    'author_link', 'id')
+    def has_path(obj):
+        return obj.path is not None
+    has_path.boolean = True
+
+    list_display = ('line', 'name', 'enabled', has_path, locations_list,
+                    'ordering', 'author_link', 'id')
 
     readonly_fields = BaseAuthoredAdmin.readonly_fields + ('line_link',)
 
