@@ -119,7 +119,7 @@ class Route(models.Model):
     # Data
     name = models.CharField(max_length=1024,
                             help_text=_('Nama rute'), **OPT)
-    path = models.MultiLineStringField(srid=SRID, **OPT)
+    path = models.LineStringField(srid=SRID, **OPT)
     locations = ArrayField(dbtype="varchar", max_length=1024,
                            help_text=_('Daerah yang dilewati rute'))
     ordering = models.IntegerField(default=0)
