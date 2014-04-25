@@ -1,0 +1,78 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,700,500);
+
+body, html {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+* {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, ol, dl {
+  margin: 0px;
+  padding: 0px;
+}
+
+#c {
+  width: 100%;
+  height: 100%;
+  background: white;
+}
+
+#side {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  width: 300px;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+}
+#side:hover {
+  overflow: auto;
+}
+
+#info {
+  margin: 10px;
+}
+
+#info h2 {
+  font-weight: 300;
+  font-size: 20px;
+}
+#info > .name {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+#info .routes .route {
+  margin-top: 15px;
+  font-size: 12px;
+}
+#info .routes .route h3 {
+  font-size: 12px;
+  text-decoration: underline;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+#info .routes .route .location {
+  cursor: pointer;
+}
+#info .routes .route .location:hover {
+  background: yellow;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+

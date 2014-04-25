@@ -1,0 +1,58 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en" ng-app="AngkotApp">
+<head>
+<base href="/line/"></base>
+<link rel="stylesheet" href="{% static 'v2/css/leaflet.css' %}" />
+<link href='//api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet' />
+<link rel="stylesheet" href="{% static 'v2/css/angkot.css' %}" />
+</head>
+<body>
+
+<div id="c">
+
+{% verbatim %}
+<div id="side">
+
+<div id="info" ng-controller="InfoController">
+  <!-- begin: data -->
+  <div ng-show="data" ng-cloak>
+  <h2 ng-bind="data.line.label"></h2>
+  <p class="name" ng-show="data.line.name" ng-bind="data.line.name"></p>
+
+  <div class="routes">
+    <div ng-repeat="route in data.routes"
+         class="route">
+    <h3 ng-show="route.name">Rute {{ route.name }}</h3>
+    <h3 ng-hide="route.name">Rute #{{ $index + 1 }}</h3>
+    <p>
+      <span ng-repeat-start="location in route.locations"
+            ng-bind="location"
+            class="location"></span>
+      <span ng-repeat-end ng-hide="$last"> &rarr; </span>
+    </p>
+    </div>
+  </div>
+  </div>
+  <!-- end: data -->
+  <div ng-hide="data">
+    <p>loading data..</p>
+  </div>
+</div>
+
+</div><!-- end: #side -->
+{% endverbatim %}
+
+<div id="map" ng-controller="MapController" ng-init="init()" data-mapbox-key="{{ MAPBOX_KEY }}">
+</div>
+
+</div><!-- end: #c -->
+<script src="{% static 'v2/js/angular.min.js' %}"></script>
+<script src="{% static 'v2/js/angular-route.min.js' %}"></script>
+<script src="{% static 'v2/js/leaflet.js' %}"></script>
+<script src='//api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
+<script src="{% static 'v2/js/angkot.js' %}"></script>
+</body>
+</html>
+
