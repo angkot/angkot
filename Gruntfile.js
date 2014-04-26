@@ -11,25 +11,25 @@ module.exports = function(grunt) {
       },
       route: {
         src: [
-          'angkot/static/js/Leaflet.Tooltip.js',
-          'angkot/static/js/Leaflet.Control.TransportationInfo.js',
-          'angkot/static/js/Leaflet.Control.Locate.js',
-          'angkot/static/js/Leaflet.Polyline.Editable.js',
-          'angkot/static/js/Leaflet.Angkot.js',
-          'angkot/static/js/Leaflet.Angkot.Route.js',
-          'angkot/static/js/Bing.js',
-          'angkot/static/js/modal.js',
-          'angkot/static/js/angkot.js',
-          'angkot/static/js/angkot-utils.js',
-          'angkot/static/js/angkot-map.js',
-          'angkot/static/js/angkot-filter.js',
-          'angkot/static/js/angkot-route.js',
-          'angkot/static/js/angkot-route-menu.js',
-          'angkot/static/js/angkot-route-main.js',
-          'angkot/static/js/angkot-route-newtransportation.js',
-          'angkot/static/js/angkot-route-transportationlist.js',
-          'angkot/static/js/angkot-route-dataform.js',
-          'angkot/static/js/angkot-route-submissionlist.js'
+          'static/js/Leaflet.Tooltip.js',
+          'static/js/Leaflet.Control.TransportationInfo.js',
+          'static/js/Leaflet.Control.Locate.js',
+          'static/js/Leaflet.Polyline.Editable.js',
+          'static/js/Leaflet.Angkot.js',
+          'static/js/Leaflet.Angkot.Route.js',
+          'static/js/Bing.js',
+          'static/js/modal.js',
+          'static/js/angkot.js',
+          'static/js/angkot-utils.js',
+          'static/js/angkot-map.js',
+          'static/js/angkot-filter.js',
+          'static/js/angkot-route.js',
+          'static/js/angkot-route-menu.js',
+          'static/js/angkot-route-main.js',
+          'static/js/angkot-route-newtransportation.js',
+          'static/js/angkot-route-transportationlist.js',
+          'static/js/angkot-route-dataform.js',
+          'static/js/angkot-route-submissionlist.js'
         ],
         dest: 'dist/js/route.js'
       }
@@ -45,7 +45,7 @@ module.exports = function(grunt) {
       },
     },
     jshint: {
-      files: ['Gruntfile.js', 'angkot/static/js/*.js'],
+      files: ['Gruntfile.js', 'static/js/*.js'],
       options: {
         browser: true,
         globals: {
@@ -61,7 +61,7 @@ module.exports = function(grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: 'angkot/static/css',
+          cwd: 'static/css',
           src: ['*.scss'],
           dest: 'dist/css',
           ext: '.css'
@@ -74,14 +74,14 @@ module.exports = function(grunt) {
         tasks: ['jshint'/*, 'qunit'*/]
       },
       css: {
-        files: 'angkot/static/css/*.scss',
+        files: 'static/css/*.scss',
         tasks: ['sass', 'copy:css']
       },
       livereload: {
         options: {
           livereload: true,
         },
-        files: ['angkot/static/dist-css/*.css'],
+        files: ['static/dist-css/*.css'],
       }
     },
     compress: {
@@ -111,7 +111,7 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'dist/js',
           src: ['*.js', '*.js.gz'],
-          dest: 'angkot/static/dist-js'
+          dest: 'static/dist-js'
         }]
       },
       css: {
@@ -119,12 +119,12 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'dist/css',
           src: ['*.css', '*.css.gz'],
-          dest: 'angkot/static/dist-css'
+          dest: 'static/dist-css'
         }, {
           expand: true,
-          cwd: 'angkot/static/css',
+          cwd: 'static/css',
           src: ['*.css', '*.css.gz'],
-          dest: 'angkot/static/dist-css'
+          dest: 'static/dist-css'
         }]
       }
     },
