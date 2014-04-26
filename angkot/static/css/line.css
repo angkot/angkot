@@ -36,6 +36,10 @@ h1, h2, h3, h4, h5, h6, p, ul, ol, dl {
   z-index: 100;
   background: rgba(255, 255, 255, 0.9);
   overflow: hidden;
+
+  -webkit-box-shadow: 1px 0px 17px 0px rgba(119, 119, 119, 0.75);
+  -moz-box-shadow:    1px 0px 17px 0px rgba(119, 119, 119, 0.75);
+  box-shadow:         1px 0px 17px 0px rgba(119, 119, 119, 0.75);
 }
 #side:hover {
   overflow: auto;
@@ -54,6 +58,9 @@ h1, h2, h3, h4, h5, h6, p, ul, ol, dl {
   font-size: 14px;
 }
 
+#info .edit {
+  float: right;
+}
 #info .routes .route {
   margin-top: 15px;
   font-size: 12px;

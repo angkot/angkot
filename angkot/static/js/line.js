@@ -35,8 +35,36 @@ app.factory('api', function($http) {
   }
 });
 
-app.controller('InfoController', function($scope, $route, $routeParams, $location, api) {
-  $scope.data = {};
+app.factory('lineData', function(api) {
+  var lineData = {
+    data: {},
+
+    load: function(lineId, onLoaded) {
+      var future = {
+        onSuccess: function() {},
+        onError: function() {},
+        success: function(func) { this.onSuccess = func; },
+        error: function(func) { this.onError = func; },
+      };
+
+      api.line.load(lineId)
+        .success(function(data) {
+          angular.copy(data, lineData.data);
+          future.onSuccess();
+        })
+        .error(function() {
+          future.onError();
+        });
+
+      return future;
+    },
+  };
+
+  return lineData;
+});
+
+app.controller('InfoController', function($scope, $route, $routeParams, $location, lineData) {
+  $scope.data = lineData.data;
 
   //
   // Routing
@@ -53,10 +81,7 @@ app.controller('InfoController', function($scope, $route, $routeParams, $locatio
   //
 
   $scope.loadLine = function(lineId) {
-    api.line.load(lineId)
-      .success(function(data) {
-        $scope.showLine(data);
-      });
+    lineData.load(lineId);
   }
 
   $scope.showLine = function(data) {
