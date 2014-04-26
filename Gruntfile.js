@@ -45,7 +45,7 @@ module.exports = function(grunt) {
       },
     },
     jshint: {
-      files: ['gruntfile.js', 'angkot/static/js/*.js'],
+      files: ['Gruntfile.js', 'angkot/static/js/*.js'],
       options: {
         browser: true,
         globals: {
