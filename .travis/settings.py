@@ -1,3 +1,5 @@
+from .common import *
+
 # Sentry config. Uncomment them if you use Sentry
 RAVEN_CONFIG = {
     'dsn': 'udp://u:p@localhost:9001/2',
