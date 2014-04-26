@@ -153,7 +153,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('pytest', ['shell:pytest']);
 
-  grunt.registerTask('test', ['jshint', 'pytest']);
+  grunt.registerTask('test', ['jshint'/*, 'pytest'*/]);
 
   grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'sass', 'compress', 'copy']);
 
