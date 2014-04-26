@@ -1,6 +1,6 @@
 (function() {
 
-"use strict"
+"use strict";
 
 var app = angular.module('AngkotApp', ['ngRoute']);
 
@@ -32,7 +32,7 @@ app.factory('api', function($http) {
         return $http.get(url);
       }
     },
-  }
+  };
 });
 
 app.factory('lineData', function(api) {
@@ -82,11 +82,11 @@ app.controller('InfoController', function($scope, $route, $routeParams, $locatio
 
   $scope.loadLine = function(lineId) {
     lineData.load(lineId);
-  }
+  };
 
   $scope.showLine = function(data) {
     $scope.data = data;
-  }
+  };
 
 });
 
@@ -100,7 +100,7 @@ app.controller('MapController', function($scope, $element, $attrs) {
 
   $scope.init = function() {
     initMap();
-  }
+  };
 
   //
   // Initialization functions
