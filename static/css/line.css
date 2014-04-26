@@ -45,9 +45,16 @@ h1, h2, h3, h4, h5, h6, p, ul, ol, dl {
   overflow: auto;
 }
 
-#info {
+.view {
   margin: 10px;
 }
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+/*= info =*/
 
 #info h2 {
   font-weight: 300;
@@ -56,6 +63,11 @@ h1, h2, h3, h4, h5, h6, p, ul, ol, dl {
 #info > .name {
   margin-bottom: 10px;
   font-size: 14px;
+}
+
+#info .back {
+  margin-top: 10px;
+  font-size: 13px;
 }
 
 #info .edit {
@@ -76,10 +88,5 @@ h1, h2, h3, h4, h5, h6, p, ul, ol, dl {
 }
 #info .routes .route .location:hover {
   background: yellow;
-}
-
-#map {
-  width: 100%;
-  height: 100%;
 }
 

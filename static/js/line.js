@@ -19,7 +19,18 @@ app.config(function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 
   $routeProvider
-    .when('/:lineId', {});
+    .when('/', {
+      templateUrl: '/static/partial/line/index.html',
+      controller: 'LineIndexController',
+    })
+    .when('/:lineId/', {
+      templateUrl: '/static/partial/line/info.html',
+      controller: 'LineInfoController',
+    })
+    .when('/:lineId/edit/', {
+      templateUrl: '/static/partial/line/edit.html',
+      controller: 'LineEditController',
+    });
 
 });
 
@@ -27,7 +38,11 @@ app.factory('api', function($http) {
   var BASE = '/_/wapi/';
   return {
     line: {
-      load: function(lineId) {
+      loadList: function() {
+        var url = BASE + 'line/list.json';
+        return $http.get(url);
+      },
+      loadLine: function(lineId) {
         var url = BASE + 'line/' + lineId + '.json';
         return $http.get(url);
       }
@@ -47,7 +62,7 @@ app.factory('lineData', function(api) {
         error: function(func) { this.onError = func; },
       };
 
-      api.line.load(lineId)
+      api.line.loadLine(lineId)
         .success(function(data) {
           angular.copy(data, lineData.data);
           future.onSuccess();
@@ -63,7 +78,35 @@ app.factory('lineData', function(api) {
   return lineData;
 });
 
-app.controller('InfoController', function($scope, $route, $routeParams, $location, lineData) {
+app.factory('lineList', function(api) {
+  var lineList = {
+    lines: [],
+
+    loaded: false,
+
+    load: function() {
+      api.line.loadList()
+        .success(function(data) {
+          angular.copy(data.lines, lineList.lines);
+          lineList.loaded = true;
+        });
+    }
+  };
+
+  return lineList;
+});
+
+app.controller('LineIndexController', function($scope, $location, lineList) {
+  $scope.lines = lineList.lines;
+
+  $scope.$on('$routeChangeSuccess', function() {
+    if (!lineList.loaded) {
+      lineList.load();
+    }
+  });
+});
+
+app.controller('LineInfoController', function($scope, $routeParams, lineData) {
   $scope.data = lineData.data;
 
   //
