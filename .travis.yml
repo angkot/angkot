@@ -6,14 +6,16 @@ addons:
 before_install:
 - echo "deb http://ppa.launchpad.net/fkrull/deadsnakes/ubuntu precise main" | sudo tee -a /etc/apt/sources.list
 - sudo apt-get update
-- sudo apt-get install -y --force-yes --no-install-recommends python3.3 python3.3-dev
-- sudo apt-get install -y --force-yes --no-install-recommends postgresql-9.3-postgis-2.1 postgresql-server-dev-9.3
+- sudo apt-get install -y --force-yes --no-install-recommends python3.4 python3.4-dev
+- sudo apt-get install -y --force-yes --no-install-recommends postgresql-9.3-postgis-2.1 postgresql-server-dev-9.3 postgresql-contrib-9.3
 - sudo apt-get install -y --force-yes --no-install-recommends libgeos-dev libgdal1 libgeos-c1
 - sudo apt-get install -y --force-yes --no-install-recommends ruby1.9.1
 - sudo apt-get install -y --force-yes --no-install-recommends curl
 - mkdir ~/+virtualenv-src
 - wget -q -O - https://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.10.1.tar.gz#md5=3a04aa2b32c76c83725ed4d9918e362e | tar -xzf - --strip 1 -C ~/+virtualenv-src
-- python ~/+virtualenv-src/virtualenv.py --python=/usr/bin/python3.3 --system-site-packages ~/+env
+- mkdir -p ~/+env
+- export VIRTUAL_ENV=~/+env
+- pyvenv-3.4 ~/+env
 - source ~/+env/bin/activate
 - export GEM_HOME="$VIRTUAL_ENV/gems"
 - export GEM_PATH=""
@@ -22,13 +24,15 @@ before_install:
 - echo "CREATE DATABASE angkot OWNER angkot ENCODING 'utf8'" | sudo -u postgres psql
 - echo "CREATE EXTENSION postgis;" | sudo -u postgres psql angkot
 - echo "CREATE EXTENSION postgis_topology;" | sudo -u postgres psql angkot
+- echo "CREATE EXTENSION hstore;" | sudo -u postgres psql angkot
 - echo "CREATE DATABASE test_angkot OWNER angkot ENCODING 'utf8'" | sudo -u postgres psql
 - echo "CREATE EXTENSION postgis;" | sudo -u postgres psql test_angkot
 - echo "CREATE EXTENSION postgis_topology;" | sudo -u postgres psql test_angkot
+- echo "CREATE EXTENSION hstore;" | sudo -u postgres psql test_angkot
 before_script:
 - gem install bundle
-- pip install -r requirements.txt
-- pip install -r dev_requirements.txt
+- ~/+env/bin/pip install -r requirements.txt
+- ~/+env/bin/pip install -r dev_requirements.txt
 - bundle install
 - npm install -g grunt-cli
 - npm install
