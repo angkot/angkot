@@ -36,13 +36,13 @@ before_script:
 - bundle install
 - npm install -g grunt-cli
 - npm install
-- cp .travis/localsettings.py angkot/localsettings.py
+- cp .travis/settings.py angkot/settings/travis.py
 - echo 'host all all 127.0.0.1/32 password' | sudo tee -a /etc/postgresql/9.1/main/pg_hba.conf
 - sudo service postgresql restart
 - grunt
 script:
 - export PYTHONPATH=`pwd`:$PYTHONPATH
-- export DJANGO_SETTINGS_MODULE=angkot.settings
+- export DJANGO_SETTINGS_MODULE=angkot.settings.travis
 - python manage.py syncdb --noinput
 - python manage.py migrate --noinput
 - grunt test

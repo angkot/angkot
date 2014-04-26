@@ -1,3 +1,5 @@
+from .common imoprt *
+
 # Sentry config. Uncomment them if you use Sentry
 # RAVEN_CONFIG = {
 #     'dsn': '',
