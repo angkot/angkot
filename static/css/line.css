@@ -90,3 +90,27 @@ h1, h2, h3, h4, h5, h6, p, ul, ol, dl {
   background: yellow;
 }
 
+/*= edit =*/
+
+#edit p.data {
+  margin-bottom: 10px;
+}
+#edit p.data span {
+  font-size: 12px;
+  color: #888;
+}
+#edit label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+}
+#edit input {
+  width: 250px;
+  display: block;
+  margin-bottom: 0;
+}
+
+#edit p.back {
+  margin-top: 20px;
+  font-size: 13px;
+}

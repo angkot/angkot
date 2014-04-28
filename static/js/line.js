@@ -52,6 +52,8 @@ app.factory('api', function($http) {
 
 app.factory('lineData', function(api) {
   var lineData = {
+    id: undefined,
+
     data: {},
 
     load: function(lineId, onLoaded) {
@@ -64,6 +66,7 @@ app.factory('lineData', function(api) {
 
       api.line.loadLine(lineId)
         .success(function(data) {
+          lineData.id = data.id;
           angular.copy(data, lineData.data);
           future.onSuccess();
         })
@@ -131,6 +134,21 @@ app.controller('LineInfoController', function($scope, $routeParams, lineData) {
     $scope.data = data;
   };
 
+});
+
+app.controller('LineEditController', function($scope, $routeParams, lineData) {
+  $scope.data = lineData.data;
+
+  //
+  // Routing
+  //
+
+  $scope.$on('$routeChangeSuccess', function() {
+    if ($routeParams.lineId) {
+      var lineId = $routeParams.lineId | 0;
+      lineData.load(lineId);
+    }
+  });
 });
 
 app.controller('MapController', function($scope, $element, $attrs) {
