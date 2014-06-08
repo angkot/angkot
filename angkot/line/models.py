@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.gis.db import models
 from django.utils.translation import ugettext as _
 
+import reversion
 from django_hstore import hstore
 from djorm_pgarray.fields import ArrayField
 
@@ -113,6 +114,8 @@ class Line(models.Model):
             return '{} ({})'.format(self.label, ', '.join(info))
         return self.label
 
+reversion.register(Line)
+
 class Route(models.Model):
     line = models.ForeignKey(Line)
 
@@ -134,4 +137,6 @@ class Route(models.Model):
 
     def __str__(self):
         return self.name
+
+reversion.register(Route)
 
