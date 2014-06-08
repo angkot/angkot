@@ -6,6 +6,8 @@ import reversion
 from django_hstore import hstore
 from djorm_pgarray.fields import ArrayField
 
+from angkot.common.utils.filters import notNone
+
 SRID = 4326
 
 OPT = dict(null=True, default=None, blank=True)
@@ -87,10 +89,12 @@ class Line(models.Model):
     objects = hstore.HStoreGeoManager()
 
     # Data
-    label = models.CharField(max_length=1024, null=False,
-                             help_text=_('Nama angkutan yang dikenal'))
+    type = models.CharField(max_length=1024,
+                            help_text=_('Jenis trayek'), **OPT)
+    number = models.CharField(max_length=1024, null=False,
+                              help_text=_('Nomor trayek'))
     name = models.CharField(max_length=1024,
-                            help_text=_('Nama rute angkutan'), **OPT)
+                            help_text=_('Nama trayek'), **OPT)
     mode = models.CharField(max_length=64,
                             help_text=_('Jenis angkutan'), **OPT)
 
@@ -108,11 +112,11 @@ class Line(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        info = [self.province, self.city]
-        info = list(filter(lambda x: x is not None, info))
+        label = ' '.join(notNone(self.type, self.number))
+        info = notNone(self.city, self.province)
         if len(info) > 0:
-            return '{} ({})'.format(self.label, ', '.join(info))
-        return self.label
+            return '{} ({})'.format(label, ', '.join(info))
+        return label
 
 reversion.register(Line)
 

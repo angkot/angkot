@@ -31,12 +31,14 @@ class BaseAuthoredAdmin(reversion.VersionAdmin, admin.ModelAdmin):
     author_link.short_description = 'Author'
 
 class LineAdmin(BaseAuthoredAdmin):
-    list_display = ('label', 'enabled', 'name', 'mode', 'province', 'city',
+    list_display = ('number', 'type',
+                    'enabled',
+                    'name', 'mode', 'city', 'province',
                     'updated', 'author_link', 'id')
 
     fieldsets = (
         (None, {
-            'fields': ('label', 'name', 'mode', 'enabled'),
+            'fields': ('type', 'number', 'name', 'mode', 'enabled'),
         }),
         ('Location', {
             'fields': ('province', 'city'),

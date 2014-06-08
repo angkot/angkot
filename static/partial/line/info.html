@@ -1,7 +1,9 @@
 <div id="info" class="view">
   <!-- begin: data -->
   <div ng-show="data" ng-cloak>
-  <h2 ng-bind="data.line.label"></h2>
+  <h2><span ng-bind="data.line.type"></span>
+      <span ng-bind="data.line.number"></span>
+  </h2>
   <p class="name" ng-show="data.line.name" ng-bind="data.line.name"></p>
 
   <p class="back">&larr; <a href="/line/">kembali</a></p>

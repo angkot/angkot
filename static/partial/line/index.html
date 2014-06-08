@@ -1,7 +1,10 @@
 <div id="list" class="view">
   <ul>
   <li ng-repeat="line in lines">
-    <a href="/line/{{ line.id }}/" ng-bind="line.label"></a>
+    <a href="/line/{{ line.id }}/">
+      <span ng-bind="line.type"></span>
+      <span ng-bind="line.number"></span>
+    </a>
   </li>
   </ul>
 </div>

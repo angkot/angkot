@@ -8,7 +8,8 @@ from ..models import Line
 
 def _line_to_dict(item):
     return dict(id=item.id,
-                label=item.label,
+                type=item.type,
+                number=item.number,
                 name=item.name,
                 mode=item.mode,
                 province=item.province,
