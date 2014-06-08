@@ -70,7 +70,7 @@ class RouteAdmin(BaseAuthoredAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('line_link', 'name', 'locations', 'ordering', 'enabled'),
+            'fields': ('line', 'line_link', 'name', 'locations', 'ordering', 'enabled'),
         }),
         ('Path', {
             'fields': ('path',),
