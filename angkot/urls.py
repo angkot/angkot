@@ -10,6 +10,8 @@ urlpatterns = patterns('',
     url(r'^page/', include('angkot.page.urls')),
     url(r'^admin/', include(admin.site.urls)),
 
+    # Web API
+    url(r'^_/wapi/geo/', include('angkot.geo.webapi.urls')),
     url(r'^_/wapi/line/', include('angkot.line.webapi.urls')),
     url(r'^line/', include('angkot.line.urls')),
 
