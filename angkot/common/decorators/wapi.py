@@ -1,8 +1,10 @@
+from datetime import datetime
+
 from django.http import HttpResponse
 
 import json
 
-__all__ = ('wapi', )
+__all__ = ('endpoint', )
 
 class Response(object):
     def __init__(self):
@@ -47,6 +49,16 @@ class Fail(Response):
         data['msg'] = self.error_msg
         return data
 
+class DateTimeJsonEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super(DateTimeJsonEncoder, self).default(obj)
+
+def encode_json(obj):
+    encoder = DateTimeJsonEncoder()
+    return encoder.encode(obj)
+
 def endpoint(func):
     def _func(request, *args, **kwargs):
         res = func(request, *args, **kwargs)
@@ -76,7 +88,7 @@ def endpoint(func):
                     'code': 501,
                     'msg': 'Internal server error'}
 
-        data = json.dumps(data)
+        data = encode_json(data)
         res = HttpResponse(data, status=code, content_type='text/plain')
         for key, value in list(headers.items()):
             res[key] = value
