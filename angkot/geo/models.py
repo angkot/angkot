@@ -10,7 +10,7 @@ class Province(models.Model):
     updated = models.DateTimeField(auto_now_add=True, default=timezone.now)
     created = models.DateTimeField(auto_now=True, default=timezone.now)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
