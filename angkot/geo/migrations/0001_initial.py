@@ -13,6 +13,9 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('code', self.gf('django.db.models.fields.CharField')(max_length=5)),
+            ('enabled', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('updated', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
         ))
         db.send_create_signal('geo', ['Province'])
 
@@ -24,10 +27,13 @@ class Migration(SchemaMigration):
 
     models = {
         'geo.province': {
-            'Meta': {'object_name': 'Province'},
+            'Meta': {'object_name': 'Province', 'ordering': "('pk',)"},
             'code': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
+            'created': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'enabled': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'})
         }
     }
 

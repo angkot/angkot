@@ -3,201 +3,236 @@
   fields:
     code: ID-AC
     name: Aceh
+    enabled: True
 
 - model: geo.province
   pk: 2
   fields:
     code: ID-SU
     name: Sumatera Utara
+    enabled: True
 
 - model: geo.province
   pk: 3
   fields:
     code: ID-SB
     name: Sumatera Barat
+    enabled: True
 
 - model: geo.province
   pk: 4
   fields:
     code: ID-RI
     name: Riau
+    enabled: True
 
 - model: geo.province
   pk: 5
   fields:
     code: ID-JA
     name: Jambi
+    enabled: True
 
 - model: geo.province
   pk: 6
   fields:
     code: ID-SS
     name: Sumatera Selatan
+    enabled: True
 
 - model: geo.province
   pk: 7
   fields:
     code: ID-BE
     name: Bengkulu
+    enabled: True
 
 - model: geo.province
   pk: 8
   fields:
     code: ID-LA
     name: Lampung
+    enabled: True
 
 - model: geo.province
   pk: 9
   fields:
     code: ID-BB
     name: Kepulauan Bangka Belitung
+    enabled: True
 
 - model: geo.province
   pk: 10
   fields:
     code: ID-KR
     name: Kepulauan Riau
+    enabled: True
 
 - model: geo.province
   pk: 11
   fields:
     code: ID-JK
     name: Jakarta
+    enabled: True
 
 - model: geo.province
   pk: 12
   fields:
     code: ID-JB
     name: Jawa Barat
+    enabled: True
 
 - model: geo.province
   pk: 13
   fields:
     code: ID-JT
     name: Jawa Tengah
+    enabled: True
 
 - model: geo.province
   pk: 14
   fields:
     code: ID-YO
     name: Yogyakarta
+    enabled: True
 
 - model: geo.province
   pk: 15
   fields:
     code: ID-JI
     name: Jawa Timur
+    enabled: True
 
 - model: geo.province
   pk: 16
   fields:
     code: ID-BT
     name: Banten
+    enabled: True
 
 - model: geo.province
   pk: 17
   fields:
     code: ID-BA
     name: Bali
+    enabled: True
 
 - model: geo.province
   pk: 18
   fields:
     code: ID-NB
     name: Nusa Tenggara Barat
+    enabled: True
 
 - model: geo.province
   pk: 19
   fields:
     code: ID-NT
     name: Nusa Tenggara Timur
+    enabled: True
 
 - model: geo.province
   pk: 20
   fields:
     code: ID-KB
     name: Kalimantan Barat
+    enabled: True
 
 - model: geo.province
   pk: 21
   fields:
     code: ID-KT
     name: Kalimantan Tengah
+    enabled: True
 
 - model: geo.province
   pk: 22
   fields:
     code: ID-KS
     name: Kalimantan Selatan
+    enabled: True
 
 - model: geo.province
   pk: 23
   fields:
     code: ID-KI
     name: Kalimantan Timur
+    enabled: True
 
 - model: geo.province
   pk: 24
   fields:
     code: ID-KU
     name: Kalimantan Utara
+    enabled: True
 
 - model: geo.province
   pk: 25
   fields:
     code: ID-SA
     name: Sulawesi Utara
+    enabled: True
 
 - model: geo.province
   pk: 26
   fields:
     code: ID-ST
     name: Sulawesi Tengah
+    enabled: True
 
 - model: geo.province
   pk: 27
   fields:
     code: ID-SN
     name: Sulawesi Selatan
+    enabled: True
 
 - model: geo.province
   pk: 28
   fields:
     code: ID-SG
     name: Sulawesi Tenggara
+    enabled: True
 
 - model: geo.province
   pk: 29
   fields:
     code: ID-GO
     name: Gorontalo
+    enabled: True
 
 - model: geo.province
   pk: 30
   fields:
     code: ID-SR
     name: Sulawesi Barat
+    enabled: True
 
 - model: geo.province
   pk: 31
   fields:
     code: ID-MA
     name: Maluku
+    enabled: True
 
 - model: geo.province
   pk: 32
   fields:
     code: ID-MU
     name: Maluku Utara
+    enabled: True
 
 - model: geo.province
   pk: 33
   fields:
     code: ID-PA
     name: Papua
+    enabled: True
 
 - model: geo.province
   pk: 34
   fields:
     code: ID-PB
     name: Papua Barat
+    enabled: True
+
