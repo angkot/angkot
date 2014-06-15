@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'angkot.route',
     'angkot.account',
     'angkot.page',
+    'angkot.geo',
     'angkot.line',
 )
 

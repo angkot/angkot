@@ -1,0 +1,203 @@
+- model: geo.province
+  pk: 1
+  fields:
+    code: ID-AC
+    name: Aceh
+
+- model: geo.province
+  pk: 2
+  fields:
+    code: ID-SU
+    name: Sumatera Utara
+
+- model: geo.province
+  pk: 3
+  fields:
+    code: ID-SB
+    name: Sumatera Barat
+
+- model: geo.province
+  pk: 4
+  fields:
+    code: ID-RI
+    name: Riau
+
+- model: geo.province
+  pk: 5
+  fields:
+    code: ID-JA
+    name: Jambi
+
+- model: geo.province
+  pk: 6
+  fields:
+    code: ID-SS
+    name: Sumatera Selatan
+
+- model: geo.province
+  pk: 7
+  fields:
+    code: ID-BE
+    name: Bengkulu
+
+- model: geo.province
+  pk: 8
+  fields:
+    code: ID-LA
+    name: Lampung
+
+- model: geo.province
+  pk: 9
+  fields:
+    code: ID-BB
+    name: Kepulauan Bangka Belitung
+
+- model: geo.province
+  pk: 10
+  fields:
+    code: ID-KR
+    name: Kepulauan Riau
+
+- model: geo.province
+  pk: 11
+  fields:
+    code: ID-JK
+    name: Jakarta
+
+- model: geo.province
+  pk: 12
+  fields:
+    code: ID-JB
+    name: Jawa Barat
+
+- model: geo.province
+  pk: 13
+  fields:
+    code: ID-JT
+    name: Jawa Tengah
+
+- model: geo.province
+  pk: 14
+  fields:
+    code: ID-YO
+    name: Yogyakarta
+
+- model: geo.province
+  pk: 15
+  fields:
+    code: ID-JI
+    name: Jawa Timur
+
+- model: geo.province
+  pk: 16
+  fields:
+    code: ID-BT
+    name: Banten
+
+- model: geo.province
+  pk: 17
+  fields:
+    code: ID-BA
+    name: Bali
+
+- model: geo.province
+  pk: 18
+  fields:
+    code: ID-NB
+    name: Nusa Tenggara Barat
+
+- model: geo.province
+  pk: 19
+  fields:
+    code: ID-NT
+    name: Nusa Tenggara Timur
+
+- model: geo.province
+  pk: 20
+  fields:
+    code: ID-KB
+    name: Kalimantan Barat
+
+- model: geo.province
+  pk: 21
+  fields:
+    code: ID-KT
+    name: Kalimantan Tengah
+
+- model: geo.province
+  pk: 22
+  fields:
+    code: ID-KS
+    name: Kalimantan Selatan
+
+- model: geo.province
+  pk: 23
+  fields:
+    code: ID-KI
+    name: Kalimantan Timur
+
+- model: geo.province
+  pk: 24
+  fields:
+    code: ID-KU
+    name: Kalimantan Utara
+
+- model: geo.province
+  pk: 25
+  fields:
+    code: ID-SA
+    name: Sulawesi Utara
+
+- model: geo.province
+  pk: 26
+  fields:
+    code: ID-ST
+    name: Sulawesi Tengah
+
+- model: geo.province
+  pk: 27
+  fields:
+    code: ID-SN
+    name: Sulawesi Selatan
+
+- model: geo.province
+  pk: 28
+  fields:
+    code: ID-SG
+    name: Sulawesi Tenggara
+
+- model: geo.province
+  pk: 29
+  fields:
+    code: ID-GO
+    name: Gorontalo
+
+- model: geo.province
+  pk: 30
+  fields:
+    code: ID-SR
+    name: Sulawesi Barat
+
+- model: geo.province
+  pk: 31
+  fields:
+    code: ID-MA
+    name: Maluku
+
+- model: geo.province
+  pk: 32
+  fields:
+    code: ID-MU
+    name: Maluku Utara
+
+- model: geo.province
+  pk: 33
+  fields:
+    code: ID-PA
+    name: Papua
+
+- model: geo.province
+  pk: 34
+  fields:
+    code: ID-PB
+    name: Papua Barat
