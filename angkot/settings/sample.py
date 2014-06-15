@@ -1,4 +1,4 @@
-from .common imoprt *
+from .common import *
 
 # Sentry config. Uncomment them if you use Sentry
 # RAVEN_CONFIG = {
