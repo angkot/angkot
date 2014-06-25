@@ -55,13 +55,16 @@ def line_list(req):
 
     start = page * limit
     end = start + limit
-    data = Line.objects.filter(enabled=True, **filters) \
-                       .order_by('pk')[start:end]
+    query = Line.objects.filter(enabled=True, **filters) \
+                        .order_by('pk')
+    data = query[start:end]
+    total = len(query)
 
     lines = dict(map(_line_to_dict, data))
     return dict(lines=lines,
                 page=page,
-                count=len(lines))
+                count=len(lines),
+                total=total)
 
 @wapi.endpoint
 def line_data(req, line_id):
