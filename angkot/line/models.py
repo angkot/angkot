@@ -6,7 +6,7 @@ import reversion
 from django_hstore import hstore
 from djorm_pgarray.fields import ArrayField
 
-from angkot.geo.models import Province
+from angkot.geo.models import City
 from angkot.common.utils.filters import notNone
 
 SRID = 4326
@@ -62,8 +62,7 @@ class Line(models.Model):
     mode = models.CharField(max_length=64,
                             help_text=_('Jenis angkutan'), **OPT)
 
-    province = models.ForeignKey(Province, **OPT)
-    city = models.CharField(max_length=1024, **OPT)
+    city = models.ForeignKey(City, **OPT)
 
     info = hstore.DictionaryField(**OPT)
 
@@ -77,9 +76,8 @@ class Line(models.Model):
 
     def __str__(self):
         label = ' '.join(notNone(self.type, self.number))
-        info = notNone(self.city, self.province)
-        if len(info) > 0:
-            return '{} ({})'.format(label, ', '.join(info))
+        if self.city is not None:
+            return '{} ({})'.format(label, self.city)
         return label
 
 reversion.register(Line)

@@ -33,7 +33,7 @@ class BaseAuthoredAdmin(reversion.VersionAdmin, admin.ModelAdmin):
 class LineAdmin(BaseAuthoredAdmin):
     list_display = ('number', 'type',
                     'enabled',
-                    'name', 'mode', 'city', 'province',
+                    'name', 'mode', 'city',
                     'updated', 'author_link', 'id')
 
     fieldsets = (
@@ -41,7 +41,7 @@ class LineAdmin(BaseAuthoredAdmin):
             'fields': ('type', 'number', 'name', 'mode', 'enabled'),
         }),
         ('Location', {
-            'fields': ('province', 'city'),
+            'fields': ('city',),
         }),
         (None, {
             'fields': ('info',)
