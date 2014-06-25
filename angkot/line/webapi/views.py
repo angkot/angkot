@@ -36,10 +36,22 @@ def _route_to_dict(item):
 
 @wapi.endpoint
 def line_list(req):
-    data = Line.objects.filter(enabled=True)
+    limit = 500
+
+    try:
+        page = int(req.GET.get('page', 0))
+    except ValueError:
+        page = 0
+
+    start = page * limit
+    end = start + limit
+    data = Line.objects.filter(enabled=True) \
+                       .order_by('pk')[start:end]
 
     lines = dict(map(_line_to_dict, data))
-    return dict(lines=lines)
+    return dict(lines=lines,
+                page=page,
+                count=len(lines))
 
 @wapi.endpoint
 def line_data(req, line_id):
