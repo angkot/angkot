@@ -40,12 +40,22 @@ def line_list(req):
 
     try:
         page = int(req.GET.get('page', 0))
+        cid = int(req.GET.get('cid', 0))
+        pid = int(req.GET.get('pid', 0))
     except ValueError:
         page = 0
+        cid = 0
+        pid = 0
+
+    filters = {}
+    if cid > 0:
+        filters['city__pk'] = cid
+    elif pid > 0:
+        filters['city__province__pk'] = pid
 
     start = page * limit
     end = start + limit
-    data = Line.objects.filter(enabled=True) \
+    data = Line.objects.filter(enabled=True, **filters) \
                        .order_by('pk')[start:end]
 
     lines = dict(map(_line_to_dict, data))
