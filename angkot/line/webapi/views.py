@@ -7,13 +7,19 @@ from angkot.common.decorators import wapi
 from ..models import Line
 
 def _line_to_dict(item):
-    return dict(id=item.id,
+    pid, cid = None, None
+    if item.city is not None:
+        cid = item.city.id
+        pid = item.city.province.id
+
+    data = dict(id=item.id,
                 type=item.type,
                 number=item.number,
                 name=item.name,
                 mode=item.mode,
-                province=item.province,
-                city=item.city)
+                pid=pid,
+                cid=cid)
+    return (item.id, data)
 
 def _encode_path(path):
     if path is None:
@@ -32,7 +38,7 @@ def _route_to_dict(item):
 def line_list(req):
     data = Line.objects.filter(enabled=True)
 
-    lines = list(map(_line_to_dict, data))
+    lines = dict(map(_line_to_dict, data))
     return dict(lines=lines)
 
 @wapi.endpoint
