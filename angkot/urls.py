@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     # Web API
     url(r'^_/wapi/geo/', include('angkot.geo.webapi.urls')),
     url(r'^_/wapi/line/', include('angkot.line.webapi.urls')),
-    url(r'^line/', include('angkot.line.urls')),
+    url(r'^editor/', include('angkot.line.urls')),
 
     url(r'^$', RedirectView.as_view(url='/route/', permanent=False), name="index"),
 )
