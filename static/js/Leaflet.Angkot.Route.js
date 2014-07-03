@@ -1,6 +1,7 @@
 L.Angkot.Route = L.LayerGroup.extend({
   options: {
     editable: false,
+    maxRoutes: -1,
   },
 
   includes: L.Mixin.Events,
@@ -107,11 +108,11 @@ L.Angkot.Route = L.LayerGroup.extend({
   },
 
   _onMapClick: function(e) {
-    if (this._active) {
-      this._addNextPoint(e);
-    }
-    else {
+    if (this._canStartRoute()) {
       this._startRoute(e);
+    }
+    else if (this._active) {
+      this._addNextPoint(e);
     }
   },
 
@@ -354,12 +355,16 @@ L.Angkot.Route = L.LayerGroup.extend({
         this._addNextPoint(e);
       }
     }
-    else if (!this._active) {
+    else if (this._canStartRoute()) {
       this._startRoute(e);
     }
     else {
       this._addNextPoint(e);
     }
+  },
+
+  _canStartRoute: function() {
+    return !this._active && (this.options.maxRoutes == -1 || this._polylines.length < this.options.maxRoutes);
   },
 
   _onHandleDragEnd: function(e) {
