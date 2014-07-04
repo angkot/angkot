@@ -26,11 +26,7 @@ L.Angkot.Route = L.LayerGroup.extend({
   onAdd: function(map) {
     L.LayerGroup.prototype.onAdd.apply(this, arguments);
 
-    if (this.options.editable) {
-      this._removeEvents();
-      this._setupEvents();
-      this._guide.addTo(map);
-    }
+    this.setEditable(this.options.editable);
 
     this._tooltip.addTo(map);
   },
@@ -41,18 +37,34 @@ L.Angkot.Route = L.LayerGroup.extend({
   },
 
   setEditable: function(editable) {
+    if (editable === this.options.editable) return;
+
     this.options.editable = editable;
-    this._removeEvents();
-    if (editable) this._setupEvents();
+    this._resetEditable();
 
-    // FIXME restructure
+    if (!editable) return;
+
+    this._setEditable();
+  },
+
+  _setEditable: function() {
+    this._setupEvents();
     if (this._map) {
-      if (editable) this._guide.addTo(this._map);
-      else this._map.removeLayer(this._guide);
+      this._guide.addTo(this._map);
     }
-
     for (var i=0; i<this._polylines.length; i++) {
-      this._polylines[i].setEditable(editable);
+      this._polylines[i].setEditable(true);
+    }
+  },
+
+  _resetEditable: function() {
+    this._removeEvents();
+    if (this._map) {
+      this._map.removeLayer(this._guide);
+    }
+    this._stopDrawing();
+    for (var i=0; i<this._polylines.length; i++) {
+      this._polylines[i].setEditable(false);
     }
   },
 
@@ -81,6 +93,9 @@ L.Angkot.Route = L.LayerGroup.extend({
 
   _setupEvents: function() {
     if (!this._map) return;
+
+    if (this._polylines.length === 0)
+      L.DomUtil.addClass(this._map._container, 'leaflet-map-editable');
 
     this._map.on('click', this._onMapClick, this);
     this._map.on('mousemove', this._onMapMouseMove, this);
@@ -120,6 +135,7 @@ L.Angkot.Route = L.LayerGroup.extend({
     var p = this._addPolyline({color:'blue'});
     p.addLatLng(e.latlng);
     this._active = p;
+    L.DomUtil.addClass(this._map._container, 'leaflet-map-editable');
 
     this._guide.spliceLatLngs(0, this._guide._latlngs.length);
     this._guide.addLatLng(e.latlng);
@@ -217,13 +233,25 @@ L.Angkot.Route = L.LayerGroup.extend({
     p.off('handle:click', this._onHandleClick, this);
     p.off('handle:dragend', this._onHandleDragEnd, this);
     if (this._map) this._map.removeLayer(p);
+
+    if (this._map && this._polylines.length === 0)
+      L.DomUtil.addClass(this._map._container, 'leaflet-map-editable');
   },
 
   _stopDrawing: function() {
-    var index = this._polylines.indexOf(this._active);
+    var index = -1;
 
-    this._active.setColor('red');
+    if (this._active) {
+      index = this._polylines.indexOf(this._active);
+      this._active.setColor('red');
+      if (this._active._latlngs.length == 1) {
+        index = -1;
+        this._removePolyline(this._active);
+      }
+    }
     this._active = null;
+    if (this._polylines.length > 0)
+      L.DomUtil.removeClass(this._map._container, 'leaflet-map-editable');
     this._guide.spliceLatLngs(0, this._guide._latlngs.length);
 
     this._distance = 0;
@@ -248,6 +276,7 @@ L.Angkot.Route = L.LayerGroup.extend({
       p.reverseLatLngs();
     }
     this._active = p;
+    L.DomUtil.addClass(this._map._container, 'leaflet-map-editable');
     this._active.setColor('blue');
     this._guide.addLatLng(e.latlng);
     this._guide.addLatLng(e.latlng);
@@ -331,9 +360,6 @@ L.Angkot.Route = L.LayerGroup.extend({
 
     if (e.target == this._active) {
       if (tail) {
-        if (length === 1) {
-          this._removePolyline(p);
-        }
         this._stopDrawing();
       }
       else {
