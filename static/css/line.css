@@ -1,91 +1,70 @@
 @import url(//fonts.googleapis.com/css?family=Roboto:400+700);
 @import url(//fonts.googleapis.com/css?family=Roboto+Condensed:400+700);
 
+body {
+  font-family: "Roboto", sans-serif;
+}
+
 /*= Header =*/
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 .navbar-angkot {
-  font-family: "Roboto", sans-serif;
-  text-shadow: 0px;
-}
-.navbar-angkot {
-  min-height: 40px;
-  height: 40px;
-}
-.navbar-angkot .navbar-brand, .navbar-angkot .navbar-nav>li>a {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.navbar-angkot {
-  background-color: #259B24;
-}
-.navbar-angkot .navbar-nav>.active>a:hover, .navbar-angkot .navbar-nav>li>a:hover, .navbar-angkot .navbar-nav>li>a:focus {
-  background-color: #0A7E07;
-}
-.navbar-angkot .navbar-nav>.active>a,.navbar-angkot .navbar-nav>.open>a,.navbar-angkot .navbar-nav>.open>a, .navbar-angkot .navbar-nav>.open>a:hover,.navbar-angkot .navbar-nav>.open>a, .navbar-angkot .navbar-nav>.open>a:hover, .navbar-angkot .navbar-nav>.open>a:focus {
-  background-color: #0A7E07;
- }
-.dropdown-menu { background-color: #FFFFFF}
-.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { background-color: #259B24}
-.navbar-angkot { background-image: none; }
-.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { background-image: none; }
-.navbar-angkot .navbar-brand { color: #FFFFFF}
-.navbar-angkot .navbar-brand:hover { color: #FFFFFF}
-.navbar-angkot .navbar-nav>li>a { color: #FFFFFF}
-.navbar-angkot .navbar-nav>li>a:hover, .navbar-angkot .navbar-nav>li>a:focus { color: #FFFFFF}
-.navbar-angkot .navbar-nav>.active>a,.navbar-angkot .navbar-nav>.open>a, .navbar-angkot .navbar-nav>.open>a:hover, .navbar-angkot .navbar-nav>.open>a:focus { color: #FFFFFF}
-.navbar-angkot .navbar-nav>.active>a:hover, .navbar-angkot .navbar-nav>.active>a:focus { color: #FFFFFF}
-.dropdown-menu>li>a { color: #000000}
-.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus { color: #FFFFFF}
-.navbar-angkot .navbar-nav>.dropdown>a .caret { border-top-color: #FFFFFF}
-.navbar-angkot .navbar-nav>.dropdown>a:hover .caret { border-top-color: #FFFFFF}
-.navbar-angkot .navbar-nav>.dropdown>a .caret { border-bottom-color: #FFFFFF}
-.navbar-angkot .navbar-nav>.dropdown>a:hover .caret { border-bottom-color: #FFFFFF}
-
-.navbar-angkot {
   box-shadow: 0px 1px 15px 0px rgba(0,0,0,0.375);
+  z-index: 500;
+  font-family: "Roboto Condensed", sans-serif;
 }
 
 .navbar-brand, .navbar-nav>li>a {
   text-shadow: none;
+  color: black;
+  font-size: 20px;
 }
 
 .navbar-brand a {
   text-decoration: none;
   float: left;
-  color: white;
+  color: black;
 }
 .navbar-brand a.alpha {
   font-size: small;
   margin: -7px 0 0 7px;
 }
+.navbar-brand a.alpha:hover {
+  text-decoration: underline;
+}
 
-/*= Site =*/
+.form-control {
+  color: black;
+}
+
+/*= Side =*/
 
 .side {
   position: absolute;
   top: 50px;
-  left: 10px;
-  width: 300px;
+  left: 00px;
+  bottom: 0px;
+  width: 350px;
   z-index: 100;
+  background: white;
+  box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.175);
+  padding-top: 10px;
 }
 
-.side-box {
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 1px 0px 10px 0px rgba(0,0,0,0.175);
-
+.side .box {
+  margin: 10px;
 }
 
 /*= Map =*/
 
 #map {
   position: absolute;
-  top: 40px;
+  top: 50px;
   bottom: 0px;
-  left: 0px;
+  left: 350px;
   right: 0px;
+  z-index: 50;
 }
 
 /*= leaflet =*/
@@ -118,3 +97,11 @@
   color: #ff0;
 }
 
+/*= Side:Index =*/
+
+.side-index .location select {
+  width: 265px;
+}
+.modal-new-line .ng-invalid {
+  background: lightyellow;
+}

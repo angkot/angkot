@@ -4,6 +4,28 @@
 
 var app = angular.module('AngkotApp', ['ui.bootstrap', 'ui.router']);
 
+app.config(function($stateProvider, $urlRouterProvider) {
+
+  $urlRouterProvider.otherwise('/');
+
+  $stateProvider
+    .state('index', {
+      url: '/',
+      templateUrl: '/static/partial/line/side-index.html',
+      controller: 'SideIndexController',
+    });
+});
+
+app.factory('wapi', function($http) {
+  var BASE = '/_/wapi/';
+  return {
+    get: function(path) {
+      var url = BASE + path;
+      return $http.get(url);
+    },
+  }
+});
+
 app.controller('TopNavController', function($scope) {
 });
 
@@ -128,6 +150,75 @@ app.directive('editorLayer', function() {
   };
 });
 
+app.controller('SideIndexController', function($scope, $modal, wapi) {
+  $scope.provinces = {};
+
+  $scope.init = function() {
+    $scope.loadProvinces();
+  }
+
+  $scope.loadProvinces = function() {
+    wapi.get('geo/provinces.json')
+      .success(function(data) {
+        var provinces = {
+          data: data.provinces,
+          ordering: data.ordering,
+          list: [],
+        }
+        for (var i=0, len=data.ordering.length; i<len; i++) {
+          var pid = data.ordering[i];
+          provinces.list.push(data.provinces[pid]);
+        }
+        $scope.provinces = provinces;
+      });
+  }
+
+  $scope.$watch('selectedProvince', function(selected) {
+    if (!selected) return;
+    $scope.loadLines(selected.pid);
+  });
+
+  $scope.loadLines = function(pid) {
+    wapi.get('line/lines.json?pid=' + pid)
+      .success(function(data) {
+        console.log('lines', data);
+      });
+  }
+
+  $scope.addLine = function() {
+    var mi = $modal.open({
+      templateUrl: '/static/partial/line/modal-new-line.html',
+      controller: 'ModalNewLineController',
+      resolve: {
+        provinces: function() {
+          return $scope.provinces;
+        }
+      }
+    });
+
+    mi.result
+      .then(function(data) {
+        console.log('new:', data);
+      }, function() {
+        console.log('dismiss', arguments);
+      });
+  }
+
+  $scope.init();
+});
+
+app.controller('ModalNewLineController', function($scope, $modalInstance, provinces) {
+  $scope.provinces = provinces;
+  $scope.data = {};
+
+  $scope.cancel = function() {
+    $modalInstance.dismiss('cancel');
+  }
+
+  $scope.save = function() {
+    $modalInstance.close($scope.data);
+  }
+});
 
 })();
 

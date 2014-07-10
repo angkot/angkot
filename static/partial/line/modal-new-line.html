@@ -1,0 +1,41 @@
+<form role="form" name="form" novalidate class="modal-new-line">
+<div class="modal-header">
+  <h3 class="modal-title">Angkutan Baru</h3>
+</div>
+<div class="modal-body">
+  <div class="form-group">
+    <label for="new-line-provinsi">Provinsi</label>
+    <select class="form-control" id="new-line-provinsi" required
+            ng-model="data.province"
+            ng-options="province.name for province in provinces.list">
+      <option value="" disabled style="display:none">Pilih Provinsi</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="new-line-city">Kota</label>
+    <input class="form-control" id="new-line-city" type="text" required
+           placeholder="Jakarta, Bandung, Surabaya, ..."
+           ng-model="data.city"/>
+  </div>
+  <div class="form-group">
+    <label for="new-line-type">Jenis dan nomor angkutan</label>
+    <div class="form-inline">
+      <input class="form-control" id="new-line-type" type="text"
+             style="width:400px"
+             placeholder="Kopaja, Mikrolet, ..."
+             ng-model="data.type"/>
+      <input class="form-control" id="new-line-number" type="text" required
+             style="width:165px"
+             placeholder="Nomor"
+             ng-model="data.number"/>
+    </div>
+  </div>
+  <p>Dengan memulai menambahkan angkutan baru, Anda dianggap telah menyetujui<br/>
+  <a href="https://github.com/fajran/angkot/wiki/Ketentuan-Kontribusi-(Rangkuman)" target="_blank">ketentuan kontribusi data</a>.</p>
+</div>
+<div class="modal-footer">
+  <button class="btn" ng-click="cancel()">Batal</button>
+  <button class="btn btn-primary" ng-click="save()" ng-disabled="form.$invalid">Simpan</button>
+</div>
+</form>
+

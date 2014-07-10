@@ -1,0 +1,14 @@
+<div class="side-index">
+
+<div class="box location form-inline">
+  <select class="form-control"
+          ng-model="selectedProvince"
+          ng-options="province.name for province in provinces.list">
+    <option value="" disabled style="display:none">Pilih Lokasi</option>
+  </select>
+  <button class="btn btn-success"
+          data-toggle="tooltip" tooltip-placement="right" tooltip="Tambah Rute Baru"
+          ng-click="addLine()"><span class="glyphicon glyphicon-plus"></span></button>
+</div>
+
+</div>
