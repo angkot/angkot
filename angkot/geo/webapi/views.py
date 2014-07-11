@@ -5,23 +5,27 @@ from ..models import Province, City
 from angkot.common.decorators import wapi
 
 def _province_to_dict(province):
-    data = dict(pid=province.id,
+    return dict(pid=province.id,
                 name=province.name,
                 code=province.code)
-    return (province.id, data)
+
+def _province_to_pair(province):
+    return (province.id, _province_to_dict(province))
 
 def _city_to_dict(city):
-    data = dict(cid=city.id,
+    return dict(cid=city.id,
                 name=city.name,
                 pid=city.province.id)
-    return (city.id, data)
+
+def _city_to_pair(city):
+    return (city.id, _city_to_dict(city))
 
 @cache_page(60 * 60 * 24)
 @wapi.endpoint
 def province_list(req):
     provinces = Province.objects.filter(enabled=True)
     ordering = [province.id for province in provinces]
-    provinces = dict(map(_province_to_dict, provinces))
+    provinces = dict(map(_province_to_pair, provinces))
 
     last_update = Province.objects.filter(enabled=True) \
                                   .order_by('-updated') \
@@ -44,7 +48,7 @@ def city_list(req):
                         .order_by('pk')
 
     cities = query[start:end]
-    cities = dict(map(_city_to_dict, cities))
+    cities = dict(map(_city_to_pair, cities))
 
     total = len(query)
 

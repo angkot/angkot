@@ -12,14 +12,16 @@ def _line_to_dict(item):
         cid = item.city.id
         pid = item.city.province.id
 
-    data = dict(id=item.id,
+    return dict(id=item.id,
                 type=item.type,
                 number=item.number,
                 name=item.name,
                 mode=item.mode,
                 pid=pid,
                 cid=cid)
-    return (item.id, data)
+
+def _line_to_pair(item):
+    return (item.id, _line_to_dict(item))
 
 def _encode_path(path):
     if path is None:
@@ -60,7 +62,7 @@ def line_list(req):
     data = query[start:end]
     total = len(query)
 
-    lines = dict(map(_line_to_dict, data))
+    lines = dict(map(_line_to_pair, data))
     return dict(lines=lines,
                 page=page,
                 count=len(lines),
@@ -74,7 +76,7 @@ def line_data(req, line_id):
     routes = line.route_set.filter(enabled=True)
 
     line = _line_to_dict(line)
-    routes = list(map(_route_to_dict, routes))
+    routes = dict(map(_route_to_dict, routes))
 
     return dict(id=line_id,
                 line=line,
