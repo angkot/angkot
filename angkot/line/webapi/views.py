@@ -1,10 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 
-from angkot.common.utils import gpolyencode
+from angkot.common.utils import gpolyencode, get_or_none
 from angkot.common.decorators import wapi
+from angkot.geo.utils import get_or_create_city
+from angkot.geo.models import Province
 
-from ..models import Line
+from ..models import Line, Author
 
 def _line_to_dict(item):
     pid, cid = None, None
@@ -81,4 +83,47 @@ def line_data(req, line_id):
     return dict(id=line_id,
                 line=line,
                 routes=routes)
+
+
+def _get_create_line_params(req):
+    pid = req.POST.get('pid')
+    city = req.POST.get('city')
+    number = req.POST.get('number')
+    type = req.POST.get('type')
+
+    if None in [pid, city, number]:
+        raise wapi.Fail(http_code=400, error_msg='Insufficient parameters')
+
+    try:
+        pid = int(pid)
+    except ValueError:
+        raise wapi.Fail(http_code=400, error_msg='Bad parameters')
+
+    province = get_or_none(Province, pk=pid)
+    if province is None:
+        raise wapi.Fail(http_code=400, error_msg='Unknown province')
+
+    return province, city, number, type
+
+def _create_new_line(req):
+    province, city_name, number, type = _get_create_line_params(req)
+    city = get_or_create_city(province, city_name)
+
+    print('user:', req.user)
+    author = Author.objects.create_from_request(req)
+    line = Line(type=type,
+                number=number,
+                city=city,
+                author=author)
+    line.enabled = True
+    line.save()
+
+    return _line_to_dict(line)
+
+@wapi.endpoint
+def line_index(req):
+    if req.method != 'POST':
+        return wapi.Fail(http_code=405)
+
+    return _create_new_line(req)
 
