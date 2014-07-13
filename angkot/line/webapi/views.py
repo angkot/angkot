@@ -10,9 +10,12 @@ from ..models import Line, Author
 
 def _line_to_dict(item):
     pid, cid = None, None
+    city, province = None, None
     if item.city is not None:
         cid = item.city.id
         pid = item.city.province.id
+        city = item.city.name
+        province = item.city.province.name
 
     return dict(id=item.id,
                 type=item.type,
@@ -20,7 +23,9 @@ def _line_to_dict(item):
                 name=item.name,
                 mode=item.mode,
                 pid=pid,
-                cid=cid)
+                cid=cid,
+                city=city,
+                province=province)
 
 def _line_to_pair(item):
     return (item.id, _line_to_dict(item))
