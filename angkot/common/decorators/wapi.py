@@ -29,7 +29,7 @@ class OK(Response):
         data['status'] = 'ok'
         return data
 
-class Fail(Response):
+class Fail(Response, Exception):
     def __init__(self, data=None, http_code=500,
                        error_code=500, error_msg="Internal server error"):
         super(Fail, self).__init__()
@@ -61,7 +61,11 @@ def encode_json(obj):
 
 def endpoint(func):
     def _func(request, *args, **kwargs):
-        res = func(request, *args, **kwargs)
+        try:
+            res = func(request, *args, **kwargs)
+        except Fail as e:
+            res = e
+
         code = 200
         headers = {}
 
