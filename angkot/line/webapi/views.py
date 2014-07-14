@@ -1,12 +1,15 @@
+import json
+
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.contrib.gis.geos import GEOSGeometry
 
-from angkot.common.utils import gpolyencode, get_or_none
+from angkot.common.utils import gpolyencode, get_or_none, set_model_values
 from angkot.common.decorators import wapi
 from angkot.geo.utils import get_or_create_city
 from angkot.geo.models import Province
 
-from ..models import Line, Author
+from ..models import Line, Route, Author
 
 def _line_to_dict(item):
     pid, cid = None, None
@@ -37,13 +40,57 @@ def _encode_path(path):
     return gpolyencode.encode(path)
 
 def _route_to_dict(item):
-    return dict(id=item.id,
+    return dict(rid=item.id,
+                lid=item.line.id,
                 name=item.name,
                 locations=item.locations,
                 ordering=item.ordering,
-                path=_encode_path(item.path))
+                path=_encode_path(item.path),
+                created=item.created,
+                updated=item.updated)
 
-@wapi.endpoint
+def _get_line_params(raw_data):
+    data = json.loads(raw_data)
+    params = dict()
+
+    # Acceptable fields
+    for field in ['pid', 'city', 'number', 'type', 'name', 'mode']:
+        if field in data:
+            params[field] = data[field]
+
+    # Mandatory fields
+    for field in ['pid', 'city', 'number']:
+        if params.get(field) is None:
+            raise wapi.BadRequest()
+
+    # Data type
+    try:
+        params['pid'] = int(params['pid'])
+    except ValueError:
+        raise wapi.BadRequest()
+
+    # Province
+    province = get_or_none(Province, pk=params['pid'])
+    if province is None:
+        raise wapi.BadRequest()
+
+    # City
+    params['city'] = get_or_create_city(province, params['city'])
+
+    return params
+
+def _line_data(req, line_id):
+    line = get_object_or_404(Line, pk=int(line_id), enabled=True)
+    routes = line.route_set.filter(enabled=True)
+
+    line = _line_to_dict(line)
+    routes = dict(map(_route_to_dict, routes))
+
+    return dict(lid=line_id,
+                line=line,
+                routes=routes)
+
+@wapi.get
 def line_list(req):
     limit = 500
 
@@ -75,60 +122,83 @@ def line_list(req):
                 count=len(lines),
                 total=total)
 
-@wapi.endpoint
-def line_data(req, line_id):
-    line_id = int(line_id)
+@wapi.post
+def line_new(req):
+    params = _get_line_params(req.POST)
 
-    line = get_object_or_404(Line, pk=line_id)
-    routes = line.route_set.filter(enabled=True)
-
-    line = _line_to_dict(line)
-    routes = dict(map(_route_to_dict, routes))
-
-    return dict(id=line_id,
-                line=line,
-                routes=routes)
-
-
-def _get_create_line_params(req):
-    pid = req.POST.get('pid')
-    city = req.POST.get('city')
-    number = req.POST.get('number')
-    type = req.POST.get('type')
-
-    if None in [pid, city, number]:
-        raise wapi.Fail(http_code=400, error_msg='Insufficient parameters')
-
-    try:
-        pid = int(pid)
-    except ValueError:
-        raise wapi.Fail(http_code=400, error_msg='Bad parameters')
-
-    province = get_or_none(Province, pk=pid)
-    if province is None:
-        raise wapi.Fail(http_code=400, error_msg='Unknown province')
-
-    return province, city, number, type
-
-def _create_new_line(req):
-    province, city_name, number, type = _get_create_line_params(req)
-    city = get_or_create_city(province, city_name)
-
-    print('user:', req.user)
-    author = Author.objects.create_from_request(req)
-    line = Line(type=type,
-                number=number,
-                city=city,
-                author=author)
+    line = Line(**params)
+    line.author = Author.objects.create_from_request(req)
     line.enabled = True
     line.save()
 
-    return _line_to_dict(line)
+    return _line_data(line.id)
 
-@wapi.endpoint
-def line_index(req):
-    if req.method != 'POST':
-        return wapi.Fail(http_code=405)
+@wapi.get
+def line_data(req, line_id):
+    return _line_data(req, line_id)
 
-    return _create_new_line(req)
+@wapi.post
+def line_update(req, line_id):
+    line = get_object_or_404(Line, pk=int(line_id), enabled=True)
+
+    params = _get_line_params(req.POST)
+    set_model_values(line, params)
+    line.author = Author.objects.create_from_request(req)
+    line.save()
+
+    return _line_data(line.id)
+
+#
+# Route
+#
+
+def _get_route_params(raw_data):
+    data = json.loads(raw_data)
+
+    params = dict()
+    for field in ['name', 'ordering', 'locations', 'path']:
+        if field in data:
+            params[field] = data[field]
+
+    if 'path' in params:
+        params['path'] = GEOSGeometry(json.dumps(params['params']))
+    if 'locations' in params:
+        if type(params['locations']) != list:
+            params['locations'] = [params['locations']]
+
+    return params
+
+def _line_route_data(req, line_id, route_id):
+    route = get_object_or_404(Route, enabled=True,
+                              pk=int(route_id), line__pk=int(line_id))
+
+    return _route_to_dict(route)
+
+@wapi.post
+def line_route_new(req, line_id):
+    line = get_object_or_404(Line, pk=int(line_id), enabled=True)
+
+    params = _get_route_params(req.POST['data'])
+    route = Route(line=line, **params)
+    route.author = Author.objects.create_from_request(req)
+    route.enabled = True
+    route.save()
+
+    return _line_route_data(req, line_id, route.id)
+
+@wapi.get
+def line_route_data(req, line_id, route_id):
+    return _line_route_data(req, line_id, route_id)
+
+@wapi.post
+def line_route_update(req, line_id, route_id):
+    route = get_object_or_404(Route, enabled=True,
+                              pk=int(route_id), line__pk=int(line_id))
+
+    params = _get_route_params(req)
+    set_model_values(route, params)
+    route.author = Author.objects.create_from_request(req)
+    route.save()
+
+    return _line_route_data(req, line_id, route.id)
 

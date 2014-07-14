@@ -104,5 +104,8 @@ class Route(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['ordering', 'created']
+
 reversion.register(Route)
 

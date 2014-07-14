@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 
 import json
 
@@ -49,6 +49,11 @@ class Fail(Response, Exception):
         data['msg'] = self.error_msg
         return data
 
+class BadRequest(Fail):
+    def __init__(self, error_msg="Bad request"):
+        super(Fail, self).__init__(data=None, http_code=400, error_code=400,
+                                   error_msg=error_msg)
+
 class DateTimeJsonEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime):
@@ -65,6 +70,11 @@ def endpoint(func):
             res = func(request, *args, **kwargs)
         except Fail as e:
             res = e
+        except Http404:
+            res = Fail(http_code=404, error_code=404, error_msg='Not found')
+        except Exception as e:
+            # TODO log
+            res = Fail()
 
         code = 200
         headers = {}
@@ -99,4 +109,18 @@ def endpoint(func):
         return res
 
     return _func
+
+def _check_method(func, method):
+    def _func(request, *args, **kwargs):
+        if request.method != method:
+            raise Fail(http_code=405, error_code=405, error_msg='Method not allowed')
+        return func(request, *args, **kwargs)
+
+    return endpoint(_func)
+
+def get(func):
+    return _check_method(func, 'GET')
+
+def post(func):
+    return _check_method(func, 'POST')
 
