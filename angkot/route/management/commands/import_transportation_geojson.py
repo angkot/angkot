@@ -73,8 +73,6 @@ class Command(BaseCommand):
             raise CommandError('Transportation {} in {}, {} already exists. Use --merge to merge the routes.' \
                                .format(number, city, pid))
 
-        print(geojson)
-
         parent = None
         source = 'import_transportation_geojson'
         if len(items) > 0:
