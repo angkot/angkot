@@ -1,6 +1,5 @@
-Django>=1.6,<1.7
+Django>=1.7,<1.8
 psycopg2
-South>=0.8
 geojson
 python-social-auth
 pykml

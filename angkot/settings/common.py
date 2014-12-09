@@ -40,7 +40,6 @@ INSTALLED_APPS = (
 
     'social.apps.django_app.default',
 
-    'south',
     'reversion',
     'django_hstore',
 
