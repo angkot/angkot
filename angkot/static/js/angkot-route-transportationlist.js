@@ -15,12 +15,26 @@ app.controller('TransportationListController', ['$scope', '$http', '$location', 
     $scope.reload();
     $scope.map.editable = false;
     $scope.map.reset();
-    $location.path('/');
 
     if (value !== old) {
       $scope.gaSendListPageview();
     }
+
+    var tid = getTransportationId();
+    if (old === 'transportation-list' && tid !== undefined) {
+      // load the requested transportation id
+      $scope.showTransportation({id:tid});
+    }
+    else {
+      $location.path('/');
+    }
   });
+
+  function getTransportationId() {
+    var tid = parseInt($location.path().replace(/\//g, ''), 10);
+    if (Number(tid) === tid && tid % 1 === 0) return tid;
+    return undefined;
+  }
 
   $scope.reload = function() {
     $scope.loading++;
