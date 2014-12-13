@@ -7,7 +7,7 @@ raven
 
 django-hstore
 django-ipware
-django-reversion
+django-reversion>=1.8.5
 djorm-ext-pgarray==0.10
 pyyaml
 

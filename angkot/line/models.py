@@ -14,6 +14,7 @@ SRID = 4326
 
 OPT = dict(null=True, default=None, blank=True)
 
+@reversion.register
 class Line(models.Model):
     objects = hstore.HStoreGeoManager()
 
@@ -45,8 +46,7 @@ class Line(models.Model):
             return '{} ({})'.format(label, self.city)
         return label
 
-reversion.register(Line)
-
+@reversion.register
 class Route(models.Model):
     line = models.ForeignKey(Line)
 
@@ -68,6 +68,4 @@ class Route(models.Model):
 
     def __str__(self):
         return self.name
-
-reversion.register(Route)
 
