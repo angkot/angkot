@@ -9,11 +9,13 @@ urlpatterns = patterns('',
     url(r'^account/', include('angkot.account.urls')),
     url(r'^page/', include('angkot.page.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^go/route/(?P<route_id>\d+)', 'angkot.route.views.open_route'),
+
+    url(r'^line/', include('angkot.line.urls')),
 
     # Web API
     url(r'^_/wapi/geo/', include('angkot.geo.webapi.urls')),
     url(r'^_/wapi/line/', include('angkot.line.webapi.urls')),
-    url(r'^line/', include('angkot.line.urls')),
 
     url(r'^$', RedirectView.as_view(url='/route/', permanent=False), name="index"),
 )

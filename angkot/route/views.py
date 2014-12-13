@@ -3,6 +3,7 @@ import logging
 
 from django.core.urlresolvers import resolve
 from django.db import transaction
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.views.decorators.cache import cache_page
@@ -226,4 +227,8 @@ def transportation_data_save(request, tid):
         res = Fail(data, http_code=400,
                    error_code=400, error_msg='Invalid data')
     return res
+
+def open_route(request, route_id):
+    path = '/route/#/{}/'.format(route_id)
+    return HttpResponseRedirect(path)
 
