@@ -6,31 +6,10 @@ from django.utils.safestring import mark_safe
 import reversion
 from djorm_pgarray.fields import ArrayField
 
-from .models import Author, Line, Route
+from .models import Line, Route
+from angkot.account.admin import BaseAuthoredAdmin
 
-class AuthorAdmin(admin.ModelAdmin):
-    readonly_fields = ('user', 'ip_address', 'user_agent', 'referer',
-                       'created')
-
-    list_display = ('user', 'ip_address', 'created', 'referer', 'user_agent')
-
-class BaseAuthoredAdmin(reversion.VersionAdmin, admin.ModelAdmin):
-    readonly_fields = ('author_link', 'created', 'updated')
-
-    def save_model(self, request, obj, form, change):
-        obj.author = Author.objects.create_from_request(request)
-        obj.save()
-
-    def author_link(self, obj):
-        if obj.author is None:
-            return None
-
-        url = reverse('admin:line_author_change', args=(obj.author.id,))
-        return mark_safe('<a href="{}">{}</a>'.format(url, obj.author))
-
-    author_link.short_description = 'Author'
-
-class LineAdmin(BaseAuthoredAdmin):
+class LineAdmin(reversion.VersionAdmin, BaseAuthoredAdmin):
     list_display = ('number', 'type',
                     'enabled',
                     'name', 'mode', 'city',
@@ -51,7 +30,7 @@ class LineAdmin(BaseAuthoredAdmin):
         }),
     )
 
-class RouteAdmin(BaseAuthoredAdmin):
+class RouteAdmin(reversion.VersionAdmin, BaseAuthoredAdmin):
     def locations_list(obj):
         if obj.locations is None:
             return ''
@@ -100,7 +79,6 @@ class RouteAdmin(BaseAuthoredAdmin):
 
         super(RouteAdmin, self).save_model(request, obj, form, change)
 
-admin.site.register(Author, AuthorAdmin)
 admin.site.register(Line, LineAdmin)
 admin.site.register(Route, RouteAdmin)
 
