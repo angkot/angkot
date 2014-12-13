@@ -48,6 +48,8 @@ class Line(models.Model):
 
 @reversion.register
 class Route(models.Model):
+    objects = hstore.HStoreGeoManager()
+
     line = models.ForeignKey(Line)
 
     # Data
@@ -57,6 +59,8 @@ class Route(models.Model):
     locations = ArrayField(dbtype="varchar", max_length=1024,
                            help_text=_('Daerah yang dilewati rute'))
     ordering = models.IntegerField(default=0)
+
+    info = hstore.DictionaryField(**OPT)
 
     # Author
     author = models.ForeignKey(Author)
