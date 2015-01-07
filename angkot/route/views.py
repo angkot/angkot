@@ -137,7 +137,18 @@ def transportation_list(request):
                     updated=_format_date(t.updated),
                     hasRoute=t.route is not None)
 
-    items = Transportation.objects.filter(active=True)
+    def parse_ids(ids):
+        return [int(tid) for tid in ids
+                         if tid.isdigit()]
+
+    extra_filters = dict()
+    if 'id' in request.GET:
+        ids = request.GET['id'].split('|')[:250]
+        ids = parse_ids(ids)
+        extra_filters['id__in'] = ids
+
+    items = Transportation.objects.filter(active=True) \
+                                  .filter(**extra_filters)
     transportations = list(map(format_transportation, items))
 
     return dict(provinces=PROVINCES,
