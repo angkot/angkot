@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import djorm_pgarray.fields
 import django.contrib.gis.db.models.fields
 import django_hstore.fields
-import djorm_pgarray.fields
 
 
 class Migration(migrations.Migration):
@@ -18,17 +18,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Line',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('type', models.CharField(max_length=1024, null=True, help_text='Jenis trayek', blank=True, default=None)),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('type', models.CharField(null=True, max_length=1024, default=None, help_text='Jenis trayek', blank=True)),
                 ('number', models.CharField(max_length=1024, help_text='Nomor trayek')),
-                ('name', models.CharField(max_length=1024, null=True, help_text='Nama trayek', blank=True, default=None)),
-                ('mode', models.CharField(max_length=64, null=True, help_text='Jenis angkutan', blank=True, default=None)),
-                ('info', django_hstore.fields.DictionaryField(null=True, blank=True, default=None)),
+                ('name', models.CharField(null=True, max_length=1024, default=None, help_text='Nama trayek', blank=True)),
+                ('mode', models.CharField(null=True, max_length=64, default=None, help_text='Jenis angkutan', blank=True)),
+                ('info', django_hstore.fields.DictionaryField(null=True, default=None, blank=True)),
                 ('enabled', models.BooleanField(default=False)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now_add=True)),
                 ('author', models.ForeignKey(to='account.Author')),
-                ('city', models.ForeignKey(null=True, to='geo.City', default=None, blank=True)),
+                ('city', models.ForeignKey(null=True, default=None, blank=True, to='geo.City')),
             ],
             options={
             },
@@ -37,11 +37,12 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Route',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=1024, null=True, help_text='Nama rute', blank=True, default=None)),
-                ('path', django.contrib.gis.db.models.fields.LineStringField(srid=4326, null=True, blank=True, default=None)),
-                ('locations', djorm_pgarray.fields.ArrayField(max_length=1024, null=True, help_text='Daerah yang dilewati rute', blank=True, default=None)),
+                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('name', models.CharField(null=True, max_length=1024, default=None, help_text='Nama rute', blank=True)),
+                ('path', django.contrib.gis.db.models.fields.LineStringField(null=True, srid=4326, default=None, blank=True)),
+                ('locations', djorm_pgarray.fields.ArrayField(null=True, max_length=1024, default=None, help_text='Daerah yang dilewati rute', blank=True)),
                 ('ordering', models.IntegerField(default=0)),
+                ('info', django_hstore.fields.DictionaryField(null=True, default=None, blank=True)),
                 ('enabled', models.BooleanField(default=False)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now_add=True)),
