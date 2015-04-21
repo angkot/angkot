@@ -1,9 +1,9 @@
 from django.contrib.auth.models import User
 from django.contrib.gis.db import models
+from django.contrib.postgres.fields import HStoreField
 from django.utils.translation import ugettext as _
 
 import reversion
-from django_hstore import hstore
 from djorm_pgarray.fields import ArrayField
 
 from angkot.account.models import Author
@@ -16,8 +16,6 @@ OPT = dict(null=True, default=None, blank=True)
 
 @reversion.register
 class Line(models.Model):
-    objects = hstore.HStoreGeoManager()
-
     # Data
     type = models.CharField(max_length=1024,
                             help_text=_('Jenis trayek'), **OPT)
@@ -30,7 +28,7 @@ class Line(models.Model):
 
     city = models.ForeignKey(City, **OPT)
 
-    info = hstore.DictionaryField(**OPT)
+    info = HStoreField(**OPT)
 
     # Author
     author = models.ForeignKey(Author)
@@ -48,8 +46,6 @@ class Line(models.Model):
 
 @reversion.register
 class Route(models.Model):
-    objects = hstore.HStoreGeoManager()
-
     line = models.ForeignKey(Line)
 
     # Data
@@ -60,7 +56,7 @@ class Route(models.Model):
                            help_text=_('Daerah yang dilewati rute'))
     ordering = models.IntegerField(default=0)
 
-    info = hstore.DictionaryField(**OPT)
+    info = HStoreField(**OPT)
 
     # Author
     author = models.ForeignKey(Author)

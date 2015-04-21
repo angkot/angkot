@@ -43,7 +43,6 @@ INSTALLED_APPS = (
     'social.apps.django_app.default',
 
     'reversion',
-    'django_hstore',
 
     'angkot.route',
     'angkot.account',

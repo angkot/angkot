@@ -7,11 +7,15 @@ class Province(models.Model):
 
     # Internal
     enabled = models.BooleanField(default=False)
-    updated = models.DateTimeField(auto_now_add=True, default=timezone.now)
-    created = models.DateTimeField(auto_now=True, default=timezone.now)
+    updated = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.name
+
+    def save(self):
+        self.updated = timezone.now()
+        super(Province, self).save()
 
     class Meta:
         ordering = ('pk',)
@@ -22,11 +26,15 @@ class City(models.Model):
 
     # Internal
     enabled = models.BooleanField(default=False)
-    updated = models.DateTimeField(auto_now_add=True, default=timezone.now)
-    created = models.DateTimeField(auto_now=True, default=timezone.now)
+    updated = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return '{}, {}'.format(self.name, self.province)
+
+    def save(self):
+        self.updated = timezone.now()
+        super(City, self).save()
 
     class Meta:
         ordering = ('province', 'name',)

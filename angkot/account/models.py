@@ -30,7 +30,7 @@ class Author(models.Model):
     # Data
     user = models.ForeignKey(User, **OPT)
 
-    ip_address = models.IPAddressField(**OPT)
+    ip_address = models.GenericIPAddressField(**OPT)
     user_agent = models.TextField(**OPT)
     referer = models.TextField(**OPT)
 

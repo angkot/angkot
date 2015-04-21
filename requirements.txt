@@ -1,11 +1,10 @@
-Django>=1.7,<1.8
+Django>=1.8,<1.9
 psycopg2
 geojson
-python-social-auth
+python-social-auth>=0.2.7
 pykml
 raven
 
-django-hstore
 django-ipware
 django-reversion>=1.8.5
 djorm-ext-pgarray==0.10
