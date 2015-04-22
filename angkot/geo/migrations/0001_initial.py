@@ -31,6 +31,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(serialize=False, primary_key=True, auto_created=True, verbose_name='ID')),
                 ('name', models.CharField(max_length=100)),
                 ('code', models.CharField(max_length=5)),
+                ('order', models.IntegerField(default=0)),
                 ('enabled', models.BooleanField(default=False)),
                 ('updated', models.DateTimeField(default=django.utils.timezone.now)),
                 ('created', models.DateTimeField(default=django.utils.timezone.now)),

@@ -5,6 +5,8 @@ class Province(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=5)
 
+    order = models.IntegerField(default=0)
+
     # Internal
     enabled = models.BooleanField(default=False)
     updated = models.DateTimeField(default=timezone.now)

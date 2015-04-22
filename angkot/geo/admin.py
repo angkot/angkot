@@ -3,7 +3,7 @@ from django.contrib.gis import admin
 from .models import Province, City
 
 class ProvinceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'code', 'pk', 'enabled')
+    list_display = ('name', 'code', 'order', 'pk', 'enabled')
 
 class CityAdmin(admin.ModelAdmin):
     list_display = ('name', 'province', 'pk', 'enabled')
