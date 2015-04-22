@@ -5,10 +5,9 @@ from ..models import Province, City
 from angkot.common.decorators import wapi
 
 def _province_to_dict(province):
-    data = dict(pid=province.id,
+    return dict(pid=province.id,
                 name=province.name,
                 code=province.code)
-    return (province.id, data)
 
 def _city_to_dict(city):
     data = dict(cid=city.id,
@@ -19,16 +18,11 @@ def _city_to_dict(city):
 @cache_page(60 * 60 * 24)
 @wapi.endpoint
 def province_list(req):
-    provinces = Province.objects.filter(enabled=True)
-    ordering = [province.id for province in provinces]
-    provinces = dict(map(_province_to_dict, provinces))
+    provinces = Province.objects.filter(enabled=True) \
+                                .order_by('order')
+    provinces = list(map(_province_to_dict, provinces))
 
-    last_update = Province.objects.filter(enabled=True) \
-                                  .order_by('-updated') \
-                                  .values_list('updated', flat=True)[0]
-
-    return dict(provinces=provinces,
-                ordering=ordering)
+    return dict(provinces=provinces)
 
 @wapi.endpoint
 def city_list(req):
