@@ -56,7 +56,7 @@ class DateTimeJsonEncoder(json.JSONEncoder):
         return super(DateTimeJsonEncoder, self).default(obj)
 
 def encode_json(obj):
-    encoder = DateTimeJsonEncoder()
+    encoder = DateTimeJsonEncoder(separators=(',',':'))
     return encoder.encode(obj)
 
 def endpoint(func):
