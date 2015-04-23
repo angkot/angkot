@@ -1,10 +1,9 @@
 from django.contrib.auth.models import User
 from django.contrib.gis.db import models
-from django.contrib.postgres.fields import HStoreField
+from django.contrib.postgres.fields import HStoreField, ArrayField
 from django.utils.translation import ugettext as _
 
 import reversion
-from djorm_pgarray.fields import ArrayField
 
 from angkot.account.models import Author
 from angkot.geo.models import City
@@ -52,8 +51,8 @@ class Route(models.Model):
     name = models.CharField(max_length=1024,
                             help_text=_('Nama rute'), **OPT)
     path = models.LineStringField(srid=SRID, **OPT)
-    locations = ArrayField(dbtype="varchar", max_length=1024,
-                           help_text=_('Daerah yang dilewati rute'))
+    locations = ArrayField(models.CharField(max_length=1024),
+                           help_text=_('Daerah yang dilewati rute'), **OPT)
     ordering = models.IntegerField(default=0)
 
     info = HStoreField(**OPT)

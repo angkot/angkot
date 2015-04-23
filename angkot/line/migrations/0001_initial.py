@@ -2,15 +2,15 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import django.contrib.postgres.fields.hstore
-import djorm_pgarray.fields
+import django.contrib.postgres.fields
 import django.contrib.gis.db.models.fields
+import django.contrib.postgres.fields.hstore
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('geo', '0001_initial'),
+        ('geo', '0002_auto_20141209_1332'),
         ('account', '0002_auto_20150422_0527'),
     ]
 
@@ -18,28 +18,28 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Line',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
-                ('type', models.CharField(help_text='Jenis trayek', blank=True, max_length=1024, default=None, null=True)),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('type', models.CharField(null=True, help_text='Jenis trayek', blank=True, default=None, max_length=1024)),
                 ('number', models.CharField(help_text='Nomor trayek', max_length=1024)),
-                ('name', models.CharField(help_text='Nama trayek', blank=True, max_length=1024, default=None, null=True)),
-                ('mode', models.CharField(help_text='Jenis angkutan', blank=True, max_length=64, default=None, null=True)),
-                ('info', django.contrib.postgres.fields.hstore.HStoreField(blank=True, default=None, null=True)),
+                ('name', models.CharField(null=True, help_text='Nama trayek', blank=True, default=None, max_length=1024)),
+                ('mode', models.CharField(null=True, help_text='Jenis angkutan (kereta, bis, mikrolet)', blank=True, default=None, max_length=64)),
+                ('info', django.contrib.postgres.fields.hstore.HStoreField(null=True, blank=True, default=None)),
                 ('enabled', models.BooleanField(default=False)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now_add=True)),
                 ('author', models.ForeignKey(to='account.Author')),
-                ('city', models.ForeignKey(default=None, null=True, blank=True, to='geo.City')),
+                ('city', models.ForeignKey(null=True, blank=True, to='geo.City', default=None)),
             ],
         ),
         migrations.CreateModel(
             name='Route',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
-                ('name', models.CharField(help_text='Nama rute', blank=True, max_length=1024, default=None, null=True)),
-                ('path', django.contrib.gis.db.models.fields.LineStringField(blank=True, default=None, null=True, srid=4326)),
-                ('locations', djorm_pgarray.fields.ArrayField(help_text='Daerah yang dilewati rute', blank=True, max_length=1024, default=None, null=True)),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, primary_key=True, serialize=False)),
+                ('name', models.CharField(null=True, help_text='Nama rute (lokasi berangkat dan tujuan)', blank=True, default=None, max_length=1024)),
+                ('path', django.contrib.gis.db.models.fields.LineStringField(null=True, blank=True, default=None, srid=4326)),
+                ('locations', django.contrib.postgres.fields.ArrayField(null=True, blank=True, size=None, base_field=models.CharField(max_length=1024), help_text='Daerah yang dilewati rute', default=None)),
                 ('ordering', models.IntegerField(default=0)),
-                ('info', django.contrib.postgres.fields.hstore.HStoreField(blank=True, default=None, null=True)),
+                ('info', django.contrib.postgres.fields.hstore.HStoreField(null=True, blank=True, default=None)),
                 ('enabled', models.BooleanField(default=False)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('updated', models.DateTimeField(auto_now_add=True)),

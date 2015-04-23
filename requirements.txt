@@ -7,6 +7,5 @@ raven
 
 django-ipware
 django-reversion>=1.8.5
-djorm-ext-pgarray==0.10
 pyyaml
 
