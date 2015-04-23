@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 
 from .models import Author
 
@@ -20,7 +21,7 @@ class BaseAuthoredAdmin(admin.ModelAdmin):
         if obj.author is None:
             return None
 
-        url = reverse('admin:line_author_change', args=(obj.author.id,))
+        url = reverse('admin:account_author_change', args=(obj.author.id,))
         return mark_safe('<a href="{}">{}</a>'.format(url, obj.author))
 
     author_link.short_description = 'Author'
