@@ -38,7 +38,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(null=True, help_text='Nama rute (lokasi berangkat dan tujuan)', blank=True, default=None, max_length=1024)),
                 ('path', django.contrib.gis.db.models.fields.LineStringField(null=True, blank=True, default=None, srid=4326)),
                 ('locations', django.contrib.postgres.fields.ArrayField(null=True, blank=True, size=None, base_field=models.CharField(max_length=1024), help_text='Daerah yang dilewati rute', default=None)),
-                ('ordering', models.IntegerField(default=0)),
+                ('order', models.IntegerField(default=0)),
                 ('info', django.contrib.postgres.fields.hstore.HStoreField(null=True, blank=True, default=None)),
                 ('enabled', models.BooleanField(default=False)),
                 ('created', models.DateTimeField(auto_now_add=True)),

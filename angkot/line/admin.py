@@ -48,13 +48,13 @@ class RouteAdmin(reversion.VersionAdmin, BaseAuthoredAdmin):
     has_path.boolean = True
 
     list_display = ('line', 'name', 'enabled', has_path, locations_list,
-                    'ordering', 'author_link', 'id')
+                    'order', 'author_link', 'id')
 
     readonly_fields = BaseAuthoredAdmin.readonly_fields + ('line_link',)
 
     fieldsets = (
         (None, {
-            'fields': ('line', 'line_link', 'name', 'locations', 'ordering', 'enabled'),
+            'fields': ('line', 'line_link', 'name', 'locations', 'order', 'enabled'),
         }),
         ('Path', {
             'fields': ('path',),

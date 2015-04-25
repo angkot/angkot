@@ -53,7 +53,7 @@ class Route(models.Model):
     path = models.LineStringField(srid=SRID, **OPT)
     locations = ArrayField(models.CharField(max_length=1024),
                            help_text=_('Daerah yang dilewati rute'), **OPT)
-    ordering = models.IntegerField(default=0)
+    order = models.IntegerField(default=0)
 
     info = HStoreField(**OPT)
 

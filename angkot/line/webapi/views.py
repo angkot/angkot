@@ -30,7 +30,7 @@ def _route_to_dict(item):
     return dict(id=item.id,
                 name=item.name,
                 locations=item.locations,
-                ordering=item.ordering,
+                order=item.order,
                 path=_encode_path(item.path))
 
 @wapi.endpoint
