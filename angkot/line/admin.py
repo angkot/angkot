@@ -1,10 +1,10 @@
 from django.contrib.gis import admin
+from django.contrib.postgres.fields import ArrayField
 from django.core.urlresolvers import reverse
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 import reversion
-from djorm_pgarray.fields import ArrayField
 
 from .models import Line, Route
 from angkot.account.admin import BaseAuthoredAdmin
