@@ -1,8 +1,7 @@
 from datetime import datetime
+import json
 
 from django.http import HttpResponse
-
-import json
 
 __all__ = ('endpoint', )
 

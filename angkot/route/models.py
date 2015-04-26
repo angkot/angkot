@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from django.contrib.auth.models import User
 
-from .utils import generate_id
+from angkot.route.utils import generate_id
 
 PROVINCES = (
     ('ID-AC', 'Aceh'),

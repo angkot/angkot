@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import PROVINCES
+from angkot.route.models import PROVINCES
 
 class NewTransportationForm(forms.Form):
     province = forms.ChoiceField(choices=PROVINCES)

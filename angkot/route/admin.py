@@ -1,6 +1,6 @@
 from django.contrib.gis import admin
 
-from .models import Transportation, Submission
+from angkot.route.models import Transportation, Submission
 
 class TransportationAdmin(admin.GeoModelAdmin):
     def updater(obj):

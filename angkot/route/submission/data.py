@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import geojson
+
 from django.contrib.gis.geos import GEOSGeometry
 
 _max_length = None

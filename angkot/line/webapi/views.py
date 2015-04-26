@@ -1,10 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 
-from angkot.common.utils import gpolyencode
 from angkot.common.decorators import wapi
-
-from ..models import Line
+from angkot.common.utils import gpolyencode
+from angkot.line.models import Line
 
 def _line_to_dict(item):
     pid, cid = None, None

@@ -1,6 +1,6 @@
 import logging
 
-from .utils import log_extra
+from angkot.utils import log_extra
 
 class ExceptionLoggerMiddleware(object):
     log = logging.getLogger('angkot.middleware.ExceptionLoggerMiddleware')

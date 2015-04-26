@@ -1,8 +1,7 @@
 from django.views.decorators.cache import cache_page
 
-from ..models import Province, City
-
 from angkot.common.decorators import wapi
+from angkot.geo.models import Province, City
 
 def _province_to_dict(province):
     return dict(pid=province.id,

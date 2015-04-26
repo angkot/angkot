@@ -6,7 +6,7 @@ from django.utils.safestring import mark_safe
 
 import reversion
 
-from .models import Line, Route
+from angkot.line.models import Line, Route
 from angkot.account.admin import BaseAuthoredAdmin
 
 class LineAdmin(reversion.VersionAdmin, BaseAuthoredAdmin):
@@ -35,9 +35,12 @@ class RouteAdmin(reversion.VersionAdmin, BaseAuthoredAdmin):
         if obj.locations is None:
             return ''
 
-        locations = list(map(escape, obj.locations[:5]))
         if len(obj.locations) > 5:
-            locations.append('&hellip;')
+            locations = list(map(escape, obj.locations[:2])) \
+                        + ['&hellip;'] \
+                        + list(map(escape, obj.locations[-2:]))
+        else:
+            locations = list(map(escape, obj.locations[:5]))
         return mark_safe(' &rarr; '.join(locations))
 
     def has_path(obj):

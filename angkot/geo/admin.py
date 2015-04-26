@@ -1,6 +1,6 @@
 from django.contrib.gis import admin
 
-from .models import Province, City
+from angkot.geo.models import Province, City
 
 class ProvinceAdmin(admin.ModelAdmin):
     list_display = ('name', 'code', 'order', 'pk', 'enabled')

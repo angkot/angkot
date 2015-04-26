@@ -23,7 +23,7 @@ class Line(models.Model):
     name = models.CharField(max_length=1024,
                             help_text=_('Nama trayek'), **OPT)
     mode = models.CharField(max_length=64,
-                            help_text=_('Jenis angkutan'), **OPT)
+                            help_text=_('Jenis angkutan (kereta, bis, mikrolet)'), **OPT)
 
     city = models.ForeignKey(City, **OPT)
 
@@ -49,7 +49,7 @@ class Route(models.Model):
 
     # Data
     name = models.CharField(max_length=1024,
-                            help_text=_('Nama rute'), **OPT)
+                            help_text=_('Nama rute (lokasi berangkat dan tujuan)'), **OPT)
     path = models.LineStringField(srid=SRID, **OPT)
     locations = ArrayField(models.CharField(max_length=1024),
                            help_text=_('Daerah yang dilewati rute'), **OPT)
